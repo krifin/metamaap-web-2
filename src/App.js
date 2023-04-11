@@ -13,6 +13,7 @@ import Galaxy2 from "./Galaxy2";
 import Three from "./Threejs";
 import Background from "./Background";
 import Form from "./Form";
+import Preloader from "./pages/Preloader";
 const App = () => {
   // useEffect(() => {
 
@@ -296,6 +297,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route exact path="/" element={<Preloader />} />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/bubble_1" element={<BubbleSplitter />} />
         <Route exact path="/galaxy" element={<Galaxy />} />
