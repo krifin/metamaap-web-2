@@ -182,10 +182,6 @@
   );
 } */
 
-.bubble:hover .center-circle {
-  background-color: #f00; /* red */
-}
-
 .bubble:hover {
   transform: scale(1.2);
   background-image: url(download.jpg);
