@@ -51,17 +51,30 @@ function Home() {
   });
 
   $(document).ready(function () {
-    $(".bubble").hover(
-      function () {
-        $(this).css("background-color", "white");
-        $(".container").css("background-color", "white");
-      },
-      function () {
-        $(this).css("background-color", "white");
-        $(".container").css("background-color", "white");
-      }
-    );
-  });
+  $(".bubble").hover(
+    function () {
+      $(this).css("background-color", "white");
+      $(".container").css("background-color", "white");
+      $("body").css({
+        // "background-image": "url('download.jpg')",
+        "background-repeat": "no-repeat",
+        "background-size": "cover",
+      });
+      $(".center-circle").css({
+        "background-image": "url('https://fastly.picsum.photos/id/179/200/300.jpg?hmac=oo9H3-mvUxV9CjfSms5helxQW-n5PsZLzkg1ko78uFk')",
+        "background-repeat": "no-repeat",
+        "background-size": "cover",
+        
+      });
+    },
+    function () {
+      $(this).css("background-color", "white");
+      $(".container").css("background-color", "white");
+      $("body").css("background-image", ""); // Reset the background image
+      $(".center-circle").css("background-image", ""); 
+    }
+  );
+});
   const [numb, setnumb] = useState(7);
   useEffect(() => {
     console.log(state);
@@ -314,6 +327,7 @@ function Home() {
 
   //     tick();
   //   }, []);
+  
 
   function createBubble() {
     const section = document.querySelector("Section");
@@ -358,6 +372,7 @@ function Home() {
         >
           <TransformComponent>
             <div className="bubble-container" id="container"></div>
+            <div className="center-circle"></div>
           </TransformComponent>
         </TransformWrapper>
         <button id="myBtn">Click me</button>
@@ -385,8 +400,10 @@ function Home() {
               marginTop: "-300px",
             }}
           ></div>
+          <div className="center-circle"></div>
         </div>
         <div className="bubble_1"></div>
+        
         {/* <BubbleSplitter /> */}
       </div>
     </div>
