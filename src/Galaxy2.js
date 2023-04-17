@@ -194,8 +194,9 @@ function Galaxy2() {
     var relX = event.pageX - $(this).offset().left;
     var relY = event.pageY - $(this).offset().top;
     var relBoxCoords = "(" + relX + "," + relY + ")";
-    console.log(relX);
-    console.log(relY);
+    console.log("relX:",relX);
+    console.log("relY:",relY);
+    console.log("relBoxCoords:",relBoxCoords);
     if (relX >= 800 && relX <= 860 && relY >= 360 && relY <= 490) {
       navigate("/home", { state: { id: 3 } });
     }
