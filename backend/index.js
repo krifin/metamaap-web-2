@@ -2,11 +2,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser')
+const Company = require('./models/Data')
 const app = express();
 
 // const msgRoute = require('./routes/Messages')
 const path = require('path');
-mongoose.connect("mongodb://localhost:27017/messagedb",{
+mongoose.connect("mongodb://localhost:27017/metaversedb",{
     useNewUrlParser: true, useUnifiedTopology: true
 })
 
@@ -46,21 +47,24 @@ app.post('/reg_user', async (req,res)=>{
         "password":password
     }
 
-    //this msgdata is the collection already defined in the model of Message.js
-    mongoose.connection.collection('userData').insertOne(data,(err,collection)=>{
-        if(err){
-            res.status(422).json({message: "data not registered. Invalid!"})
-        }
-        else{
-            
+    const company_email = await Company.findOne({name: req.body.email});
+    if(company_email) return res.status(400).json({message:"Email Already registered!"})
+    else{
+        Company.create(data)
+        .then(()=>{
             console.log('record inserted successfully')
             res.status(201).json({message:"user registered successfully"})
-
-        }
-    })
+        })
+        .catch((err)=>{
+            res.status(422).json({message: "data not registered. Invalid!"})
+        })
+    }
+    
 })
 
+
 app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, './index.html');
-    res.sendFile(indexPath);
+    // const indexPath = path.join(__dirname, './index.html');
+    // res.sendFile(indexPath);
+    res.send("Hellow world");
 });
