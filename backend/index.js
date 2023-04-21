@@ -2,8 +2,45 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser')
+require("dotenv").config()
+const cookieSession = require('cookie-session')
+const passport = require("passport")
 const Company = require('./models/Data')
 const app = express();
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: "/auth/google/callback",
+    scope: ["profile", "email"]
+  },
+
+  //just returning profile details in callback
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+// const jwt = require("jsonwebtoken")
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(
+    cookieSession({
+        name: "session",
+        keys:["Metamaap_website"],
+        maxAge: 24*60*60*100
+    })
+)
+
+//as we are using cookie sessions so we need to serialize or deserialize user
+passport.serializeUser((user, done)=>{
+    done(null, user);
+})
+passport.deserializeUser((user, done)=>{
+    done(null, user);
+})
+
 
 // const msgRoute = require('./routes/Messages')
 const path = require('path');
@@ -47,7 +84,7 @@ app.post('/reg_user', async (req,res)=>{
         "password":password
     }
 
-    const company_email = await Company.findOne({name: req.body.email});
+    const company_email = await Company.findOne({email: req.body.email});
     if(company_email) return res.status(400).json({message:"Email Already registered!"})
     else{
         Company.create(data)
@@ -62,6 +99,20 @@ app.post('/reg_user', async (req,res)=>{
     
 })
 
+app.post('/login', async(req,res) =>{
+
+    //authentication logic
+    const email = req.body.email; 
+
+    //encoded version of the accesstoken to be generated
+    const accessToken = jwt.sign(req.body.name, process.env.ACCESS_SECRET_TOKEN)
+    
+    //paassing accesstoken as json. accessToken will be having the user information inside of it
+    res.json({accessToken : accessToken});
+
+})
+
+//now, this function here is the middleware that will be checking for the authentication part 
 
 app.get('/', (req, res) => {
     // const indexPath = path.join(__dirname, './index.html');
