@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 require("dotenv").config()
 const cookieSession = require('cookie-session')
 const passport = require("passport")
+const authRoute = require("./routes/auth")
 const Company = require('./models/Data')
 const app = express();
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -60,6 +61,8 @@ mongoose.connection.once('open', () => {
 //if the data from the body comes in encoded or json format, we can deal with either of them
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
+app.use("/auth",authRoute)
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, ()=>{
@@ -104,11 +107,11 @@ app.post('/login', async(req,res) =>{
     //authentication logic
     const email = req.body.email; 
 
-    //encoded version of the accesstoken to be generated
-    const accessToken = jwt.sign(req.body.name, process.env.ACCESS_SECRET_TOKEN)
+    // //encoded version of the accesstoken to be generated
+    // const accessToken = jwt.sign(req.body.name, process.env.ACCESS_SECRET_TOKEN)
     
-    //paassing accesstoken as json. accessToken will be having the user information inside of it
-    res.json({accessToken : accessToken});
+    // //paassing accesstoken as json. accessToken will be having the user information inside of it
+    // res.json({accessToken : accessToken});
 
 })
 
