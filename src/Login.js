@@ -1,38 +1,47 @@
 import { Link } from "react-router-dom";
 
 const Login = () => {
-    const googleAuth = () =>{
-        window.open(
-            `${process.env.REACT_APP_BACKEND_URL}/auth/google/callback`,
-            //self means that opening the prompt in the same page
-            "_self"
-        )
-    }
+
+    const google = () => {
+        window.open("http://localhost:5000/auth/google", "_self");
+      };
+    
+      const github = () => {
+        window.open("http://localhost:5000/auth/github", "_self");
+      };
+    
+      const facebook = () => {
+        window.open("http://localhost:5000/auth/facebook", "_self");
+      };
     return ( 
-    <div className="container">
-        <h1>Login form</h1>
-        <div className="form_container">
-            <div className="left">
-                <figure>
-                <img className="img" src="metaverse_world-removebg-preview.png" alt="login"></img>
-                </figure>
+        <div className="login">
+        <h1 className="loginTitle">Choose a Login Method</h1>
+        <div className="wrapper">
+          <div className="left">
+            <div className="loginButton google" onClick={google}>
+              <img src="google.jpg" alt="" className="icon" />
+              Google
             </div>
-            <div className="right">
-                <h2 className="form_heading">Members Log in</h2>
-                <input type="text" className="input" placeholder="email"></input>
-                <input type="passoword" className="input" placeholder="passoword"></input>
-                <button className="btn">Login</button>
-                <p className="text">or</p>
-                <button className="google_btn" onClick={googleAuth}>
-                    <figure>
-                        <img src="metaverse_img-removebg-preview.png" alt="google icon"></img>
-                        <span>Sign in with google</span>
-                    </figure>
-                </button>
-                <p className="text">New here? <Link to ="/signup">Sign up</Link></p>
+            <div className="loginButton facebook" onClick={facebook}>
+              <img src="fb.jpg" alt="" className="icon" />
+              Facebook
             </div>
+            <div className="loginButton github" onClick={github}>
+              <img src="github.png" alt="" className="icon" />
+              Github
+            </div>
+          </div>
+          <div className="center">
+            <div className="line" />
+            <div className="or">OR</div>
+          </div>
+          <div className="right">
+            <input type="text" placeholder="Username" />
+            <input type="text" placeholder="Password" />
+            <button className="submit">Login</button>
+          </div>
         </div>
-    </div> );
+      </div> );
 }
  
 export default Login;

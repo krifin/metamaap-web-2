@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import $ from "jquery";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import BubbleSplitter from "./BubbleSplitter";
 import { RxCross1 } from "react-icons/rx";
@@ -17,6 +17,8 @@ import Galaxy3 from "./Galaxy3";
 import Signup from "./Signup";
 import Navbar from "./Navbar";
 import AuthorizedPage from "./AuthorizedPage";
+import SpecificPostData from "./SpecificPostData";
+import Login from "./Login";
 const App = () => {
   // useEffect(() => {
 
@@ -297,9 +299,49 @@ const App = () => {
   //   createBubbles();
   // };
 
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = () => {
+      fetch("http://localhost:5000/auth/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setUser(resObject.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
+  }, []);
+  
   return (
+    
     <BrowserRouter>
+    <div>
+      <Navbar user={user} />
+    
       <Routes>
+      <Route exact path="/auth_page" element={<AuthorizedPage />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/auth_page" /> : <Login />}
+          />
+          <Route
+            path="/post/:id"
+            element={user ? <SpecificPostData /> : <Navigate to="/login" />}
+          />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/bubble_1" element={<BubbleSplitter />} />
         <Route exact path="/galaxy" element={<Galaxy />} />
@@ -307,9 +349,16 @@ const App = () => {
         <Route exact path="/background" element={<Background />} />
         <Route exact path="/galaxy3" element={<Galaxy3 />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/navbar" element={<Navbar />} />
-        <Route exact path="/auth_page" element={<AuthorizedPage />} />
-      </Routes>
+        
+          
+          
+        </Routes>
+        
+        
+        
+        
+      
+      </div>
     </BrowserRouter>
   );
 };
