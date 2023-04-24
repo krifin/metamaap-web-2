@@ -1,14 +1,19 @@
 const router = require("express").Router();
 const passport = require("passport")
 
+
+//use the post method if we have the inputs in the frontend
+
+
 //checking that whether the user is logged in or not by comaparing the sessions 
 //from both : backend and frontend
 router.get('/login/success', (req,res)=>{
     if(req.user){
         res.status(200).json({
-            err: false,
+            success: true,
             message: "Logged in successfully",
-            user: req.user
+            user: req.user,
+            cookies: req.cookies
         })
     }
     else{
@@ -22,6 +27,7 @@ router.get('/login/success', (req,res)=>{
 
 //router route if the login system failed.
 router.get('/login/failed', (req,res)=>{
+    //401-> not authenticated
     res.status(401).json({
         err: true,
         message: "Login Failure"
@@ -31,7 +37,7 @@ router.get('/login/failed', (req,res)=>{
 //get api for the callback
 router.get('/google/callback',
     passport.authenticate("google", {
-        successRedirect: process.env.CLIENT_URL,
+        successRedirect: "http://localhost:3000/galaxy2",
         failureRedirect: "/login/failed"
     })
 )
@@ -44,7 +50,7 @@ router.get("/logout", (req,res)=>{
 
     //redirect to client url after logging out
     req.logout();
-    res.redirect(process.env.CLIENT_URL)
+    res.redirect("http://localhost:3000/login")
 })
 
 module.exports = router

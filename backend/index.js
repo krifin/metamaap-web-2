@@ -4,37 +4,84 @@ const mongoose = require("mongoose");
 const bodyParser = require('body-parser')
 require("dotenv").config()
 const cookieSession = require('cookie-session')
+const cors = require("cors")
 const passport = require("passport")
 const authRoute = require("./routes/auth")
 const Company = require('./models/Data')
 const app = express();
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
+
+let CLIENT_ID = "851750612107-m44hm0u85k4e4m7mefke2vaeo9a4rea2.apps.googleusercontent.com"
+let CLIENT_SECRET = "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"
+
+//this has to come here and at the top
+app.use(
+    cookieSession({
+        name: "session",
+        //can be anything... doesn't really matter, as its just a name
+        keys:["Metamaap_website"],
+        maxAge: 24*60*60*100 // one day of expiration
+    })
+)
+
+//initializing passport.js library
+app.use(passport.initialize())
+
+
+//using passport.js session 
+app.use(passport.session())
+
+//using the cors library to interact with the frontend
+app.use(cors({
+    origin: "http://localhost:3000",
+    methods: "GET, PUT, POST, DELETE",
+
+    //allows us to send the seesions through our client-server request
+    credentials: true
+}))
+
+
 passport.use(new GoogleStrategy({
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
     callbackURL: "/auth/google/callback",
     scope: ["profile", "email"]
   },
 
-  //just returning profile details in callback
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+  //after authentication, its returning us the accessToken, refreshToken, profile and callback (cb) function
+//   function(accessToken, refreshToken, profile, cb) {
+//     //this is when you use some db (eg -> mongodb)
+//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//       return cb(err, user);
+//     });
+
+        // if using the database
+        // const company = {
+        //     name: profile.displayname,
+        //     avatar: profile.photos[0] 
+        // }
+        // create new use modal and then finally...
+
+        // company.save();
+//   }
+  function(accessToken, refreshToken, profile, done) {
+    //this is when you use the db
+    console.log(profile);
+    done(null, profile)
   }
 ));
 // const jwt = require("jsonwebtoken")
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(
-    cookieSession({
-        name: "session",
-        keys:["Metamaap_website"],
-        maxAge: 24*60*60*100
-    })
-)
 
-//as we are using cookie sessions so we need to serialize or deserialize user
+
+
+
+
+
+
+
+//as we are using cookie sessions so we need to serialize or deserialize user to pass the session
 passport.serializeUser((user, done)=>{
     done(null, user);
 })
