@@ -57,6 +57,17 @@ router.get('/github/callback',
 //authenticate method called
 router.get("/github",passport.authenticate("github",["profile","email"]))
 
+//get api for the callback
+router.get('/facebook/callback',
+    passport.authenticate("facebook", {
+        successRedirect: "http://localhost:3000/galaxy2",
+        failureRedirect: "/login/failed"
+    })
+)
+
+//authenticate method called
+router.get("/facebook",passport.authenticate("facebook",["profile","email"]))
+
 
 //router method for the logout
 router.get("/logout", (req,res)=>{
