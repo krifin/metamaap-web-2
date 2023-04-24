@@ -5,16 +5,16 @@ const bodyParser = require('body-parser')
 require("dotenv").config()
 const cookieSession = require('cookie-session')
 const cors = require("cors")
+require("./passport");
 const passport = require("passport")
 const authRoute = require("./routes/auth")
 const Company = require('./models/Data')
 const app = express();
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
 
-let CLIENT_ID = "851750612107-m44hm0u85k4e4m7mefke2vaeo9a4rea2.apps.googleusercontent.com"
-let CLIENT_SECRET = "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"
+
+
 
 //this has to come here and at the top
 app.use(
@@ -43,35 +43,7 @@ app.use(cors({
 }))
 
 
-passport.use(new GoogleStrategy({
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    callbackURL: "/auth/google/callback",
-    scope: ["profile", "email"]
-  },
 
-  //after authentication, its returning us the accessToken, refreshToken, profile and callback (cb) function
-//   function(accessToken, refreshToken, profile, cb) {
-//     //this is when you use some db (eg -> mongodb)
-//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//       return cb(err, user);
-//     });
-
-        // if using the database
-        // const company = {
-        //     name: profile.displayname,
-        //     avatar: profile.photos[0] 
-        // }
-        // create new use modal and then finally...
-
-        // company.save();
-//   }
-  function(accessToken, refreshToken, profile, done) {
-    //this is when you use the db
-    console.log(profile);
-    done(null, profile)
-  }
-));
 // const jwt = require("jsonwebtoken")
 
 
