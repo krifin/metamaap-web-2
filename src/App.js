@@ -14,7 +14,7 @@ import Three from "./Threejs";
 import Background from "./Background";
 import Form from "./Form";
 import Galaxy3 from "./Galaxy3";
-import Signup from "./Signup";
+
 import Navbar from "./Navbar";
 import AuthorizedPage from "./AuthorizedPage";
 import SpecificPostData from "./SpecificPostData";
@@ -348,7 +348,7 @@ const App = () => {
         <Route exact path="/galaxy2" element={<Galaxy2 />} />
         <Route exact path="/background" element={<Background />} />
         <Route exact path="/galaxy3" element={<Galaxy3 />} />
-        <Route exact path="/signup" element={<Signup />} />
+        
         
           
           
