@@ -1,0 +1,40 @@
+.annotation {
+    transform: translate3d(-50%, -150%, 0);
+    user-select: none;
+    text-align: left;
+    background: #121212;
+    color: #fff;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.annotation-image {
+  width: 200px;
+  height: 100px;
+  border-radius: 5px 5px 0 0;
+  background: url(https://imageio.forbes.com/specials-images/imageserve/62380c71af36178f0f91f59d/A-Short-History-of-the-Metaverse/960x0.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.annotation-text {
+  display: flex;
+  padding: 4px 10px;
+  gap: 0 10px;
+}
+
+.annotation-logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-image: url(https://1000logos.net/wp-content/uploads/2021/10/logo-Meta.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.annotation-title {
+  font-weight: bold;
+  font-size: 12px;
+}

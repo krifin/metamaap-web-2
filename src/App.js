@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import $ from "jquery";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import BubbleSplitter from "./BubbleSplitter";
 import { RxCross1 } from "react-icons/rx";
@@ -14,6 +14,9 @@ import Three from "./Threejs";
 import Background from "./Background";
 import Form from "./Form";
 import Preloader from "./pages/Preloader";
+import Galaxy4 from "./pages/Galaxy4";
+import Navbar from "./components/Navbar";
+import BottomBar from "./components/BottomBar";
 const App = () => {
   // useEffect(() => {
 
@@ -295,16 +298,21 @@ const App = () => {
   // };
 
   return (
+    <div className="App">
+     {window.location.pathname !== '/' && <Navbar/>}
+     {window.location.pathname !== '/' && <BottomBar/>}
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Preloader />} />
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/home" element={<Galaxy4 />} />
         <Route exact path="/bubble_1" element={<BubbleSplitter />} />
         <Route exact path="/galaxy" element={<Galaxy />} />
         <Route exact path="/galaxy2" element={<Galaxy2 />} />
+        <Route exact path="/galaxy4" element={<Galaxy4 />} />
         <Route exact path="/background" element={<Background />} />
       </Routes>
     </BrowserRouter>
+    </div>
   );
 };
 

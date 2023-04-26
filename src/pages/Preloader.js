@@ -14,7 +14,7 @@ const Preloader = () => {
             videoRef.current.addEventListener('ended', () => {
                 document.querySelector('.video-container').classList.add('hide-video')
                 document.querySelector('.video-container').classList.remove('show-video')
-                window.location.href = '/galaxy2'
+                window.location.href = '/home'
             })
         }, 2000)
         return () => clearTimeout(timer)
