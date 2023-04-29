@@ -198,13 +198,13 @@ const List = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell className="tableCell">Tracking ID</TableCell>
+              <TableCell className="tableCell">Transcation ID</TableCell>
               <TableCell className="tableCell">Product</TableCell>
-              <TableCell className="tableCell">Customer</TableCell>
+              <TableCell className="tableCell">NFT Name</TableCell>
               <TableCell className="tableCell">Date</TableCell>
-              <TableCell className="tableCell">Amount</TableCell>
-              <TableCell className="tableCell">Payment Method</TableCell>
-              <TableCell className="tableCell">Status</TableCell>
+              <TableCell className="tableCell">Fee paid (ETH)</TableCell>
+              {/* <TableCell className="tableCell">Payment Method</TableCell>
+              <TableCell className="tableCell">Status</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -220,10 +220,10 @@ const List = () => {
                 <TableCell className="tableCell">{row.customer}</TableCell>
                 <TableCell className="tableCell">{row.date}</TableCell>
                 <TableCell className="tableCell">{row.amount}</TableCell>
-                <TableCell className="tableCell">{row.method}</TableCell>
-                <TableCell className="tableCell">
+                {/* <TableCell className="tableCell">{row.method}</TableCell> */}
+                {/* <TableCell className="tableCell">
                   <span className={`status ${row.status}`}>{row.status}</span>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

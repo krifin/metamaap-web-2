@@ -6,18 +6,15 @@ import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsAc
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import Switch from "@mui/material/Switch";
-import "./Navbardashboard.scss";
+import "./navbardashboard.scss";
 import { DarkModeContext } from "../../context/darkModeContext";
 
 const Navbardashboard = () => {
   const { dispatch } = useContext(DarkModeContext);
   return (
-    <div className="navbar">
+    <div className="navbardashboard">
       <div className="navbarContainer">
-        <div className="search">
-          <input type="text" placeholder="search" />
-          <SearchOutlinedIcon />
-        </div>
+        
         <div className="items">
           <div className="item">
             <LanguageOutlinedIcon className="icon" />

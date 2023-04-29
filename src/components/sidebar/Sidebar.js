@@ -19,43 +19,47 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">DesignMediaX</span>
+          <span className="logo">Metamaap</span>
         </Link>
       </div>
       <hr />
       <div className="bottom">
         <ul>
           <p className="title">MAIN</p>
+          <Link to="/dashboard" style={{ textDecoration: "none" }}>
           <li>
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
+          </Link>
 
           <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <Link to="/users/userId" style={{ textDecoration: "none" }}>
             <li>
               <Person3OutlinedIcon className="icon" />
-              <span>Users</span>
+              <span>Profile</span>
             </li>
           </Link>
 
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/list" style={{ textDecoration: "none" }}>
             <li>
               <LocalGroceryStoreOutlinedIcon className="icon" />
-              <span>Products</span>
+              <span>Transaction Details</span>
             </li>
           </Link>
 
-          <li>
+          {/* <li>
             <CreditCardOutlinedIcon className="icon" />
             <span>Orders</span>
-          </li>
-
+          </li> */}
+{/* 
           <p className="title">CHARTS</p>
+          <Link to="/charts" style={{ textDecoration: "none" }}>
           <li>
             <InsertChartOutlinedSharpIcon className="icon" />
             <span>Stats</span>
           </li>
+          </Link>
           <li>
             <NotificationsActiveOutlinedIcon className="icon" />
             <span>Notifications</span>
@@ -88,7 +92,7 @@ const Sidebar = () => {
           <li>
             <ExitToAppOutlinedIcon className="icon" />
             <span>Logout</span>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

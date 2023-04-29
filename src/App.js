@@ -3,11 +3,11 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import $ from "jquery";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { createBrowserRouter, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import BubbleSplitter from "./BubbleSplitter";
 import { RxCross1 } from "react-icons/rx";
-import Home from "./Home";
+// import Home from "../src/pages/home/Home";
 import Galaxy from "./Galaxy";
 import Galaxy2 from "./Galaxy2";
 import Three from "./Threejs";
@@ -16,9 +16,23 @@ import Form from "./Form";
 import Galaxy3 from "./Galaxy3";
 
 import Navbar from "./Navbar";
-import AuthorizedPage from "./AuthorizedPage";
+
 import SpecificPostData from "./SpecificPostData";
 import Login from "./Login";
+import Home from "./pages/home/Home";
+import Single from "./pages/single/Single";
+import New from "./pages/new/New";
+
+
+import Product from "../src/pages/product/Product";
+import Customers from "../src/pages/customer/Customer";
+import { userInputs, productInputs } from "./formData";
+import "./style/dark.scss";
+import { useContext } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
+import Chart from "./components/chart/Chart";
+import { List } from "@mui/material";
+
 const App = () => {
   // useEffect(() => {
 
@@ -325,24 +339,32 @@ const App = () => {
     };
     getUser();
   }, []);
-  
+  const { darkMode } = useContext(DarkModeContext);
   return (
     
     <BrowserRouter>
-    <div>
+    <div className={darkMode ? "app dark" : "app"}>
+    
       <Navbar user={user} />
     
       <Routes>
-      <Route exact path="/auth_page" element={<AuthorizedPage />} />
+      
           <Route
             path="/login"
-            element={user ? <Navigate to="/auth_page" /> : <Login />}
+            element={user ? <Navigate to="/dashboard" /> : <Login />}
           />
+          {/* <Route path="/products/:productId/new" element={user ? <New inputs={productInputs} title={"Add New Product"} /> : <Login />} /> */}
+          <Route exact path="/users/:userId/new" element={user ?<New inputs={userInputs} title={"Add New User"} /> : <Login />} />
+          <Route exact path="/list" element={user ?<List />: <Login />} />
+          {/* <Route exact path="/users" element={user ?<Customers />: <Login />} /> */}
+          {/* <Route exact path="/products/:productId" element={user ?<Single />: <Login />} /> */}
+          <Route exact path="/users/:userId" element={user ?<Single /> : <Login />} />
+          {/* <Route exact path="/charts" element={user ?<Chart />: <Login />} /> */}
           <Route
             path="/post/:id"
             element={user ? <SpecificPostData /> : <Navigate to="/login" />}
           />
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/dashboard" element={user ?<Home /> : <Login />} />
         <Route exact path="/bubble_1" element={<BubbleSplitter />} />
         <Route exact path="/galaxy" element={<Galaxy />} />
         <Route exact path="/galaxy2" element={<Galaxy2 />} />

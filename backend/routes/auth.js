@@ -28,15 +28,16 @@ router.get('/login/success', (req,res)=>{
     
 })
 router.post('/companydata', async(req,res)=>{
+    console.log("req.user", req.user);
     if(req.user){
         let registered_user = User.find(req.user._json.email);
         let nm = req.body.nm;
         let type= req.body.type;
         let url = req.body.url;
-        let bannerImg = req.body.bannerImg;
-        let portfolioImg = req.body.portfolioImg;
-        let xCoor= req.body.x;
-        let yCoor = req.body.y;
+        let bannerImg = req.body.convertedbannerImg;
+        let portfolioImg = req.body.convertedportfolioImg;
+        // let xCoor= req.body.x;
+        // let yCoor = req.body.y;
         let link = req.body.link;
 
 
@@ -59,8 +60,8 @@ router.post('/companydata', async(req,res)=>{
             "metaverseBannerImg" : bannerImg,
             "metaverseImgPortfolio" : portfolioImg,
             "metaverseUrl" : url,
-            "xCoordinate" : xCoor,
-            "yCoordinate" : yCoor,
+            "xCoordinate" : 015,
+            "yCoordinate" : 137,
             "user" : registered_user._id,
             "openseaLink" : link,
         }

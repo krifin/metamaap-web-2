@@ -10,19 +10,23 @@ const Navbar = ({ user }) => {
     <div className="navbar">
       <span className="logo">
         <Link className="link" to="/galaxy2">
-          Metamaap
+          Metamaap  
         </Link>
       </span>
       {user ? (
         <ul className="list">
-          <li className="listItem">
+          
+          <li className="listItem" style={{marginRight: "20",
+  fontWeight: 500}}>
             <img
               src={user.photos[0].value}
               alt=""
               className="avatar"
             />
           </li>
+          <Link className="link" to="/dashboard" style={{textDecoration: "none"}}>
           <li className="listItem">{user.displayName}</li>
+          </Link>
           <li className="listItem" onClick={logout}>
             Logout
           </li>

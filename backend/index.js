@@ -86,13 +86,16 @@ var acc = null;
 app.use(express.static(__dirname + './public'))    
 
 app.post('/companydata', async (req,res)=>{
+    let registered_user = User.find(req.user._json.email);
     let nm = req.body.nm;
     let type= req.body.type;
     let url = req.body.url;
     let bannerImg = req.body.bannerImg;
     let portfolioImg = req.body.portfolioImg;
-    let xCoor= req.body.x;
-    let yCoor = req.body.y;
+    // let xCoor= req.body.x;
+    let xCoor=011;
+    // let yCoor = req.body.y;
+    let yCoor = 137;
     let link = req.body.link;
 
 
@@ -117,18 +120,29 @@ app.post('/companydata', async (req,res)=>{
         "metaverseUrl" : url,
         "xCoordinate" : xCoor,
         "yCoordinate" : yCoor,
-        // "user" : User._id,
+        "user" : registered_user._id,
         "openseaLink" : link,
     }
     console.log(data);
-
-    try{
-        const newData = await Company.create({data});
-        newData.save();
-        res.status(201).json({message : "new record inserted successfully"})
-    }catch(error){
-        res.status(409).json({message : error.message})
+    if(await Company.find(data)){
+        res.status(201).json({message: "Record already available"})
     }
+    else{
+        try{
+            const newData = await Company.create({data});
+            newData.save();
+            res.status(201).json({message : "new record inserted successfully"})
+        }catch(error){
+            res.status(409).json({message : error.message})
+        }
+    }
+    // try{
+    //     const newData = await Company.create({data});
+    //     newData.save();
+    //     res.status(201).json({message : "new record inserted successfully"})
+    // }catch(error){
+    //     res.status(409).json({message : error.message})
+    // }
 })
 
 app.post('/login', async(req,res) =>{

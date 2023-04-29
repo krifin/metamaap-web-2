@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import "./featured.scss";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import ChangingProgressProvider from "./Changingprogressprovider";
+import ChangingProgressProvider from "./ChangingProgressProvider";
 
 const Featured = () => {
   return (
