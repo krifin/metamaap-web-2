@@ -1,7 +1,7 @@
 import React from "react";
 import Datatable from "../../components/datatable/Datatable";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "./../../components/navbar/Navbar";
+import Navbar from "./../../components/navbar/Navbardashboard";
 import "./customers.scss";
 
 const Customers = () => {
