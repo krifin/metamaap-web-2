@@ -2,6 +2,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var GithubStrategy = require('passport-github2').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var passport = require("passport")
+const User = require('./models/Data')
 
 let GOOGLE_CLIENT_ID = "851750612107-m44hm0u85k4e4m7mefke2vaeo9a4rea2.apps.googleusercontent.com"
 let GOOGLE_CLIENT_SECRET = "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"
@@ -25,18 +26,25 @@ passport.use(new GoogleStrategy({
 //     });
 
         // if using the database
-        // const company = {
-        //     name: profile.displayname,
-        //     avatar: profile.photos[0] 
-        // }
-        // create new use modal and then finally...
-
-        // company.save();
+        
 //   }
   function(accessToken, refreshToken, profile, done) {
-    //this is when you use the db
-    console.log(profile);
-    done(null, profile)
+    console.log(profile)
+    //this is when you use the db, create new use document and then finally saving it
+    const user = {
+      username: profile.displayName,
+      email : profile.emails[0].value,
+      password : "defaultpassword", 
+    }
+    // console.log(user);
+    let reg_user = User.find(user);
+    if(reg_user){
+      done(null, profile)
+    }else{
+      User.Create(user);
+      console.log("registration successful");
+      done(null, profile)
+    }
   }
 ));
 

@@ -1,23 +1,22 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const companySchema = new Schema({
-    name : {
-        type: String
-    },
-    email: {
+const userSchema = new Schema({
+    username: {
         type: String,
         required: true,
-        unique: true
-    },
-    phone: {
-        type: Number
-    },
-    password: {
+        unique: true,
+      },
+      password: {
         type: String,
-        required: true
-    }
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+      }
 //doing timestamps: true will automatically manage created at an updated at fields
 }, {timestamps: true})
 
-const Company  = mongoose.model('companyData', companySchema)
-module.exports = Company 
+const User  = mongoose.model('User', userSchema)
+module.exports = User 

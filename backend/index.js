@@ -8,12 +8,10 @@ const cors = require("cors")
 require("./passport");
 const passport = require("passport")
 const authRoute = require("./routes/auth")
-const Company = require('./models/Data')
+const crypto = require('crypto');
+const Company = require('./models/Company')
+const User = require('./models/Data')
 const app = express();
-
-
-
-
 
 
 //this has to come here and at the top
@@ -38,20 +36,13 @@ app.use(cors({
     origin: "http://localhost:3000",
     methods: "GET, PUT, POST, DELETE",
 
-    //allows us to send the seesions through our client-server request
+    //allows us to send the sessions through our client-server request
     credentials: true
 }))
 
 
 
 // const jwt = require("jsonwebtoken")
-
-
-
-
-
-
-
 
 //as we are using cookie sessions so we need to serialize or deserialize user to pass the session
 passport.serializeUser((user, done)=>{
@@ -92,33 +83,52 @@ app.listen(PORT, ()=>{
 
 var acc = null;
 
-app.use(express.static('public'))    
+app.use(express.static(__dirname + './public'))    
 
-app.post('/reg_user', async (req,res)=>{
-    let name = req.body.name;
-    let email= req.body.email;
-    let phone = req.body.phone;
-    let password= req.body.password;
+app.post('/companydata', async (req,res)=>{
+    let nm = req.body.nm;
+    let type= req.body.type;
+    let url = req.body.url;
+    let bannerImg = req.body.bannerImg;
+    let portfolioImg = req.body.portfolioImg;
+    let xCoor= req.body.x;
+    let yCoor = req.body.y;
+    let link = req.body.link;
+
+
+    // Concatenate the input field values into a single string
+    const inputFields = [nm, xCoor, yCoor].join('');
+
+    // Hash the input string using SHA-256
+    const hash = crypto.createHash('sha256').update(inputFields).digest('hex');
+
+    // Convert the hash to an integer and take the modulo of 10^9
+    const id = parseInt(hash, 16) % 1000000000;
+
+    // Pad the ID with leading zeroes to ensure it has 9 digits
+    const uniqueID = id.toString().padStart(9, '0');
+    // let required_user = 
     var data = {
-        "name": name,
-        "email" : email,
-        "phone" : phone,
-        "password":password
+        "MCID" : uniqueID,
+        "metaverseName" : nm,
+        "metaverseType" : type,
+        "metaverseBannerImg" : bannerImg,
+        "metaverseImgPortfolio" : portfolioImg,
+        "metaverseUrl" : url,
+        "xCoordinate" : xCoor,
+        "yCoordinate" : yCoor,
+        // "user" : User._id,
+        "openseaLink" : link,
     }
+    console.log(data);
 
-    const company_email = await Company.findOne({email: req.body.email});
-    if(company_email) return res.status(400).json({message:"Email Already registered!"})
-    else{
-        Company.create(data)
-        .then(()=>{
-            console.log('record inserted successfully')
-            res.status(201).json({message:"user registered successfully"})
-        })
-        .catch((err)=>{
-            res.status(422).json({message: "data not registered. Invalid!"})
-        })
+    try{
+        const newData = await Company.create({data});
+        newData.save();
+        res.status(201).json({message : "new record inserted successfully"})
+    }catch(error){
+        res.status(409).json({message : error.message})
     }
-    
 })
 
 app.post('/login', async(req,res) =>{
