@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { useFrame, useLoader } from "@react-three/fiber"
-import { AdditiveBlending, BufferAttribute, Color, Euler, MeshBasicMaterial, TextureLoader, Vector3 , } from "three"
+import { AdditiveBlending, BufferAttribute, Color, Euler, MeshBasicMaterial, TextureLoader, Vector3, } from "three"
 import { Nucleus } from "./Nucleus"
 import { Html } from "@react-three/drei"
 import '../pages/Galaxy4.css'
 
-export function Realm({  position, rotation, speed, metaverse }) {
+export function Realm({ position, rotation, speed, metaverse }) {
 
     const particles = useRef()
 
@@ -26,7 +26,7 @@ export function Realm({  position, rotation, speed, metaverse }) {
     // })
 
     const parameters = {
-        count: 30000,
+        count: 50000,
         size: 0.01,
         radius: 6,
         branches: 8,
@@ -42,8 +42,8 @@ export function Realm({  position, rotation, speed, metaverse }) {
     }, [])
 
     useFrame((state, delta) => {
-        
-        
+
+
 
         // TODO use delta instead
         if (group1.current) {
@@ -134,7 +134,7 @@ export function Realm({  position, rotation, speed, metaverse }) {
                 <Nucleus size={.15} position={position} />
                 <points position={position} ref={group1} rotation={new Euler().setFromVector3(rotation, 'XYZ')}>
                     {planets.map((planet, index) => {
-                        return <Planet key={index} position={planet} size={0.1} texture={texture}/>
+                        return <Planet key={index} position={planet} size={0.08} texture={texture} />
                     })}
                     <bufferGeometry ref={particles} />
                     <pointsMaterial size={parameters.size} sizeAttenuation={true} depthWrite={true} vertexColors={true} blending={AdditiveBlending} />
@@ -148,22 +148,19 @@ function Planet({ position, size, texture }) {
     const [hover, setHover] = useState(false)
     // load the texture
     // random color for the glow
-    const glowRed = new MeshBasicMaterial({ color: new Color(7, 2 ,1), toneMapped: false })
+    const glowRed = new MeshBasicMaterial({ color: new Color(7, 2, 1), toneMapped: false })
     return (
-        <mesh  onPointerOver={() => setHover(true)} onPointerLeave={() => setHover(false)} onClick={() => {
+        <mesh onPointerOver={() => setHover(true)} onPointerLeave={() => setHover(false)} onClick={() => {
             // open a new tab in the browser
             window.open(`https://google.com`, '_blank');
         }} position={position.position} scale={[size, size, size]}>
             <sphereBufferGeometry attach="geometry" args={[0.5, 32, 32, 0, 6.4, 0, 6.3]} />
             <meshBasicMaterial color={glowRed.color} map={texture} toneMapped={false} />
-            {hover && <Html distanceFactor={10}>
+            {hover && <Html distanceFactor={7}>
                 <div className="annotation">
+                    <div className="annotation-name">Metaverse name</div>
                     <div className="annotation-image"></div>
-                    <div className="annotation-text">
-                        {/* Logo Image */}
-                        <div className="annotation-logo" />
-                        <div className="annotation-name">Metaverse name</div>
-                    </div>
+
                 </div>
             </Html>}
         </mesh>

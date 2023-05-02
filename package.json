@@ -21,7 +21,9 @@
     "react-scripts": "5.0.1",
     "react-three-fiber": "^6.0.13",
     "react-zoom-pan-pinch": "^3.0.2",
-    "styled-components": "^5.3.8",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4",
+    "styled-components": "^5.3.10",
     "three": "^0.151.3",
     "web-vitals": "^2.1.4"
   },

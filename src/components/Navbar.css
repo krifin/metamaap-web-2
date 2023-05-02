@@ -1,15 +1,15 @@
 .navbar-container {
-    height: 100px;
+    height: 90px;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
     right: 0;
-    padding: 0 20px;
-    transition: background 0.5s ease;
+    padding: 35px 20px 0px 20px;
+    transition: all 0.5s ease;
     background-color: #00000034;
     backdrop-filter: blur(2px);
 }
@@ -21,16 +21,62 @@
 }
 
 .navbar-button {
-    padding: 10px;
+    padding: 7px;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #2B2A2A;
+    color: #ffffff66;
+    transition: background 0.5s ease;
+}
+
+.navbar-button.hide {
+    display: none;
+}
+
+.navbar-connect-button {
+    padding: 10px 12px;
     border-radius: 10px;
     font-size: 20px;
-    background: #ffffff11;
     color: #fff;
+    font-weight: 500;
+    background: #2B2A2A;
+    cursor: pointer;
     transition: background 0.5s ease;
 }
 
 .navbar-logo {
     font-size: 30px;
     letter-spacing: 10px;
+    line-height: 46px;
     color: #fff;
+    transition: all 0.5s ease;
+}
+
+.navbar-dropdown {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    width: 100px;
+    background: #2B2A2A;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+.navbar-dropdown.hide {
+    opacity: 0;
+    visibility: 0;
+}
+
+.navbar-dropdown-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    transition: all 0.5s ease;
+}
+
+.navbar-dropdown-item:hover {
+    color: #9A64F3;
 }

@@ -4,9 +4,11 @@ import './BottomBar.css'
 const BottomBar = () => {
   return (
     <div className='bottom-bar-container'>
-        <div>ABOUT</div>
-        <div>HOW IT WORKS</div>
-        <div>SOCIALS</div>
+      <div className='tabs'>
+        <div className='tab-item'>About</div>
+        <div className='tab-item'>How It Works</div>
+        <div className='tab-item'>Socials</div>
+      </div>
     </div>
   )
 }

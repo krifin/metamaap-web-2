@@ -1,17 +1,110 @@
 .search-container {
-    position: fixed;
-    bottom: -550px;
-    left: 0;
-    right: 0;
-    height: 500px;
-    background-color: #121212;
-    z-index: 101;
-    padding: 20px;
-    border-radius: 20px 20px 0 0;
-    transition: bottom 0.5s ease;
+  position: fixed;
+  bottom: -550px;
+  left: 0;
+  right: 0;
+  height: 450px;
+  background-color: #000000f1;
+  z-index: 101;
+  padding: 35px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px 20px 0 0;
+  transition: bottom 0.5s ease;
 }
 
 .search-container.show {
-    bottom: 0;
-    transition: bottom 0.5s ease;
+  bottom: 0;
+  transition: bottom 0.5s ease;
+}
+
+.search-bar {
+  width: calc(100%);
+  height: 50px;
+  border-radius: 10px;
+  background-color: #000000f1;
+  border: 1px solid #121212;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #efefef;
+  font-size: 18px;
+
+  padding: 0 20px;
+}
+
+.pagination-ui {
+  color: white;
+  background: #121212 !important;
+}
+
+.pagination-ui a {
+  color: white !important;
+}
+
+.active.item {
+    background: #000000 !important;
+}
+
+.search-results {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: start;
+    padding: 20px 0;
+    gap: 20px;
+    height: 100%;
+}
+
+.search-result {
+  user-select: none;
+  text-align: left;
+  background: #121212;
+  color: #fff;
+  width: 300px;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+.result-image {
+  width: 300px;
+  height: 200px;
+  border-radius: 5px 5px 0 0;
+  background: url(https://imageio.forbes.com/specials-images/imageserve/62380c71af36178f0f91f59d/A-Short-History-of-the-Metaverse/960x0.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.result-id {
+  padding: 10px 15px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  background: #000000;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.result-text {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  gap: 0 15px;
+}
+
+.result-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url(https://1000logos.net/wp-content/uploads/2021/10/logo-Meta.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.result-name {
+  font-weight: bold;
+  font-size: 17px;
 }

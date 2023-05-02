@@ -1,29 +1,29 @@
 .bottom-bar-container {
-    height: 100px;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
     color: #fff;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 100;
     right: 0;
-    padding: 0 20px;
+    padding: 0px 20px 25px 20px;
     gap: 0 25px;
-    transition: background 0.5s ease;
-    background-color: #00000034;
-    backdrop-filter: blur(2px);
 }
 
-.bottom-bar-container div {
-    font-size: 20px;
-    word-spacing: 5px;
-    color: #efefef;
+.tabs {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    background: #242424b3;
+    border-radius: 16px;
+    justify-content: space-between;
+    padding: 8px 34px;
 }
 
-.bottom-bar-container div:hover {
-    color: #fff;
+.tab-item {
     cursor: pointer;
-    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
 }
