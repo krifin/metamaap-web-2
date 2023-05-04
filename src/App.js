@@ -17,6 +17,11 @@ import Preloader from "./pages/Preloader";
 import Galaxy4 from "./pages/Galaxy4";
 import Navbar from "./components/Navbar";
 import BottomBar from "./components/BottomBar";
+import SearchPopup from "./components/SearchPopup";
+import About from "./pages/About";
+import NFTTransfers from "./pages/NFTTransfers";
+import SingleNFTTransfer from "./pages/SingleNFTTransfer";
+import UploadAsset from "./pages/UploadAsset";
 const App = () => {
   // useEffect(() => {
 
@@ -297,21 +302,28 @@ const App = () => {
   //   createBubbles();
   // };
 
+  const [searchToggle, setSearchToggle] = useState(false)
+
   return (
-    <div className="App">
-     {window.location.pathname !== '/' && <Navbar/>}
-     {window.location.pathname !== '/' && <BottomBar/>}
-    <BrowserRouter>
-      <Routes>
-        <Route exact path="/" element={<Preloader />} />
-        <Route exact path="/home" element={<Galaxy4 />} />
-        <Route exact path="/bubble_1" element={<BubbleSplitter />} />
-        <Route exact path="/galaxy" element={<Galaxy />} />
-        <Route exact path="/galaxy2" element={<Galaxy2 />} />
-        <Route exact path="/galaxy4" element={<Galaxy4 />} />
-        <Route exact path="/background" element={<Background />} />
-      </Routes>
-    </BrowserRouter>
+    <div className={`App`}>
+      <SearchPopup show={searchToggle} onClose={() => setSearchToggle(false)} />
+      <div style={{ flex: 1, marginLeft: searchToggle ? '400px': '0px', transition: 'all 0.5s ease-in-out' }}>
+        {window.location.pathname !== '/' && <Navbar onSearchToggle={() => setSearchToggle(!searchToggle)} show={searchToggle}/>}
+        {window.location.pathname !== '/' && <BottomBar show={searchToggle}/>}
+        <Routes>
+          <Route exact path="/" element={<Preloader />} />
+          <Route exact path="/home" element={<Galaxy4 />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/nft-transfers" element={<NFTTransfers />} />
+          <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
+          <Route exact path="/upload-asset" element={<UploadAsset />} />
+          {/* // <Route exact path="/bubble_1" element={<BubbleSplitter />} />
+          // <Route exact path="/galaxy" element={<Galaxy />} />
+          // <Route exact path="/galaxy2" element={<Galaxy2 />} />
+          // <Route exact path="/galaxy4" element={<Galaxy4 />} />
+          // <Route exact path="/background" element={<Background />} /> */}
+        </Routes>
+      </div>
     </div>
   );
 };

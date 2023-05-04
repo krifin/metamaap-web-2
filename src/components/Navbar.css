@@ -2,18 +2,20 @@
     height: 90px;
     display: flex;
     align-items: start;
-    justify-content: space-between;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
     right: 0;
     padding: 35px 20px 0px 20px;
-    transition: all 0.5s ease;
+    transition: all 0.5s ease-in-out;
     background-color: #00000034;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(10px);
 }
 
+.navbar-container.drawer{
+    left: 400px;
+}
 
 .navbar-action {
     display: flex;
@@ -26,12 +28,9 @@
     cursor: pointer;
     background: #2B2A2A;
     color: #ffffff66;
-    transition: background 0.5s ease;
+    transition: all 0.5s ease;
 }
 
-.navbar-button.hide {
-    display: none;
-}
 
 .navbar-connect-button {
     padding: 10px 12px;
@@ -45,6 +44,7 @@
 }
 
 .navbar-logo {
+    flex:1;
     font-size: 30px;
     letter-spacing: 10px;
     line-height: 46px;

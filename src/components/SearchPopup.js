@@ -22,46 +22,30 @@ const SearchPopup = ({ show, onClose }) => {
       id: '333-333-333'
     },
     {
-      name: 'Metaverse 1',
-      id: '111-111-111'
+      name: 'Metaverse 4',
+      id: '444-444-444'
     },
     {
-      name: 'Metaverse 2',
-      id: '222-222-222'
+      name: 'Metaverse 5',
+      id: '555-555-555'
     },
-    {
-      name: 'Metaverse 3',
-      id: '333-333-333'
-    },
-    {
-      name: 'Metaverse 1',
-      id: '111-111-111'
-    },
-    {
-      name: 'Metaverse 2',
-      id: '222-222-222'
-    },
-    {
-      name: 'Metaverse 3',
-      id: '333-333-333'
-    },
+
 
   ])
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
 
-  console.log(Math.floor((window.innerWidth - 50) / 320))
-  const [totalSize, setTotalSize] = useState(Math.floor((window.innerWidth - 50) / 320))
+  const [totalSize, setTotalSize] = useState(Math.floor((window.innerHeight - 200) / 200))
   useEffect(() => {
     window.addEventListener('resize', () => {
-      setTotalSize(Math.floor((window.innerWidth - 100) / 320))
+      setTotalSize(Math.floor((window.innerHeight - 200) / 200))
     })
   }, [])
   return (
     <div className={`search-container${show ? ' show' : ''}`}>
       <div style={{display: 'flex', gap: '0 10px', alignItems: 'center'}}>
-        <input type='search' placeholder='Search' className='search-bar' onChange={(e) => { setSearch(e.currentTarget.value) }} />
-        <Icon name='close' color='grey' inverted size='big' onClick={onClose}/>
+        <input type='search' placeholder='Search' className='search-bar' value={search} onChange={(e) => { setSearch(e.currentTarget.value) }} />
+        <Icon name='close' color='grey' inverted size='big' onClick={() => {onClose()}}/>
       </div>
       {metaverses.length == 0 ? <div style={{ flex: 1 }} /> : <div className='search-results'>
         {metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).slice((page - 1) * totalSize, (page) * totalSize).map((metaverse) => {
@@ -80,8 +64,8 @@ const SearchPopup = ({ show, onClose }) => {
         }
         )}
       </div>}
-      {metaverses.length > totalSize && <div>
-        <Pagination defaultActivePage={page} totalPages={Math.ceil(metaverses.length / totalSize)} onPageChange={(e, { activePage }) => { setPage(activePage) }} className='pagination-ui' />
+      {metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).length > totalSize && <div>
+        <Pagination defaultActivePage={page} totalPages={Math.ceil(metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).length / totalSize)} onPageChange={(e, { activePage }) => { setPage(activePage) }} className='pagination-ui' />
       </div>}
     </div>
   )
