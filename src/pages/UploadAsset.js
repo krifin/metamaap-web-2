@@ -1,5 +1,6 @@
 import React from 'react'
 import './UploadAsset.css'
+import FilePicker from '../components/FilePicker'
 
 const UploadAsset = () => {
     const [dragging, setDragging] = React.useState({
@@ -49,7 +50,13 @@ const UploadAsset = () => {
                 >
                     <div className='upload-text'>Drag & Drop 3D Model Here</div>
                     <div className='upload-text' style={{ fontSize: '16px' }}>Or</div>
-                    <div className='select-file-button'>Select File</div>
+                    <FilePicker onChange={(file) => {
+                        setState(val => {
+                            return { ...val, model: file }
+                        })
+                    }}>
+                        <div className='select-file-button'>Select File</div>
+                    </FilePicker>
                 </div>
                 <div className={'upload-asset' + (dragging.image ? ' dragging' : '')}
                     onDragOver={
@@ -90,7 +97,15 @@ const UploadAsset = () => {
                 >
                     <div className='upload-text'>Drag & Drop Image Here</div>
                     <div className='upload-text' style={{ fontSize: '16px' }}>Or</div>
-                    <div className='select-file-button'>Select File</div>
+                    <FilePicker accept="image/*" onChange={
+                        (file) => {
+                            setState(val => {
+                                return { ...val, image: file }
+                            })
+                        }
+                    }>
+                        <div className='select-file-button'>Select File</div>
+                    </FilePicker>
                 </div>
             </div>
             <div className='upload-button'>Upload</div>

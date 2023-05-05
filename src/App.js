@@ -22,6 +22,7 @@ import About from "./pages/About";
 import NFTTransfers from "./pages/NFTTransfers";
 import SingleNFTTransfer from "./pages/SingleNFTTransfer";
 import UploadAsset from "./pages/UploadAsset";
+import { useWeb3 } from "./adaptors/useWeb3";
 const App = () => {
   // useEffect(() => {
 
@@ -303,6 +304,10 @@ const App = () => {
   // };
 
   const [searchToggle, setSearchToggle] = useState(false)
+
+  const { web3, account } = useWeb3()
+
+  console.log(web3,account )
 
   return (
     <div className={`App`}>
