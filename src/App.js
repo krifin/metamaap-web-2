@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import $ from "jquery";
 import "./App.css";
-import { createBrowserRouter, BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import BubbleSplitter from "./BubbleSplitter";
 import { RxCross1 } from "react-icons/rx";
@@ -13,27 +13,18 @@ import Galaxy2 from "./Galaxy2";
 import Three from "./Threejs";
 import Background from "./Background";
 import Form from "./Form";
-import Galaxy3 from "./Galaxy3";
-
-import Navbar from "./Navbar";
-
-import SpecificPostData from "./SpecificPostData";
-import Login from "./Login";
-import Home from "./pages/home/Home";
-import Single from "./pages/single/Single";
-import New from "./pages/new/New";
-
-
-import Product from "../src/pages/product/Product";
-import Customers from "../src/pages/customer/Customer";
-import { userInputs, productInputs } from "./formData";
-import "./style/dark.scss";
-import { useContext } from "react";
-import { DarkModeContext } from "./context/darkModeContext";
-import Chart from "./components/chart/Chart";
-import { List } from "@mui/material";
-import Firestore from "./Firestore";
-
+import Preloader from "./pages/Preloader";
+import Galaxy4 from "./pages/Galaxy4";
+import Navbar from "./components/Navbar";
+import BottomBar from "./components/BottomBar";
+import SearchPopup from "./components/SearchPopup";
+import About from "./pages/About";
+import NFTTransfers from "./pages/NFTTransfers";
+import SingleNFTTransfer from "./pages/SingleNFTTransfer";
+import UploadAsset from "./pages/UploadAsset";
+import { useWeb3 } from "./adaptors/useWeb3";
+import { AppContext } from "./AppContext";
+import useFirebase from "./adaptors/useFirebase";
 const App = () => {
   // useEffect(() => {
 
@@ -314,78 +305,43 @@ const App = () => {
   //   createBubbles();
   // };
 
-  const [user, setUser] = useState(null);
+  const [searchToggle, setSearchToggle] = useState(false)
+
+  const { web3, account } = useWeb3()
+
+  const { getMetaverses } = useFirebase()
+
+  const [metaverses, setMetaverses] = useState([])
 
   useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:5000/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, []);
-  const { darkMode } = useContext(DarkModeContext);
+    getMetaverses().then((res) => {
+      setMetaverses(res)
+    })
+  }, [])
+
   return (
-    
-    <BrowserRouter>
-    <div className={darkMode ? "app dark" : "app"}>
-    
-      <Navbar user={user} />
-    
-      <Routes>
-      
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/dashboard" /> : <Login />}
-          />
-          {/* <Route path="/products/:productId/new" element={user ? <New inputs={productInputs} title={"Add New Product"} /> : <Login />} /> */}
-          {/* <Route exact path="/users/:userId/new" element={user ?<New inputs={userInputs} title={"Add New User"} /> : <Login />} /> */}
-          <Route exact path="/newdetails" element={user ?<New /> : <Login />} />
-          <Route exact path="/list" element={user ?<List />: <Login />} />
-          {/* <Route exact path="/users" element={user ?<Customers />: <Login />} /> */}
-          {/* <Route exact path="/products/:productId" element={user ?<Single />: <Login />} /> */}
-          <Route exact path="/users/:userId" element={user ?<Single /> : <Login />} />
-          {/* <Route exact path="/charts" element={user ?<Chart />: <Login />} /> */}
-          <Route
-            path="/post/:id"
-            element={user ? <SpecificPostData /> : <Navigate to="/login" />}
-          />
-        <Route exact path="/dashboard" element={user ?<Home /> : <Login />} />
-        <Route exact path="/bubble_1" element={<BubbleSplitter />} />
-        <Route exact path="/galaxy" element={<Galaxy />} />
-        <Route exact path="/" element={<Galaxy2 />} />
-        <Route exact path="/galaxy2" element={<Galaxy2 />} />
-        <Route exact path="/background" element={<Background />} />
-        <Route exact path="/galaxy3" element={<Galaxy3 />} />
-        <Route exact path="/home" element={<Home />} />
-        <Route exact path="/firestore" element={<Firestore />} />
-        
-          
-          
+    <AppContext.Provider value={[metaverses, setMetaverses ]}>
+    <div className={`App`}>
+      <SearchPopup show={searchToggle} onClose={() => setSearchToggle(false)} />
+      <div style={{ flex: 1, marginLeft: searchToggle ? '400px': '0px', transition: 'all 0.5s ease-in-out' }}>
+        {window.location.pathname !== '/' && <Navbar onSearchToggle={() => setSearchToggle(!searchToggle)} show={searchToggle}/>}
+        {window.location.pathname !== '/' && <BottomBar show={searchToggle}/>}
+        <Routes>
+          <Route exact path="/" element={<Preloader />} />
+          <Route exact path="/home" element={<Galaxy4 />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/nft-transfers" element={<NFTTransfers />} />
+          <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
+          <Route exact path="/upload-asset" element={<UploadAsset />} />
+          {/* // <Route exact path="/bubble_1" element={<BubbleSplitter />} />
+          // <Route exact path="/galaxy" element={<Galaxy />} />
+          // <Route exact path="/galaxy2" element={<Galaxy2 />} />
+          // <Route exact path="/galaxy4" element={<Galaxy4 />} />
+          // <Route exact path="/background" element={<Background />} /> */}
         </Routes>
-        
-        
-        
-        
-      
       </div>
-    </BrowserRouter>
+    </div>
+    </AppContext.Provider>
   );
 };
 

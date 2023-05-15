@@ -1,5 +1,17 @@
+html ,body {
+  background: black !important;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
 .App {
   text-align: center;
+  background: black;
+  display: flex;
+}
+
+.App.drawer {
+  padding-left: 400px;
+  transition: padding-left 0.5s ease-in-out;
 }
 
 .App-logo {

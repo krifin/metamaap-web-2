@@ -4,21 +4,19 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.10.9",
-    "@mui/material": "^5.10.9",
-    "@mui/x-data-grid": "^5.17.6",
-    "@react-three/fiber": "^8.11.1",
+    "@react-three/cannon": "^6.5.2",
+    "@react-three/drei": "^9.65.3",
+    "@react-three/fiber": "^8.12.0",
+    "@react-three/postprocessing": "^2.7.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "aos": "^2.3.4",
     "firebase": "^9.22.0",
     "jquery": "^3.6.4",
     "js-cookie": "^3.0.5",
     "leva": "^0.9.34",
-    "multer": "^1.4.5-lts.1",
+    "maath": "^0.5.3",
+    "postprocessing": "^6.30.2",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
@@ -29,9 +27,15 @@
     "react-zoom-pan-pinch": "^3.0.2",
     "recharts": "^2.1.15",
     "scss": "^0.2.4",
-    "styled-components": "^5.3.8",
-    "three": "^0.149.0",
-    "web-vitals": "^2.1.4"
+    
+    
+    
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4",
+    "styled-components": "^5.3.10",
+    "three": "^0.151.3",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
