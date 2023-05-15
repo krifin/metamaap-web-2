@@ -11,7 +11,7 @@ const NFTTransferDialog = ({ onClose }) => {
         targetChain: ''
     })
 
-    const { sendNFT, addMsg, approve } = useWeb3()
+    const { sendNFT, approve } = useWeb3()
 
     const handleChange = (e) => {
         setState({
@@ -45,8 +45,7 @@ const NFTTransferDialog = ({ onClose }) => {
                 </div>
                 <div className='dialog-button' onClick={async () => {
                     await approve(state.tokenId);
-                    await sendNFT(state.nftContract, parseInt(state.tokenId));
-                    await addMsg(state.targetChain, parseInt(state.tokenId), state.nftContract);
+                    await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
                 }}>Continue</div>
             </form>
         </div>

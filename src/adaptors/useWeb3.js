@@ -5,7 +5,7 @@ export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
 
-    const contractAddress = '0x2cecE5cE3fD0CF86d333Ec60D67F5F10Fe1dD8D3';
+    const contractAddress = '0xEDE775d27245C7154D7D08D4b1296AcD2e9F3775';
 
     const abi = [
         {
@@ -21,7 +21,7 @@ export const useWeb3 = () => {
                     "type": "address"
                 }
             ],
-            "stateMutability": "payable",
+            "stateMutability": "nonpayable",
             "type": "constructor"
         },
         {
@@ -61,11 +61,16 @@ export const useWeb3 = () => {
                     "internalType": "address",
                     "name": "_nftContract",
                     "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_targetChain",
+                    "type": "uint256"
                 }
             ],
             "name": "sendNFT",
             "outputs": [],
-            "stateMutability": "nonpayable",
+            "stateMutability": "payable",
             "type": "function"
         },
         {
@@ -144,35 +149,6 @@ export const useWeb3 = () => {
             "inputs": [
                 {
                     "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_nftContract",
-                    "type": "address"
-                }
-            ],
-            "name": "getMsgData",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
                 }
@@ -183,30 +159,6 @@ export const useWeb3 = () => {
                     "internalType": "bool",
                     "name": "",
                     "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "ids",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -228,19 +180,6 @@ export const useWeb3 = () => {
         {
             "inputs": [],
             "name": "messageContractaddrS",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "nftContract",
             "outputs": [
                 {
                     "internalType": "address",
@@ -285,30 +224,6 @@ export const useWeb3 = () => {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "tokenPassword",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -663,184 +578,6 @@ export const useWeb3 = () => {
         }
     ]
 
-    const messageAddress = "0x0E1cca1DAF88E41b34f4Ce20Bcc35d8Da08a3231"
-
-    const messageAbi = [
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_targetChain",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_selfID",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "_message",
-                    "type": "string"
-                }
-            ],
-            "name": "addMsg",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "FeeWithdrawn",
-            "type": "event"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "name": "NewMessage",
-            "type": "event"
-        },
-        {
-            "inputs": [],
-            "name": "withDraw",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "tokenAddress",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                }
-            ],
-            "name": "withdrawTokens",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_origin",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_selfID",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_targetChain",
-                    "type": "uint256"
-                }
-            ],
-            "name": "getMsg",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "messages",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "MIN_FEE",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ]
 
     useEffect(() => {
         const getWeb3 = async () => {
@@ -874,24 +611,12 @@ export const useWeb3 = () => {
         return web3.utils.BN(number);
     }
 
-    async function sendNFT(nftAddress, tokenId) {
+    async function sendNFT(nftAddress, tokenId, targetChain) {
         const contract = new web3.eth.Contract(abi, contractAddress);
         console.log(nftAddress, tokenId);
-        return await contract.methods.sendNFT(tokenId, nftAddress).send({ from: account, });
+        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
     }
 
-    async function addMsg(targetChain, tokenId, nftAddress) {
-        var data = await getMsgData(nftAddress, tokenId);
-        var selfID = data[0];
-        var message = data[1];
-        const contract = new web3.eth.Contract(messageAbi, messageAddress);
-        return contract.methods.addMsg(targetChain, selfID, message).send({ from: account, value: web3.utils.toWei("0.001", "ether") });
-    }
-
-    async function getMsgData(nftAddress, tokenId) {
-        const contract = new web3.eth.Contract(abi, contractAddress);
-        return await contract.methods.getMsgData(tokenId, nftAddress).call({ from: account });
-    }
 
     async function approve(tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
@@ -901,5 +626,5 @@ export const useWeb3 = () => {
 
 
 
-    return { web3, connect, account, sendNFT, convertNumber, addMsg, approve, getMsgData };
+    return { web3, connect, account, sendNFT, convertNumber, approve };
 }

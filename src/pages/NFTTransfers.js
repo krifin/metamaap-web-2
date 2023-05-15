@@ -14,7 +14,7 @@ const NFTTransfers = () => {
     return (
         <div className='nft-transfer-container'>
             <div className='nft-transfers-text'>NFT TRANSFER</div>
-            <div className='nft-transfer-description'>This is a 3D asset transfer & teleportation platform for games & virtual worlds.
+            <div className='nft-transfer-description'>This is a 3D asset transfer & teleportation platform for games and virtual worlds.
                 Anyone can transfer any NFT or digital asset or avatar on any blockchain.</div>
             <div className='nft-transfer-title'>MY ASSETS</div>
             <div className='nfts'>
