@@ -7,16 +7,18 @@ const crypto = require('crypto')
 
 //use the post method if we have the inputs in the frontend
 
-
+// let logged_user;
 //checking that whether the user is logged in or not by comaparing the sessions 
 //from both : backend and frontend
 router.get('/login/success', (req,res)=>{
     if(req.user){
+        console.log("req.cookies", req.cookies);
+        console.log("req,user", req.user);
+        // logged_user = req.user;
         res.status(200).json({
             success: true,
             message: "Logged in successfully",
             user: req.user,
-            cookies: req.cookies
         })
     }
     else{
@@ -28,7 +30,7 @@ router.get('/login/success', (req,res)=>{
     
 })
 router.post('/companydata', async(req,res)=>{
-    console.log("req.user", req.user);
+    console.log("req", req);
     if(req.user){
         let registered_user = User.find(req.user._json.email);
         let nm = req.body.nm;

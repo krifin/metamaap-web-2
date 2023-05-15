@@ -18,17 +18,17 @@ const app = express();
 app.use(
     cookieSession({
         name: "session",
-        //can be anything... doesn't really matter, as its just a name
-        keys:["Metamaap_website"],
+        //it is used to encrypt the Cookie
+        keys:["Metamap-website"],
         maxAge: 24*60*60*100 // one day of expiration
     })
 )
 
-//initializing passport.js library
+//initializing passport.js library to use the cookie above
 app.use(passport.initialize())
 
 
-//using passport.js session 
+//using passport.js session  to control loggin in
 app.use(passport.session())
 
 //using the cors library to interact with the frontend
@@ -148,7 +148,7 @@ app.post('/companydata', async (req,res)=>{
 app.post('/login', async(req,res) =>{
 
     //authentication logic
-    const email = req.body.email; 
+    const email = req.body.email;
 
     // //encoded version of the accesstoken to be generated
     // const accessToken = jwt.sign(req.body.name, process.env.ACCESS_SECRET_TOKEN)

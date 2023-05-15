@@ -84,20 +84,12 @@ const New = ({ }) => {
               className="image"
             />
             
-            <img
-              src={
-                portfolioImg
-                  ? convertedportfolioImg.myFile
-                  : "/assets/person/DefaultProfile.jpg"
-              }
-              alt=""
-              className="image"
-            />
+            <img src={portfolioImg ? "/img1.jpg" : "/assets/person/DefaultProfile.jpg"} alt="" className="image"/>
             
             
           </div>
           <div className="right">
-            <form method="POST" onSubmit={handleSubmit} encType="multipart/form-data">
+            <form method="POST" onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file1">
                   Banner Image: <DriveFolderUploadOutlined className="icon" />
@@ -148,9 +140,6 @@ const New = ({ }) => {
               <br />
               </div>
               <div className="formInput">
-              
-              
-              
               <label>
                 Enter the link of your website
               </label>

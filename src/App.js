@@ -32,6 +32,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import Chart from "./components/chart/Chart";
 import { List } from "@mui/material";
+import Firestore from "./Firestore";
 
 const App = () => {
   // useEffect(() => {
@@ -354,7 +355,8 @@ const App = () => {
             element={user ? <Navigate to="/dashboard" /> : <Login />}
           />
           {/* <Route path="/products/:productId/new" element={user ? <New inputs={productInputs} title={"Add New Product"} /> : <Login />} /> */}
-          <Route exact path="/users/:userId/new" element={user ?<New inputs={userInputs} title={"Add New User"} /> : <Login />} />
+          {/* <Route exact path="/users/:userId/new" element={user ?<New inputs={userInputs} title={"Add New User"} /> : <Login />} /> */}
+          <Route exact path="/newdetails" element={user ?<New /> : <Login />} />
           <Route exact path="/list" element={user ?<List />: <Login />} />
           {/* <Route exact path="/users" element={user ?<Customers />: <Login />} /> */}
           {/* <Route exact path="/products/:productId" element={user ?<Single />: <Login />} /> */}
@@ -367,10 +369,12 @@ const App = () => {
         <Route exact path="/dashboard" element={user ?<Home /> : <Login />} />
         <Route exact path="/bubble_1" element={<BubbleSplitter />} />
         <Route exact path="/galaxy" element={<Galaxy />} />
+        <Route exact path="/" element={<Galaxy2 />} />
         <Route exact path="/galaxy2" element={<Galaxy2 />} />
         <Route exact path="/background" element={<Background />} />
         <Route exact path="/galaxy3" element={<Galaxy3 />} />
-        
+        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/firestore" element={<Firestore />} />
         
           
           
