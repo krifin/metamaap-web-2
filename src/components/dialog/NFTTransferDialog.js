@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react'
 import './auth/AuthDialog.css'
 import Arrow from '../../assets/png/arrow-left.png'
@@ -10,7 +11,7 @@ const NFTTransferDialog = ({ onClose }) => {
         targetChain: ''
     })
 
-    const { sendNFT } = useWeb3()
+    const { sendNFT, addMsg, approve } = useWeb3()
 
     const handleChange = (e) => {
         setState({
@@ -37,14 +38,16 @@ const NFTTransferDialog = ({ onClose }) => {
                     <input className='dialog-input' name="nftContract" onChange={handleChange} type='text' placeholder='NFT Contract' required />
                 </div>
                 <div className='dialog-input-box'>
-                    <input className='dialog-input' type='tokenId' onChange={handleChange} name="email" placeholder='Token Id' required />
+                    <input className='dialog-input' type='name' onChange={handleChange} name="tokenId" placeholder='Token Id' required />
                 </div>
                 <div className='dialog-input-box'>
-                    <input className='dialog-input' type='targetChain' onChange={handleChange} name="email" placeholder='Target Chain' required />
+                    <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
                 </div>
-                <button className='dialog-button' onClick={() => {
-                    sendNFT(state.nftContract, state.targetChain, state.tokenId)
-                }}>Continue</button>
+                <div className='dialog-button' onClick={async () => {
+                    await approve(state.tokenId);
+                    await sendNFT(state.nftContract, parseInt(state.tokenId));
+                    await addMsg(state.targetChain, parseInt(state.tokenId), state.nftContract);
+                }}>Continue</div>
             </form>
         </div>
     )

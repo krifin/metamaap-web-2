@@ -1,12 +1,12 @@
 import { Vector3 } from 'three'
-import React, { Suspense, useEffect, useRef, useState, } from 'react'
-import { Canvas,extend, useFrame } from '@react-three/fiber'
-import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
+import React, { Suspense, useContext, useEffect, useRef, useState, } from 'react'
+import { Canvas, extend, useFrame } from '@react-three/fiber'
 import { Universe } from '../components/Universe'
 import { Realm } from '../components/Realm'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
 import { Effects, OrbitControls } from '@react-three/drei'
-import { useControls } from 'leva'
+import { AppContext } from '../AppContext'
+
 
 extend({ UnrealBloomPass })
 
@@ -14,34 +14,31 @@ extend({ UnrealBloomPass })
 
 
 export default function Galaxy4() {
+  const [metaverses] = useContext(AppContext);
+
   return (
     <>
-      <Canvas color='#000' linear flat colorManagement={false} style={{ height: `${window.innerHeight}px` }} camera={{ position: [0, 4, 6], rotation: [-1,0,0] }}>
-      <color attach="background" args={['#111']} />
-      <Effects disableGamma>
-        {/* threshhold has to be 1, so nothing at all gets bloom by default */}
-        <unrealBloomPass threshold={1} strength={1.5} radius={0.1} />
-      </Effects>
-      <OrbitControls enableZoom={false} enableRotate enablePan={false} />
-      
-      {/* <color attach="background" args={['#111']} /> */}
-      {/* <ambientLight color={'hotpink'}/> */}
-      {/* <pointLight position={[0, 0, 0]} color={'hotpink'}/> */}
-      
-      {/* <Effects disableGamma> */}
+      <Canvas color='#000' linear flat colorManagement={false} style={{ height: `${window.innerHeight}px` }} camera={{ position: [0, 4, 6], rotation: [-1, 0, 0] }}>
+        <color attach="background" args={['#111']} />
+        <Effects disableGamma>
+          {/* threshhold has to be 1, so nothing at all gets bloom by default */}
+          <unrealBloomPass threshold={1} strength={1.5} radius={0.1} />
+        </Effects>
+        <OrbitControls enableZoom={false} enableRotate enablePan={false} />
+
+        {/* <color attach="background" args={['#111']} /> */}
+        {/* <ambientLight color={'hotpink'}/> */}
+        {/* <pointLight position={[0, 0, 0]} color={'hotpink'}/> */}
+
+        {/* <Effects disableGamma> */}
         {/* threshhold has to be 1, so nothing at all gets bloom by default */}
         {/* <unrealBloomPass threshold={1} strength={1} radius={0} /> */}
-      {/* </Effects> */}
-            <Universe />
-            <Realm metaverse={
-              new Array(50).fill().map(() => {
-                var x = Math.floor(Math.random() * 1000);
-                var y = Math.floor(Math.random() * 1000);
-                var z = Math.floor(Math.random() * 1000);
-                return x + "-" + y + "-" + z;
-              })
-            } position={new Vector3(0, 0, 0)} rotation={new Vector3(0, 0, 0)} speed={.01} />
-       
+        {/* </Effects> */}
+        <Universe />
+        {metaverses.length > 0 && <Realm metaverse={
+          metaverses
+        } position={new Vector3(0, 0, 0)} rotation={new Vector3(0, 0, 0)} speed={.01} />}
+
       </Canvas>
     </>
   )

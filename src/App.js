@@ -23,6 +23,8 @@ import NFTTransfers from "./pages/NFTTransfers";
 import SingleNFTTransfer from "./pages/SingleNFTTransfer";
 import UploadAsset from "./pages/UploadAsset";
 import { useWeb3 } from "./adaptors/useWeb3";
+import { AppContext } from "./AppContext";
+import useFirebase from "./adaptors/useFirebase";
 const App = () => {
   // useEffect(() => {
 
@@ -307,9 +309,18 @@ const App = () => {
 
   const { web3, account } = useWeb3()
 
-  console.log(web3,account )
+  const { getMetaverses } = useFirebase()
+
+  const [metaverses, setMetaverses] = useState([])
+
+  useEffect(() => {
+    getMetaverses().then((res) => {
+      setMetaverses(res)
+    })
+  }, [])
 
   return (
+    <AppContext.Provider value={[metaverses, setMetaverses ]}>
     <div className={`App`}>
       <SearchPopup show={searchToggle} onClose={() => setSearchToggle(false)} />
       <div style={{ flex: 1, marginLeft: searchToggle ? '400px': '0px', transition: 'all 0.5s ease-in-out' }}>
@@ -330,6 +341,7 @@ const App = () => {
         </Routes>
       </div>
     </div>
+    </AppContext.Provider>
   );
 };
 

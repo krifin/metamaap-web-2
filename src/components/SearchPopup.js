@@ -1,37 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './SearchPopup.css'
 import 'semantic-ui-css/semantic.min.css'
 import { Icon, Pagination } from 'semantic-ui-react'
+import { AppContext } from '../AppContext'
+import { Link } from 'react-router-dom'
 
 
 
 
 
 const SearchPopup = ({ show, onClose }) => {
-  const [metaverses, setMetaverses] = useState([
-    {
-      name: 'Metaverse 1',
-      id: '111-111-111'
-    },
-    {
-      name: 'Metaverse 2',
-      id: '222-222-222'
-    },
-    {
-      name: 'Metaverse 3',
-      id: '333-333-333'
-    },
-    {
-      name: 'Metaverse 4',
-      id: '444-444-444'
-    },
-    {
-      name: 'Metaverse 5',
-      id: '555-555-555'
-    },
-
-
-  ])
+  const [metaverses,] = useContext(AppContext)
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
 
@@ -47,25 +26,25 @@ const SearchPopup = ({ show, onClose }) => {
         <input type='search' placeholder='Search' className='search-bar' value={search} onChange={(e) => { setSearch(e.currentTarget.value) }} />
         <Icon name='close' color='grey' inverted size='big' onClick={() => {onClose()}}/>
       </div>
-      {metaverses.length == 0 ? <div style={{ flex: 1 }} /> : <div className='search-results'>
-        {metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).slice((page - 1) * totalSize, (page) * totalSize).map((metaverse) => {
+      {metaverses.length === 0 ? <div style={{ flex: 1 }} /> : <div className='search-results'>
+        {metaverses.filter(val => val.mcid.toLowerCase().includes(search.toLowerCase()) || val.nm.toLowerCase().includes(search.toLowerCase())).slice((page - 1) * totalSize, (page) * totalSize).map((metaverse) => {
           return (
-            <div className="search-result">
+            <Link className="search-result" to={metaverse.website} target='_blank'>
               <div className="result-image">
-                <div className='result-id'>#{metaverse.id}</div>
+                <div className='result-id'>#{metaverse.mcid}</div>
               </div>
               <div className="result-text">
                 {/* Logo Image */}
                 <div className="result-logo" />
-                <div className="result-name">{metaverse.name}</div>
+                <div className="result-name">{metaverse.nm}</div>
               </div>
-            </div>
+            </Link>
           )
         }
         )}
       </div>}
-      {metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).length > totalSize && <div>
-        <Pagination defaultActivePage={page} totalPages={Math.ceil(metaverses.filter(val => val.id.toLowerCase().includes(search.toLowerCase()) || val.name.toLowerCase().includes(search.toLowerCase())).length / totalSize)} onPageChange={(e, { activePage }) => { setPage(activePage) }} className='pagination-ui' />
+      {metaverses.filter(val => val.mcid.toLowerCase().includes(search.toLowerCase()) || val.nm.toLowerCase().includes(search.toLowerCase())).length > totalSize && <div>
+        <Pagination defaultActivePage={page} totalPages={Math.ceil(metaverses.filter(val => val.mcid.toLowerCase().includes(search.toLowerCase()) || val.nm.toLowerCase().includes(search.toLowerCase())).length / totalSize)} onPageChange={(e, { activePage }) => { setPage(activePage) }} className='pagination-ui' />
       </div>}
     </div>
   )

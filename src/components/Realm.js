@@ -6,7 +6,6 @@ import { Html } from "@react-three/drei"
 import '../pages/Galaxy4.css'
 
 export function Realm({ position, rotation, speed, metaverse }) {
-
     const particles = useRef()
 
     const group1 = useRef()
@@ -58,9 +57,9 @@ export function Realm({ position, rotation, speed, metaverse }) {
         //const colorOutside = new Color(parameters.outsideColor)
         const colorInside = new Color(1.0, 0.3765, 0.1882)
         const colorOutside = new Color(0.10588, 0.22353, 0.51765)
-
         for (let i = 0; i < metaverse.length; i++) {
-            const id = metaverse[i];
+            const id = metaverse[i].mcid;
+            console.log(id)
             const parameters = {
                 restRadiusMin: 5,
                 restRadiusMax: 7,
@@ -68,8 +67,10 @@ export function Realm({ position, rotation, speed, metaverse }) {
             };
 
             // Get the ID and extract the coordinates
-            //   const id = "111-111-111";
-            const [x, y, z] = id.split("-").map((n) => parseInt(n));
+            //   const id = "111111111";
+            const x = parseInt(id.substring(0, 3));
+            const y = parseInt(id.substring(3, 6));
+            const z = parseInt(id.substring(6, 9));
 
             // Map the x value to the radius range
             let radius;
@@ -92,7 +93,7 @@ export function Realm({ position, rotation, speed, metaverse }) {
 
             setPlanets(val => [...val, {
                 position: position,
-                id: id
+                ...metaverse[i]
             }])
         }
 
@@ -134,7 +135,7 @@ export function Realm({ position, rotation, speed, metaverse }) {
                 <Nucleus size={.15} position={position} />
                 <points position={position} ref={group1} rotation={new Euler().setFromVector3(rotation, 'XYZ')}>
                     {planets.map((planet, index) => {
-                        return <Planet key={index} position={planet} size={0.08} texture={texture} />
+                        return <Planet key={index} planet={planet} size={0.08} texture={texture} />
                     })}
                     <bufferGeometry ref={particles} />
                     <pointsMaterial size={parameters.size} sizeAttenuation={true} depthWrite={true} vertexColors={true} blending={AdditiveBlending} />
@@ -144,7 +145,7 @@ export function Realm({ position, rotation, speed, metaverse }) {
     )
 }
 
-function Planet({ position, size, texture }) {
+function Planet({ planet, size, texture }) {
     const [hover, setHover] = useState(false)
     // load the texture
     // random color for the glow
@@ -152,13 +153,13 @@ function Planet({ position, size, texture }) {
     return (
         <mesh onPointerOver={() => setHover(true)} onPointerLeave={() => setHover(false)} onClick={() => {
             // open a new tab in the browser
-            window.open(`https://google.com`, '_blank');
-        }} position={position.position} scale={[size, size, size]}>
+            window.open(planet.website, '_blank');
+        }} position={planet.position} scale={[size, size, size]}>
             <sphereBufferGeometry attach="geometry" args={[0.5, 32, 32, 0, 6.4, 0, 6.3]} />
             <meshBasicMaterial color={glowRed.color} map={texture} toneMapped={false} />
             {hover && <Html distanceFactor={7}>
                 <div className="annotation">
-                    <div className="annotation-name">Metaverse name</div>
+                    <div className="annotation-name">{planet.nm}</div>
                     <div className="annotation-image"></div>
 
                 </div>
