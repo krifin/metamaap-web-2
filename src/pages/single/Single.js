@@ -15,7 +15,7 @@ const Single = () => {
         <div className="top">
           <div className="left">
             <h1 className="title">Company Details</h1>
-            <Link to="/newdetails" style={{ textDecoration: "none" }}>
+            <Link to="/editdetails" style={{ textDecoration: "none" }}>
           <span className="editButton">Edit</span>
         </Link>
             {/* <span className="editButton">Edit</span> */}

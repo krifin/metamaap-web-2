@@ -18,6 +18,23 @@
   flex-direction: column;
   align-items: center;
 }
+/* .wrapper{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(189,189,189,0.9);
+  z-index: 2;
+} */
+.dialog-header{
+  display: flex;
+}
+
+.dialog-cross{
+  height: 30px;
+  width: 30px;
+}
 
 .dialog-title {
   font-style: normal;

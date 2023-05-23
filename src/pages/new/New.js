@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbardashboard from "../../components/navbar/Navbardashboard";
 import "./new.scss";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
-import Cookies from 'js-cookie';
+import { addDoc, collection, where, deleteDoc, doc, getDocs, query, updateDoc } from 'firebase/firestore';
+import {db, storage} from '../../firebaseConfig'
+import { ref } from 'firebase/storage'
 
 
 
-const New = ({ }) => {
+const New = ({ inputs }) => {
+  const [client, setClient] = useState([]);
   const [bannerImg, setBannerImg] = useState("");
   const [portfolioImg, setPortfolioImg] = useState("");
   const [convertedbannerImg, setConvertedbannerImg] = useState({myFile: ""})
@@ -16,6 +19,15 @@ const New = ({ }) => {
   const [type, setType] = useState(null);
   const [url, setUrl] = useState(null);
   const [link, setLink] = useState(null);
+  const [impoUpload, setImgUpload] = useState(null);
+
+  const editData = async(id) =>{
+    await addDoc(db, 'clientData', id);
+  }
+
+  const uploadImage = () =>{
+    
+  }
   function convertToBase64(file){
     return new Promise((resolve, reject) =>{
       const fileReader = new FileReader();
@@ -44,26 +56,58 @@ const New = ({ }) => {
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const accessToken = Cookies.get('session'); // get the user's access token from cookies
-      const response = await fetch('http://localhost:5000/auth/companydata', {
-        method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //   'Authorization': `Bearer ${accessToken}`, // add the authorization header with the access token
-        // },
-        body: JSON.stringify(
-          nm, type, url, convertedbannerImg, convertedportfolioImg, link 
-        ),
-      });
-      const data = await response.json();
-      console.log('Form data submitted successfully!', data);
-      alert("form data submitted");
-    } catch (error) {
-      console.error('Error submitting form data:', error);
-      alert("form data not submitted");
-    }
+    // try {
+    //   const accessToken = Cookies.get('session'); // get the user's access token from cookies
+    //   const response = await fetch('http://localhost:5000/auth/companydata', {
+    //     method: 'POST',
+    //     // headers: {
+    //     //   'Content-Type': 'application/json',
+    //     //   'Authorization': `Bearer ${accessToken}`, // add the authorization header with the access token
+    //     // },
+    //     body: JSON.stringify(
+    //       nm, type, url, convertedbannerImg, convertedportfolioImg, link 
+    //     ),
+    //   });
+    //   const data = await response.json();
+    //   console.log('Form data submitted successfully!', data);
+    //   alert("form data submitted");
+    // } catch (error) {
+    //   console.error('Error submitting form data:', error);
+    //   alert("form data not submitted");
+    // }
+    
   };
+  useEffect(()=>{
+    //here we are creating or calling the async function so that whenever we are calling to api, it will return a promise.
+    //so its just a data that either needs to be resolved or rejected
+    const getClient = async () =>{
+      //to get all the documents in the collection
+      const data = await getDocs(collection(db, "clientData"))
+      console.log("data:", data);
+      
+      // const resultString = localStorage.getItem('result');
+      // console.log("result from local:", resultString[1]);
+      // const result = JSON.parse(resultString);
+      // const email = result.email;
+      // console.log("emal from result:", email)
+      // console.log(data.docs[0]._document.data.value.mapValue); //this data format is very complex. So to easily handle the same...
+      // const q = query(collection(db, "clientData"), where("email", "===", email));
+      // const queryData = await getDocs(q);
+      // console.log(queryData);
+      // let allData = (data.docs.map((doc)=>({...doc.data(), id: doc.id})))
+      // console.log(allData);
+      // setClient(queryData);
+      
+      
+      //returns the obj containing the name and age but not the id of user  
+      // ... -> spread operator in js meaning that to have all the fiels of data and 
+      //after the, you can also add specific fields as required
+      // console.log(data.docs)
+      
+    }
+    getClient();
+    // console.log(clients);
+  },[])
   return (
     <div className="new">
       <Sidebar />
@@ -92,7 +136,7 @@ const New = ({ }) => {
             <form method="POST" onSubmit={handleSubmit}>
               <div className="formInput">
                 <label htmlFor="file1">
-                  Banner Image: <DriveFolderUploadOutlined className="icon" />
+                  Banner Image: <DriveFolderUploadOutlined className="icon" onClick={()=>uploadImage }/>
                 </label>
                 <input
                   type="file"
@@ -179,7 +223,7 @@ const New = ({ }) => {
                 </div>
               ))} */}
 
-              <button type="submit">Send</button>
+              <button type="submit" onClick={()=>editData(client.id)}>Send</button>
             </form>
           </div>
         </div>

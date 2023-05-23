@@ -1,12 +1,13 @@
 .new{
     width: 100%;
     display: flex;
+    background: white;
 
     .newContainer{
         flex: 6;
 
         .top,.bottom{
-            -webkit-box-shadow: 2px 4px 10px 1px rgba(0,0,0,0.47);
+            -webkit-box-shadow: 2px 4px 10px 1px rgba(180, 161, 37, 0.79);
             box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
             border-radius: 5px;
             padding: 5px;
@@ -27,7 +28,7 @@
                     width: 150px;
                     height: 150px;
                     border-radius: 50%;
-                    // object-fit: cover;
+                    object-fit: cover;
                     transform: translateY(100px);
                 }
             }

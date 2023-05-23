@@ -5,36 +5,61 @@ import List from "../../components/list/List";
 import Navbardashboard from "../../components/navbar/Navbardashboard";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Widget from "../../components/widget/Widget";
-import "./home.scss";
+
 import Single from "../single/Single";
+import './home.scss'
+import { Icon } from 'semantic-ui-react'
+import Plus from '../../assets/png/plus.png'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
-  return (
-    <div className="home">
-      <>
-        <Sidebar />
-        <div className="homeContainer">
-          <Single />
-          {/* <Navbardashboard /> */}
-          {/* <div className="widgets">
-            <Widget type="customer" />
-            <Widget type="order" />
-            <Widget type="earnings" />
-            <Widget type="balance" />
-          </div> */}
-          {/* <div className="charts">
-            <Featured />
-            <Chart title="Last 6 months (Revenue)" aspect={2 / 1} />
-          </div> */}
+  const [nfts, setNfts] = React.useState([
+    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+])
 
-          <div className="listContainer">
-            <div className="listTitle">Transaction Details</div>
-            <List />
-          </div>
+return (
+    <div className='nft-transfer-container'>
+        {/* <div className='nft-transfers-text'>DASHBOARD</div>
+        <div className='nft-transfer-description'>This is a 3D asset transfer & teleportation platform for games and virtual worlds.
+            Anyone can transfer any NFT or digital asset or avatar on any blockchain.</div> */}
+        <div className='nft-transfer-title'>METAVERSE</div>
+        <div className='nfts'>
+            {nfts.map((nft, index) => {
+                return (
+                    <Link to={'/nft/transfer'} state={nft}>
+                        <img className={`nft`} src={nft} key={index} />
+                    </Link>
+                )
+            })
+            }
         </div>
-      </>
+        <div className='nft-transfer-title'>MY ASSETS</div>
+        <div className='nfts'>
+            {nfts.map((nft, index) => {
+                return (
+                    <Link to={'/nft/transfer'} state={nft}>
+                        <img className={`nft`} src={nft} key={index} />
+                    </Link>
+                )
+            })
+            }
+        </div>
+        <div className='nft-transfer-title'>SAVED WORLDS</div>
+        <div className='nfts'>
+            {nfts.map((nft, index) => {
+                return (
+                    <Link to={'/nft/transfer'} state={nft}>
+                        <img className={`nft`} src={nft} key={index} />
+                    </Link>
+                )
+            })
+            }
+        </div>
+        
     </div>
-  );
+)
 };
 
 export default Home;
