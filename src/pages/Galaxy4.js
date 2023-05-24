@@ -35,9 +35,9 @@ export default function Galaxy4() {
         {/* <unrealBloomPass threshold={1} strength={1} radius={0} /> */}
         {/* </Effects> */}
         <Universe />
-        {metaverses.length > 0 && <Realm metaverse={
+        <Realm key={metaverses.length} metaverse={
           metaverses
-        } position={new Vector3(0, 0, 0)} rotation={new Vector3(0, 0, 0)} speed={.01} />}
+        } position={new Vector3(0, 0, 0)} rotation={new Vector3(0, 0, 0)} speed={.01} />
 
       </Canvas>
     </>

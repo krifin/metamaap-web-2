@@ -44,7 +44,7 @@ const NFTTransferDialog = ({ onClose }) => {
                     <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
                 </div>
                 <div className='dialog-button' onClick={async () => {
-                    await approve(state.tokenId);
+                    await approve(state.nftContract, state.tokenId);
                     await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
                 }}>Continue</div>
             </form>
