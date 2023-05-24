@@ -4,6 +4,18 @@
     height: calc(100vh - 200px);
     margin-top: 200px;
   }
+  .main {
+    min-height: 100vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .title {
+    font-size: 3rem;
+    text-align: center;
+    color: #00c3f8;
+  }
   
   .nft-transfers-text {
     font-weight: 400;

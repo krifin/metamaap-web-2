@@ -11,12 +11,36 @@ import './home.scss'
 import { Icon } from 'semantic-ui-react'
 import Plus from '../../assets/png/plus.png'
 import { Link } from 'react-router-dom'
+import { useAccount, useConnect } from "wagmi";
+import { useState, useEffect } from "react";
+import LoggedIn from "../../Loggedin";
+
 
 const Home = () => {
-  const [nfts, setNfts] = React.useState([
-    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
-    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
-    "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+  const { isConnected } = useAccount();
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (!isConnected) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+    console.log('isConnected: ', isConnected);
+  }, [isConnected]);
+  
+const [met, setMet] = React.useState([
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+])
+const [worlds, setWorlds] = React.useState([
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
+  "https://style.me/wp-content/uploads/2022/03/fashion-nfts-metaverses-blog-article.jpg",
 ])
 
 return (
@@ -26,10 +50,10 @@ return (
             Anyone can transfer any NFT or digital asset or avatar on any blockchain.</div> */}
         <div className='nft-transfer-title'>METAVERSE</div>
         <div className='nfts'>
-            {nfts.map((nft, index) => {
+            {met.map((met, index) => {
                 return (
-                    <Link to={'/nft/transfer'} state={nft}>
-                        <img className={`nft`} src={nft} key={index} />
+                    <Link to={'/nft/transfer'} state={met}>
+                        <img className={`nft`} src={met} key={index} />
                     </Link>
                 )
             })
@@ -37,21 +61,38 @@ return (
         </div>
         <div className='nft-transfer-title'>MY ASSETS</div>
         <div className='nfts'>
-            {nfts.map((nft, index) => {
-                return (
-                    <Link to={'/nft/transfer'} state={nft}>
-                        <img className={`nft`} src={nft} key={index} />
-                    </Link>
-                )
-            })
-            }
+        {isLoggedIn ? (
+        <main className='main'>
+          {/* <h1 className='title'>
+            Connect Wallet and Display NFTs
+          </h1> */}
+          {connectors.map((connector) => (
+            <button
+              disabled={!connector.ready}
+              key={connector.id}
+              className="title"
+              onClick={() => connect({ connector })}
+            >
+              {connector.name}
+              {!connector.ready && " (unsupported)"}
+              {isLoading &&
+                connector.id === pendingConnector?.id &&
+                " (connecting)"}
+            </button>
+          ))}
+          {error && <section>{error.message}</section>}
+        </main>
+      ) : (
+        <LoggedIn />
+      )}
+            
         </div>
         <div className='nft-transfer-title'>SAVED WORLDS</div>
         <div className='nfts'>
-            {nfts.map((nft, index) => {
+        {worlds.map((world, index) => {
                 return (
-                    <Link to={'/nft/transfer'} state={nft}>
-                        <img className={`nft`} src={nft} key={index} />
+                    <Link to={'/nft/transfer'} state={world}>
+                        <img className={`nft`} src={world} key={index} />
                     </Link>
                 )
             })
