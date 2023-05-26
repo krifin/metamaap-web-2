@@ -30,7 +30,7 @@ const Navbar = ({ onSearchToggle , show, isAuth, setIsAuth, res, setRes}) => {
   const [showSignUp, setShowSignUp] = React.useState(false)
   const [showDropdown, setShowDropdown] = useState(false);
   const [nm,setNm] = useState("YOUR PROFILE");
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState("https://mindandculture.org/wordpress6/wp-content/uploads/2018/06/Fotolia_188161178_XS.jpg");
   
   
   
@@ -38,12 +38,22 @@ const Navbar = ({ onSearchToggle , show, isAuth, setIsAuth, res, setRes}) => {
   let user;
   useEffect(()=>{
     if(isAuth){
-      console.log("res:", res);
       
+      console.log("res:", res);
       console.log("logged in user info :", res);
+      setRes(res);
       console.log("user name:", res.displayName)
-      setNm(res.displayName);
-      setUrl(res.photoURL);
+      if(res.displayName){
+        setNm(res.displayName);
+      }else{
+        setNm("YOUR PROFILE");
+      }
+      if(res.photoURL){
+        setUrl(res.photoURL);
+      }else{
+        setUrl("https://mindandculture.org/wordpress6/wp-content/uploads/2018/06/Fotolia_188161178_XS.jpg");
+      }
+      
       console.log("photo", res.photoURL);
   }},[isAuth])
 
@@ -77,13 +87,18 @@ const Navbar = ({ onSearchToggle , show, isAuth, setIsAuth, res, setRes}) => {
         </Link>
         {!isAuth ? <div className='navbar-connect-button' onClick={() => setShowConnect(!showConnect)}>Connect</div> : 
         (
-          <div className='navbar-connect-button' style={{ cursor: 'pointer' }} >
+          
+          <div className='navbar-connect-button-outside' style={{ cursor: 'pointer' }} >
+            <div className="navbar-connect-button-inside">
+            {<img src = {url} style={{height: '50px', width: '50px', borderRadius: '75%'}} alt="your image" />}
+              
             <div className="navbar-connect-button" onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}>
               
-              <img src = {url} style={{height: '50px', width: '50px', borderRadius: '75%'}} alt="your image" />
+              
               {nm}
               
+            </div>
             </div>
             {showDropdown && (
               <div className="navbar-dropdown-menu" onMouseEnter={handleMouseEnter}
@@ -112,6 +127,9 @@ const Navbar = ({ onSearchToggle , show, isAuth, setIsAuth, res, setRes}) => {
               <div className="navbar-dropdown-item" onClick={()=>navigate("/home")}>
                 Market Place 
               </div>
+              <div className="navbar-dropdown-item" onClick={()=>navigate("/carousel")}>
+                Carousel
+              </div>
               <div className="navbar-dropdown-item" onClick={()=>signUserOut()}>
                 Logout
               </div>
@@ -122,7 +140,7 @@ const Navbar = ({ onSearchToggle , show, isAuth, setIsAuth, res, setRes}) => {
           
         )}
       </div>
-      {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect}/>}
+      {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect} showConnect={showConnect}/>}
       {/* {showConnect && <SelectOptionDialog onClose={() => { setShowConnect(false) }} onEmail={() => { setShowLogin(true) }} onSignUp={() => {setShowSignUp(true)}} setIsAuth = {setIsAuth}/>} */}
       {/* {showLogin && <SignInDialog onClose={() => {setShowLogin(false)}}/>} */}
       {/* {showSignUp && <SignUpDialog onClose={() => {setShowSignUp(false)}}/>} */}

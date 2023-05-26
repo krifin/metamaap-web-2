@@ -38,6 +38,8 @@ import New from "./pages/new/New";
 import { useContext } from "react";
 import { productInputs, userInputs } from "./formSource";
 import { List } from "semantic-ui-react";
+import CarComp from "./CarComp";
+
 
 const App = () => {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const App = () => {
     [alchemyProvider({ apiKey: 'qBSjw2KG2psn6V6H4eikOFKOU60A-D6_' }), publicProvider()]
   );
 
-  console.log("chains: ", chains);
+  // console.log("chains: ", chains);
   // Set up client
   const client = createClient({
     autoConnect: true,
@@ -57,6 +59,7 @@ const App = () => {
     provider,
     webSocketProvider,
   });
+  
   // useEffect(() => {
 
   //  const sizes = {
@@ -344,7 +347,8 @@ const App = () => {
 
   const [metaverses, setMetaverses] = useState([])
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
-  const [res,setRes] = useState();
+  let storedVal = localStorage.getItem("result")
+  const [res,setRes] = useState(JSON.parse(storedVal));
 
   useEffect(() => {
     getMetaverses().then((res) => {
@@ -366,6 +370,8 @@ const App = () => {
           <Route exact path="/nft-transfers" element={<NFTTransfers />} />
           <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
           <Route exact path="/upload-asset" element={<UploadAsset />} />
+          <Route exact path="/carousel" element={<CarComp/>} />
+
           <Route path="users/:userId" element={<Single />} />
           <Route path=":productId" element={<Single />} />
           {/* <Route path="/list" element={<List />} /> */}
@@ -384,7 +390,7 @@ const App = () => {
             <Home />
           </WagmiConfig>} /> : navigate("/home")}
             
-            {/* <Route path="login" element={<Login />} /> */}
+            
             {/* <Route path="users">
               <Route index element={<List />} />
               <Route path="users/:userId" element={<Single />} />

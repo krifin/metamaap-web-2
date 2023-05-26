@@ -5,16 +5,17 @@
     margin-top: 200px;
   }
   .main {
-    min-height: 100vh;
+    min-height: 50vh;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .title {
-    font-size: 3rem;
-    text-align: center;
+    font-size: 2rem;
+    text-align: left;
     color: #00c3f8;
+    margin-top: 2.5rem;
   }
   
   .nft-transfers-text {
@@ -58,6 +59,13 @@
     gap: 50px 28px;
     justify-content: center;
   }
+  .mets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px 28px;
+    height: 80px;
+    justify-content: center;
+  }
   
   .add-assets {
     width: 349px;
@@ -86,6 +94,20 @@
   .nft {
     width: 349px;
     height: 436px;
+    object-fit: cover;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+  .met {
+    width: 300px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+  .wld {
+    width: 300px;
+    height: 350px;
     object-fit: cover;
     border-radius: 25px;
     cursor: pointer;
