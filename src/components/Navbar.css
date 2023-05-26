@@ -31,7 +31,12 @@
     transition: all 0.5s ease;
 }
 
-
+.navbar-connect-button-inside{
+    display: flex;
+}
+.navbar-connect-button-inside > img{
+    margin-right: 5px;
+}
 .navbar-connect-button {
     padding: 10px 12px;
     border-radius: 10px;
@@ -39,6 +44,13 @@
     color: #fff;
     font-weight: 500;
     background: #2B2A2A;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+.navbar-connect-button > img {
+    font-weight: 500;
+    background-color: #00000034;
     cursor: pointer;
     transition: background 0.5s ease;
 }

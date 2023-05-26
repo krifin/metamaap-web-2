@@ -3,11 +3,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import $ from "jquery";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import BubbleSplitter from "./BubbleSplitter";
 import { RxCross1 } from "react-icons/rx";
-import Home from "./Home";
 import Galaxy from "./Galaxy";
 import Galaxy2 from "./Galaxy2";
 import Three from "./Threejs";
@@ -26,7 +25,42 @@ import { useWeb3 } from "./adaptors/useWeb3";
 import { AppContext } from "./AppContext";
 import useFirebase from "./adaptors/useFirebase";
 import Partners from "./pages/Partners";
+import Dashboard from "./Dashboard";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+// import List from "./pages/list/List";
+import Single from "./pages/single/Single";
+import { WagmiConfig, createClient, configureChains, mainnet } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { polygonMumbai } from '@wagmi/core/chains'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import New from "./pages/new/New";
+import { useContext } from "react";
+import { productInputs, userInputs } from "./formSource";
+import { List } from "semantic-ui-react";
+import CarComp from "./CarComp";
+
+
 const App = () => {
+  const navigate = useNavigate();
+  const { chains, provider, webSocketProvider } = configureChains(
+    [mainnet, polygonMumbai],
+    [alchemyProvider({ apiKey: 'qBSjw2KG2psn6V6H4eikOFKOU60A-D6_' }), publicProvider()]
+  );
+
+  // console.log("chains: ", chains);
+  // Set up client
+  const client = createClient({
+    autoConnect: true,
+    connectors: [
+      new MetaMaskConnector({ chains }),
+      
+    ],
+    provider,
+    webSocketProvider,
+  });
+  
   // useEffect(() => {
 
   //  const sizes = {
@@ -313,6 +347,9 @@ const App = () => {
   const { getMetaverses } = useFirebase()
 
   const [metaverses, setMetaverses] = useState([])
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  let storedVal = localStorage.getItem("result")
+  const [res,setRes] = useState(JSON.parse(storedVal));
 
   useEffect(() => {
     getMetaverses().then((res) => {
@@ -325,8 +362,8 @@ const App = () => {
     <div className={`App`}>
       <SearchPopup show={searchToggle} onClose={() => setSearchToggle(false)} />
       <div style={{ flex: 1, marginLeft: searchToggle ? '400px': '0px', transition: 'all 0.5s ease-in-out' }}>
-        {window.location.pathname !== '/' && <Navbar onSearchToggle={() => setSearchToggle(!searchToggle)} show={searchToggle}/>}
-        {window.location.pathname !== '/' && <BottomBar show={searchToggle}/>}
+        {<Navbar onSearchToggle={() => setSearchToggle(!searchToggle)} show={searchToggle} isAuth={isAuth} setIsAuth={setIsAuth} res={res} setRes={setRes}/>}
+        {!isAuth && <BottomBar show={searchToggle}/>}
         <Routes>
           <Route exact path="/" element={<Preloader />} />
           <Route exact path="/home" element={<Galaxy4 />} />
@@ -336,6 +373,46 @@ const App = () => {
           <Route exact path="/upload-asset" element={<UploadAsset />} />
           <Route exact path="/partners" element={<Partners />} />
           {/* // <Route exact path="/bubble_1" element={<BubbleSplitter />} />
+          <Route exact path="/carousel" element={<CarComp/>} />
+
+          <Route path="users/:userId" element={<Single />} />
+          <Route path=":productId" element={<Single />} />
+          {/* <Route path="/list" element={<List />} /> */}
+          
+          {/* <Route
+                path="new"
+                element={<New inputs={productInputs} title="Add New Product" />}
+              /> */}
+          {/* {isAuth ? <Route
+                path="editDetails"
+                element={<New inputs={userInputs} title="Add New User" />}
+              /> : navigate("/home")} */}
+            
+          {isAuth ? <Route path="/dashboard" element={
+          <WagmiConfig client={client}>
+            <Home />
+          </WagmiConfig>} /> : navigate("/home")}
+            
+            
+            {/* <Route path="users">
+              <Route index element={<List />} />
+              <Route path="users/:userId" element={<Single />} />
+              <Route
+                path="new"
+                element={<New inputs={userInputs} title="Add New User" />}
+              />
+            </Route> */}
+            {/* <Route path="products">
+              <Route index element={<List />} />
+              <Route path=":productId" element={<Single />} />
+              <Route
+                path="new"
+                element={<New inputs={productInputs} title="Add New Product" />}
+              />
+            </Route> */}
+          
+          {/*
+           // <Route exact path="/bubble_1" element={<BubbleSplitter />} />
           // <Route exact path="/galaxy" element={<Galaxy />} />
           // <Route exact path="/galaxy2" element={<Galaxy2 />} />
           // <Route exact path="/galaxy4" element={<Galaxy4 />} />

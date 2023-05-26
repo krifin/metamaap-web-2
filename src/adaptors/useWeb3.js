@@ -4,9 +4,7 @@ import { useState, useEffect } from 'react'
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
-
     const contractAddress = '0xEDE775d27245C7154D7D08D4b1296AcD2e9F3775';
-
     const abi = [
         {
             "inputs": [

@@ -9,7 +9,15 @@
   align-items: center;
   justify-content: center;
 }
-
+input{
+  padding: 26px 43px;
+  background-color: #19191b;
+  border-radius: 53px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 .dialog-box {
   padding: 26px 43px;
   background-color: #19191b;
@@ -17,6 +25,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.dialog-box2 {
+  padding: 26px 43px;
+  background-color: #19191b;
+  border-radius: 53px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 42%;
+  width: 40%;
+}
+/* .wrapper{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(189,189,189,0.9);
+  z-index: 2;
+} */
+.dialog-header{
+  display: flex;
+}
+input{
+  color: #ffffff;
+}
+
+input:focus {
+  color: #ffffff;
+}
+.dialog-cross{
+  height: 30px;
+  width: 30px;
 }
 
 .dialog-title {
@@ -33,6 +74,12 @@
   display: flex;
   gap: 0 20px;
   margin-bottom: 26px;
+}
+.options2 {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
 }
 
 .option {
