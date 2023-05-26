@@ -25,6 +25,7 @@ import UploadAsset from "./pages/UploadAsset";
 import { useWeb3 } from "./adaptors/useWeb3";
 import { AppContext } from "./AppContext";
 import useFirebase from "./adaptors/useFirebase";
+import Partners from "./pages/Partners";
 const App = () => {
   // useEffect(() => {
 
@@ -333,6 +334,7 @@ const App = () => {
           <Route exact path="/nft-transfers" element={<NFTTransfers />} />
           <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
           <Route exact path="/upload-asset" element={<UploadAsset />} />
+          <Route exact path="/partners" element={<Partners />} />
           {/* // <Route exact path="/bubble_1" element={<BubbleSplitter />} />
           // <Route exact path="/galaxy" element={<Galaxy />} />
           // <Route exact path="/galaxy2" element={<Galaxy2 />} />

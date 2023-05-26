@@ -1,0 +1,23 @@
+.partners-container {
+    padding: 40px;
+}
+
+.partners-title {
+    font-size: 40px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 20px
+}
+
+.partners-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.partners-images {
+    object-fit: contain;
+    height: 300px;
+}
