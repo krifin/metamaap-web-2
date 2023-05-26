@@ -2,16 +2,17 @@ import React from 'react'
 import './AuthDialog.css'
 import Arrow from '../../../assets/png/arrow-left.png'
 import EyeOff from '../../../assets/png/eye-off.png'
+import useFirebase from '../../../adaptors/useFirebase'
 
 const SignUpDialog = ({ onClose }) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
+    const { signup } = useFirebase()
     const [state, setState] = React.useState({
         name: '',
         email: '',
     })
 
-    const [password, setPassword] = React.useState('')
 
     const handleChange = (e) => {
         setState({
@@ -19,6 +20,11 @@ const SignUpDialog = ({ onClose }) => {
             [e.target.name]: e.target.value
         })
     }
+
+    const handleSubmit = () => {
+        signup(state.email, state.password, state.name)
+    }
+
     return (
         <div className='dialog' onClick={(e) => {
             if (e.target.className === 'dialog') {
@@ -59,9 +65,9 @@ const SignUpDialog = ({ onClose }) => {
                         setShowConfirmPassword(!showConfirmPassword)
                     }} />
                 </div>
-                <button className='dialog-button' onClick={() => {
-
-                }}>Sign Up</button>
+                <div className='dialog-button' onClick={() => {
+                    handleSubmit()
+                }}>Sign Up</div>
             </form>
         </div>
     )

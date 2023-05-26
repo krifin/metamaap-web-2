@@ -229,8 +229,6 @@ export const useWeb3 = () => {
         }
     ]
 
-    const nftAddress = "0x07a7da173cFA630732348d2a5044d1d602cdC18A";
-
     const nftAbi = [
         {
             "inputs": [],
@@ -616,7 +614,7 @@ export const useWeb3 = () => {
     }
 
 
-    async function approve(tokenId) {
+    async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
         return await contract.methods.approve(contractAddress, tokenId).send({ from: account });
     }

@@ -1,15 +1,5 @@
 import React from "react";
-import Chart from "../../components/chart/Chart";
-import Featured from "../../components/featured/Featured";
-import List from "../../components/list/List";
-import Navbardashboard from "../../components/navbar/Navbardashboard";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Widget from "../../components/widget/Widget";
-
-import Single from "../single/Single";
 import './home.scss'
-import { Icon } from 'semantic-ui-react'
-import Plus from '../../assets/png/plus.png'
 import { Link } from 'react-router-dom'
 import { useAccount, useConnect } from "wagmi";
 import { useState, useEffect } from "react";
