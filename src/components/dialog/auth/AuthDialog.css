@@ -47,6 +47,10 @@ input{
 } */
 .dialog-header{
   display: flex;
+  gap: 0 20px;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 31px;
 }
 input{
   color: #ffffff;
@@ -56,8 +60,10 @@ input:focus {
   color: #ffffff;
 }
 .dialog-cross{
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
+  color: white;
+
 }
 
 .dialog-title {
@@ -66,8 +72,6 @@ input:focus {
   font-size: 30px;
   color: white;
   letter-spacing: 10px;
-  margin-top: 20px;
-  margin-bottom: 31px;
 }
 
 .options {

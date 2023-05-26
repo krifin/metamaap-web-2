@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
 import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-import {GoogleAuthProvider, getAuth} from 'firebase/auth'
 
 const useFirebase = () => {
-  
+
   const firebaseConfig = {
     apiKey: "AIzaSyAj3H57fnV1WfeJcNRMg2NCqLtv8WsLjDQ",
     authDomain: "metamaap-proj.firebaseapp.com",
@@ -16,9 +15,10 @@ const useFirebase = () => {
   };
   const app = initializeApp(firebaseConfig);
   function init() {
-    
+
     return (getFirestore(app))
   }
+
   async function getMetaverses() {
     const db = init()
     const collectionRef = collection(db, "clientData");
@@ -30,9 +30,42 @@ const useFirebase = () => {
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider(app);
     const db = getFirestore(app);
-    return {db, auth, provider};
+    return { db, auth, provider };
   }
-  return { getMetaverses, authentication }
+
+  async function login(email, password) {
+    const auth = getAuth(app);
+    const user = await signInWithEmailAndPassword(auth, email, password);
+    return user;
+  }
+
+  async function signup(email, password, username) {
+    const auth = getAuth(app);
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+
+    await updateProfile(auth.currentUser, {
+      displayName: username
+    });
+    return user;
+  }
+
+  async function logout() {
+    const auth = getAuth(app);
+    return signOut(auth);
+  }
+
+  async function getUser() {
+    const auth = getAuth(app);
+    return auth.currentUser;
+  }
+
+  async function streamUser(callback) {
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, callback)
+  }
+
+
+  return { getMetaverses, authentication, login, signup, logout, getUser, streamUser }
 }
 
 
