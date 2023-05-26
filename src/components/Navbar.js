@@ -11,10 +11,11 @@ import { Icon } from 'semantic-ui-react'
 
 const Navbar = ({ onSearchToggle, show }) => {
 
-  const [showConnect, setShowConnect] = React.useState(false)
+  const [showConnect, setShowConnect] = React.useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const { streamUser, logout } = useFirebase();
   const [isAuth, setIsAuth] = useState(false);
+  const [register, setRegister] = useState(false);
   const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const Navbar = ({ onSearchToggle, show }) => {
 
 
   const signUserOut = () => {
+    //redirect to "/" route once user logs out
+    window.location.pathname="/home";
+    //just in case if there is any localStorage data
+    localStorage.clear();
     logout();
   }
 
@@ -122,8 +127,8 @@ const Navbar = ({ onSearchToggle, show }) => {
         </div>
       </div>
 
-      {/* {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect} showConnect={showConnect}/>} */}
-      {showConnect && <SelectOptionDialog onClose={() => { setShowConnect(false) }} />}
+      {/* {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect} showConnect={showConnect} setRegister={setRegister}/>} */}
+      {showConnect && <SelectOptionDialog onClose={() => { setShowConnect(false) }} setIsAuth={setIsAuth}/>}
     </>
   )
 }

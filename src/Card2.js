@@ -10,9 +10,11 @@ export default function Card2({uri}) {
   console.log('card nft set: ', nft);
 
   return (
+    <div>
+      {nft?.name ? <b><h1 style={{color: 'white', textAlign: 'center', fontSize: '2rem'}}>{nft.name}</h1></b> : <h1>No NFT title can be shown.</h1>}
     <section className={styles.cardContainer}>
-      {nft?.name ? <h1>{nft.name}</h1> : <h1>No NFT title can be shown.</h1>}
       {nft?.token_uri ? <img src={nft.token_uri} alt="NFT" /> : <p>No NFT image can be shown.</p>}
     </section>
+    </div>
   );
 }

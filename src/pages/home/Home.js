@@ -76,10 +76,10 @@ return (
             <button
               disabled={!connector.ready}
               key={connector.id}
-              className="title"
+              style={{padding: '10px', marginLeft: "75px", background: "#545B77", color: '#F9F5F6', fontSize: '30px'}}
               onClick={() => connect({ connector })}
             >
-              {connector.name}
+              {'Click Here to connect Wallet'}
               {!connector.ready && " (unsupported)"}
               {isLoading &&
                 connector.id === pendingConnector?.id &&
@@ -93,7 +93,7 @@ return (
       )}
             
         </div>
-        <div style={{marginBottom: "100px"}}>
+        <div style={{marginBottom: "1000px"}}>
         <div className='nft-transfer-title' style={{marginTop: '100px'}}>SAVED WORLDS</div>
         <div className='nfts'>
         {worlds.map((world, index) => {

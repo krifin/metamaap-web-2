@@ -4,7 +4,7 @@ import Arrow from '../../../assets/png/arrow-left.png'
 import EyeOff from '../../../assets/png/eye-off.png'
 import useFirebase from '../../../adaptors/useFirebase'
 
-const SignUpDialog = ({ onClose }) => {
+const SignUpDialog = ({ onClose, setRegisterEmail, setRegisterPassword }) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
     const { signup } = useFirebase()

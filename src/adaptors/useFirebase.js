@@ -5,13 +5,12 @@ import { collection, getDocs, getFirestore } from "firebase/firestore";
 const useFirebase = () => {
 
   const firebaseConfig = {
-    apiKey: "AIzaSyAj3H57fnV1WfeJcNRMg2NCqLtv8WsLjDQ",
-    authDomain: "metamaap-proj.firebaseapp.com",
-    projectId: "metamaap-proj",
-    storageBucket: "metamaap-proj.appspot.com",
-    messagingSenderId: "980463927463",
-    appId: "1:980463927463:web:a2e7c07f36022b65571b82",
-    measurementId: "G-T2GF7S0RRV"
+    apiKey: "AIzaSyCklcgf0tLs4KDosgCqSyPATXa8OuwRQXw",
+    authDomain: "metaverse-council.firebaseapp.com",
+    projectId: "metaverse-council",
+    storageBucket: "metaverse-council.appspot.com",
+    messagingSenderId: "952701010364",
+    appId: "1:952701010364:web:3327c648725b1d50866bb9"
   };
   const app = initializeApp(firebaseConfig);
   function init() {

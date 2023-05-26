@@ -5,27 +5,32 @@ import Metamask from '../../../assets/png/metamask.png'
 import Email from '../../../assets/png/email.png'
 import SignInDialog from './SignInDialog'
 import {signInWithPopup} from 'firebase/auth'
-import {auth, provider} from '../../../firebaseConfig'
+// import {auth, provider} from '../../../firebaseConfig'
 import 'firebase/compat/auth';
 import { Icon } from 'semantic-ui-react'
 import SignUpDialog from './SignUpDialog'
+import useFirebase from '../../../adaptors/useFirebase'
 
 
 
-const SelectOptionDialog = ({ setIsAuth, setRes, onClose }) => {
+const SelectOptionDialog = ({ setIsAuth, onClose }) => {
   // let navigate = useNavigate();
   
   const [showLogin, setShowLogin] = React.useState(false)
   const [showSignUp, setShowSignUp] = React.useState(false)
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const {authentication} = useFirebase();
   const metamaskLogin = async () =>{
     console.log('metmask login clicked')
   }
-  const googleLogin = () =>{
+  const googleLogin = async () =>{
+    const {auth, provider} = await authentication();
     signInWithPopup(auth, provider).then((res)=>{
         //res will contain all the info about the user logged in
         console.log(res);
-        setRes(res.user);
-        localStorage.setItem("result", JSON.stringify(res.user));
+        // setRes(res.user);
+        // localStorage.setItem("username", JSON.stringify(res.user.displayName));
         localStorage.setItem("isAuth", true);
         // const app = initializeApp(firebaseConfig);
         // const auth = getAuth(app);
@@ -65,7 +70,7 @@ const SelectOptionDialog = ({ setIsAuth, setRes, onClose }) => {
       </div>
       <div>
 
-      {showLogin && <SignInDialog setIsAuth = {setIsAuth} setRes={setRes} onClose={() => {setShowLogin(false)}}/>}
+      {showLogin && <SignInDialog onClose={() => {setShowLogin(false)}}/>}
       {showSignUp && <SignUpDialog onClose={() => {setShowSignUp(false)}}/>}
       </div>
     </div>
