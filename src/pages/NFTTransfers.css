@@ -1,0 +1,81 @@
+.nft-transfer-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  margin-top: 200px;
+}
+
+.nft-transfers-text {
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  word-spacing: 10px;
+  letter-spacing: 10px;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.nft-transfer-description {
+  display: flex;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 34px;
+  text-align: left;
+  color: #ffffff;
+  padding: 0 300px;
+  margin-bottom: 50px;
+}
+
+.nft-transfer-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: left;
+  letter-spacing: 0.495em;
+  padding: 0 74px;
+  color: #ffffff;
+  margin-bottom: 50px;
+}
+
+.nfts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px 28px;
+  justify-content: center;
+}
+
+.add-assets {
+  width: 349px;
+  height: 436px;
+  border: 1px solid white;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+  justify-content: space-between;
+  align-items: center;
+    cursor: pointer;
+}
+
+.add-assets-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 0.07em;
+
+  color: #ffffff;
+}
+
+.nft {
+  width: 349px;
+  height: 436px;
+  object-fit: cover;
+  border-radius: 25px;
+  cursor: pointer;
+}
+

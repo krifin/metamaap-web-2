@@ -2,23 +2,48 @@
   "name": "karthik",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
-    "@react-three/fiber": "^8.11.1",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/material": "^5.4.4",
+    "@mui/x-data-grid": "^5.5.1",
+    "@react-three/cannon": "^6.5.2",
+    "@react-three/drei": "^9.65.3",
+    "@react-three/fiber": "^8.12.0",
+    "@react-three/postprocessing": "^2.7.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "ethers": "^5.7.2",
+    "firebase": "^9.22.0",
     "jquery": "^3.6.4",
+    "js-cookie": "^3.0.5",
     "leva": "^0.9.34",
+    "maath": "^0.5.3",
+    "postprocessing": "^6.30.2",
     "react": "^18.2.0",
+    "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
     "react-three-fiber": "^6.0.13",
     "react-zoom-pan-pinch": "^3.0.2",
-    "styled-components": "^5.3.8",
-    "three": "^0.149.0",
-    "web-vitals": "^2.1.4"
+    "recharts": "^2.1.15",
+    "sass": "^1.49.9",
+    "scss": "^0.2.4",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4",
+    "react-elastic-carousel": "0.11.5",
+    "styled-components": "^5.3.10",
+    "three": "^0.151.3",
+    "uuid": "^9.0.0",
+    "wagmi": "^0.12.13",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,5 +68,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.62.1"
   }
 }
