@@ -5,13 +5,15 @@ import { useAccount, useConnect } from "wagmi";
 import { useState, useEffect } from "react";
 import LoggedIn from "../../Loggedin";
 import CarComp from "../../CarComp";
+import Footer from '../Footer'
+// import { useWeb3 } from "../../adaptors/useWeb3";
 
 
 const Home = () => {
   const { isConnected } = useAccount();
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
-
+  // const {account} = useWeb3();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -57,9 +59,22 @@ return (
         <div className='nfts'>
             {met.map((met, index) => {
                 return (
-                    <Link to={'/nft/transfer'} state={met}>
+                    
                         <img className={`met`} src={met} key={index} />
-                    </Link>
+                    
+                )
+            })
+            }
+        </div>
+        </div>
+        <div style={{marginTop: '100px'}}>
+        <div className='nft-transfer-title'>MY WORLD</div>
+        <div className='nfts'>
+            {met.map((met, index) => {
+                return (
+                    
+                        <img className={`met`} src={met} key={index} />
+                    
                 )
             })
             }
@@ -73,6 +88,7 @@ return (
             Connect Wallet and Display NFTs
           </h1> */}
           {connectors.map((connector) => (
+            
             <button
               disabled={!connector.ready}
               key={connector.id}
@@ -93,7 +109,7 @@ return (
       )}
             
         </div>
-        <div style={{marginBottom: "1000px"}}>
+        <div style={{marginBottom: "100px"}}>
         <div className='nft-transfer-title' style={{marginTop: '100px'}}>SAVED WORLDS</div>
         <div className='nfts'>
         {worlds.map((world, index) => {
@@ -107,6 +123,7 @@ return (
           </div>
         </div>
         
+        <Footer />
     </div>
 )
 };

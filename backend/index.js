@@ -24,8 +24,6 @@ app.get("/getnfts", async (req, res) => {
     });
     console.log("address", query.address)
     console.log(response);
-
-
     //sending response to frontend
     return res.status(200).json(response);
   } catch (e) {

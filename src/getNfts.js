@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { useNetwork } from 'wagmi'
 import Card2 from "./Card2";
+// import useMoralis from "./adaptors/useMoralis";
 
 export default function GetNfts() {
   const [nfts, setNfts] = useState([]);
   const { chain } = useNetwork();
+  // const {init} = useMoralis();
 
   //wagmi hook to get the address the user is connected to
   const { address, isConnected } = useAccount();
@@ -27,13 +29,10 @@ export default function GetNfts() {
       } catch (error) {
         console.error("Error fetching NFTs:", error);
       }
-        
-    }
-    
     if(isConnected){
       getData();
     }
-  },[]);
+  }},[]);
   return (
     <section className={styles.dataContainer}>
       {nfts.map((nft) => {

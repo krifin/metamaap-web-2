@@ -1,9 +1,8 @@
 import React from 'react'
 import './About.css'
 import Banner from '../assets/png/about-banner.png'
-import { Icon } from 'semantic-ui-react'
-import Logo from '../assets/png/house-of-krifin-logo.png'
 
+import Footer from './Footer';
 const About = () => {
     return (
         <div>
@@ -40,40 +39,8 @@ const About = () => {
                     With a team of experienced entrepreneurs and technology executives, We are creating innovative solutions that push the boundaries of what is possible in the virtual world. With metamaap, we are breaking down barriers and enabling a new era of interconnectedness that will revolutionize the gaming and VR industries.
                 </p>
             </div>
-
-            <div className='footer'>
-                <div className='footer-items'>
-                    <img src={Logo} width={316} />
-                </div>
-                <div className='footer-items'>
-                    <div className='footer-header'>CONTACT US</div>
-                    <div className="footer-border" />
-                    <a href='mailto:ea@krifin.in' className='footer-item'>ea@krifin.in</a>
-                </div>
-                <div className='footer-items'>
-                    <div className='footer-header'>COMPANY</div>
-                    <div className="footer-border" />
-                    <a href='https://www.metaversecouncil.io/terms-conditions' className='footer-item'>Terms & Services</a>
-                    <a href='https://www.metaversecouncil.io/privacy-policy' className='footer-item'>Privacy Policy</a>
-                </div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'end' }}>
-                    <div className='footer-items'>
-                        <div className='footer-header'>ADDRESS</div>
-                        <div className="footer-border" />
-                        <div className='footer-item'>
-                            Corporate office: 440, Barhi HSIIDC Industrial area, Phase II, Barhi, Kundali , Haryana- 131101, India
-                        </div>
-                        <div className='footer-header'>FOLLOW US</div>
-                        <div className="footer-border" />
-                        <div className='socials'>
-                            <Icon name='twitter' size='big' className='white' />
-                            <Icon name='telegram plane' size='big' className='white' />
-                            <Icon name='discord' size='big' className='white' />
-                            <Icon name='linkedin square' size='big' className='white' />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Footer />
+            
         </div>
     )
 }
