@@ -22,6 +22,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { polygonMumbai } from '@wagmi/core/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
+import AddMetaverse from "./pages/AddMetaverse";
 
 
 const App = () => {
@@ -87,6 +88,7 @@ const App = () => {
           <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
           <Route exact path="/upload-asset" element={<UploadAsset />} />
           <Route exact path="/partners" element={<Partners />} />
+          <Route exact path="/add-metaverse" element={<AddMetaverse />} />
           {isAuth && <Route path="/dashboard" element={
           <WagmiConfig client={client}>
             <Home />

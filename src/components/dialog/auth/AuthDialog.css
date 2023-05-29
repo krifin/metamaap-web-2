@@ -9,15 +9,6 @@
   align-items: center;
   justify-content: center;
 }
-input{
-  padding: 26px 43px;
-  background-color: #19191b;
-  border-radius: 53px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
 .dialog-box {
   padding: 26px 43px;
   background-color: #19191b;

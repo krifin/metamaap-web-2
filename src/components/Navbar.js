@@ -66,7 +66,7 @@ const Navbar = ({ onSearchToggle, show }) => {
             <Link to="https://www.metaversecouncil.io/" target='_blank' className="navbar-dropdown-item">Metaverse Council</Link>
             <Link to="/partners" className="navbar-dropdown-item">Partners</Link>
             {isAuth && <Link to="/dashboard" className="navbar-dropdown-item">Dashboard</Link>}
-           {isAuth && <Link to="https://forms.gle/jWEAn1DL8vECaWbd8" target='_blank' className="navbar-dropdown-item">Add Metaverse</Link>}
+           {isAuth && <Link to="/add-metaverse" className="navbar-dropdown-item">Add Metaverse</Link>}
             {isAuth && <Link to="/nft-transfers" className="navbar-dropdown-item">Add NFT</Link>}
             <div className='navbar-dropdown-item'>Socials</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', padding: '10px 25px', justifyContent: 'center' }}>

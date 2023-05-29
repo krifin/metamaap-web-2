@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 
 const useFirebase = () => {
 
@@ -23,6 +23,14 @@ const useFirebase = () => {
     const collectionRef = collection(db, "clientData");
     var result = await getDocs(collectionRef)
     return result.docs.map(doc => doc.data())
+  }
+
+  async function addMetaverse(metaverse) {
+    const db = init()
+    const collectionRef = collection(db, "metaverses"); 
+    console.log(metaverse)
+    var doc = await addDoc(collectionRef, metaverse)
+    console.log(doc.id)
   }
 
   async function authentication() {
@@ -64,7 +72,7 @@ const useFirebase = () => {
   }
 
 
-  return { getMetaverses, authentication, login, signup, logout, getUser, streamUser }
+  return { getMetaverses, authentication, login, signup, logout, getUser, streamUser, addMetaverse }
 }
 
 

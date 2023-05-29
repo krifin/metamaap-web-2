@@ -44,7 +44,7 @@
 
 // export default Carousel;
 import React, { useEffect, useState } from "react";
-import Carousel from "react-elastic-carousel";
+// import Carousel from "react-elastic-carousel";
 import Item from "./Item.js";
 import './Carousel.css';
 
@@ -91,20 +91,20 @@ const CarComp = () => {
   return (
     <div className="carousel-container">
       {/* <h1 style={{ textAlign: "center", color: "white" }}>Example to setup your carousel in react</h1> */}
-      <Carousel breakPoints={breakPoints}>
+      {/* <Carousel breakPoints={breakPoints}> */}
           {/* This isn't working as of now. Need to check it out
           {images.map((image)=>{
             console.log(image);
             <Item><img src={image} alt="image" /></Item>
           })} */}
-          <Item><img style={{height: '100%', width: '100%', borderRadius: '10%'}} src="https://mediapool.bmwgroup.com/cache/P9/202301/P90492224/P90492224-bmw-group-supplierthon-for-the-metaverse-and-other-virtual-experiences-01-2023-1680px.jpg" alt="image" /></Item>
+          {/* <Item><img style={{height: '100%', width: '100%', borderRadius: '10%'}} src="https://mediapool.bmwgroup.com/cache/P9/202301/P90492224/P90492224-bmw-group-supplierthon-for-the-metaverse-and-other-virtual-experiences-01-2023-1680px.jpg" alt="image" /></Item>
           <Item><img style={{height: '100%', width: '80%', borderRadius: '10%'}} src="https://www.bostonglobe.com/resizer/YpOXRh3x-QuRFK_wgmr86eny6WM=/arc-anglerfish-arc2-prod-bostonglobe/public/N7YPWXJCVVFWXNO55WWBZDINV4.JPG" alt="image" /></Item>
           <Item><img style={{height: '100%', width: '80%', borderRadius: '10%'}} src="https://www.digitalavmagazine.com/wp-content/uploads/2022/03/Visyon-Cupra-Metahype-a.jpeg" alt="image"/></Item>
           <Item><img style={{height: '100%', width: '80%', borderRadius: '10%'}} src="https://www.venteurmag.com/wp-content/uploads/2023/04/Metaverse-Shoe-Shop.jpeg" alt="image" /></Item>
           <Item><img style={{height: '100%', width: '80%', borderRadius: '10%'}} src="https://www.yankodesign.com/images/design_news/2022/01/the-metaverse-is-inevitable-and-its-already-changing-product-design-as-we-know-it/metaverse-marketplace.jpg" alt="image" /></Item>
           <Item><img style={{height: '100%', width: '80%', borderRadius: '10%'}} src="https://www.analyticsinsight.net/wp-content/uploads/2022/08/Welcome-to-the-New-World-of-Art-and-Culture-with-Metaverse.jpg" alt="image" /></Item>
           
-        </Carousel>
+        </Carousel> */}
     </div>
   );
 };
