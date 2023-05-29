@@ -614,16 +614,16 @@ export const useWeb3 = () => {
         return web3.utils.BN(number);
     }
 
-    async function sendNFT(nftAddress, tokenId, targetChain) {
+    async function sendNFT(nftAddress, tokenId, targetChain, acc) {
         const contract = new web3.eth.Contract(abi, contractAddress);
         console.log(nftAddress, tokenId);
-        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
+        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: acc,value: web3.utils.toWei("0.001", "ether") });
     }
 
 
-    async function approve(nftAddress,tokenId) {
+    async function approve(nftAddress,tokenId, acc) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        return await contract.methods.approve(contractAddress, tokenId).send({ from: account });
+        return await contract.methods.approve(contractAddress, tokenId).send({ from: acc });
     }
 
 

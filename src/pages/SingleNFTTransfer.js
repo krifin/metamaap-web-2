@@ -4,8 +4,10 @@ import './SingleNFTTransfer.css'
 import NFTTransferDialog from '../components/dialog/NFTTransferDialog'
 
 const SingleNFTTransfer = () => {
-    const { state } = useLocation()
+    const { state, state2, state3 } = useLocation();
     const [show, setShow] = React.useState(false)
+    console.log("state2:", state2);
+    console.log("state3:", state3);
     return (
         <div className='single-nft-transfer-container'>
             <div className='single-nft-transfers-text'>NFT TRANSFER</div>
@@ -14,7 +16,7 @@ const SingleNFTTransfer = () => {
             <img className={`single-nft`} src={state} />
             <div className='single-nft-description'>imagine a world where AI controls humanity with this Kit's monolithic towers,  gigantic banks, brutalist buildings, scrappy streetside shops, grungy alleyways, and stark industrial housing</div>
             <div className='transfer-button' onClick={() => { setShow(true) }}>Transfer Assets</div>
-            {show && <NFTTransferDialog onClose={() => setShow(false)} />}
+            {show && <NFTTransferDialog onClose={() => setShow(false)} addr = {state2} acc={state3}/>}
         </div>
     )
 }

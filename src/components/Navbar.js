@@ -69,12 +69,16 @@ const Navbar = ({ onSearchToggle, show }) => {
            {isAuth && <Link to="https://forms.gle/jWEAn1DL8vECaWbd8" target='_blank' className="navbar-dropdown-item">Add Metaverse</Link>}
             {isAuth && <Link to="/nft-transfers" className="navbar-dropdown-item">Add NFT</Link>}
             <div className='navbar-dropdown-item'>Socials</div>
-            <div style={{ display: 'flex', gap: '20px', padding: '10px 25px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection : 'column', gap: '20px', padding: '10px 0px', width: '100%' }}>
+              <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}>
               <Icon name='twitter' style={{ fontSize: '20px' }} className='white' />
               <Icon name='instagram' style={{ fontSize: '20px' }} className='white' />
               <Icon name='telegram plane' style={{ fontSize: '20px' }} className='white' />
+              </div>
+              <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}>
               <Icon name='discord' style={{ fontSize: '20px' }} className='white' />
               <Icon name='linkedin square' style={{ fontSize: '20px' }} className='white' />
+              </div>
             </div>
            {isAuth && <div className="navbar-dropdown-item" onClick={() => signUserOut()}>Logout</div>}
           </div>

@@ -40,8 +40,8 @@ export default function GetNfts() {
   return (
     <section className={styles.dataContainer}>
       {nfts.length!=0 ? nfts.map((nft) => {
-        return <Card2 uri={nft} />;
-      }) : <div className={styles.dataContainer}></div>}
+        return <Card2 uri={nft} addr={address}/>;
+      }) : <div className={styles.dataContainer}><h1 style={{fontSize: '60px', color: 'white'}}>You don't own any NFT's!</h1></div>}
     </section>
   );
 }
