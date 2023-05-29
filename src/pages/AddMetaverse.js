@@ -117,22 +117,22 @@ const AddMetaverse = () => {
             <input className='metaverse-input' name="description" onChange={handleChange} type='text' rows={4} placeholder='Description' required />
           </div>
           <div className='metaverse-input-box'>
-            <input className='metaverse-input' type='url' name='logo' onChange={handleChange} pattern="https://drive.google.com/.+" placeholder='Attach drive link of one Logo of your Metaverse' required />
+            <input className='metaverse-input' type='url' name='logo' onChange={handleChange}  placeholder='Attach one Logo of your Metaverse' required />
           </div>
           <div className='metaverse-input-box'>
-            <input className='metaverse-input' type='url' name="image" onChange={handleChange} pattern="https://drive.google.com/.+" placeholder='Attach drive link of one Image of your Metaverse' required />
+            <input className='metaverse-input' type='url' name="image" onChange={handleChange} placeholder='Attach one Image of your Metaverse' required />
           </div>
           <div className='metaverse-input-box'>
             <input className='metaverse-input' type='url' name="website" onChange={handleChange} pattern='(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})' placeholder='Website' required />
           </div>
           <div className='metaverse-input-box'>
-            <input className='metaverse-input' type='url' name="instagram" onChange={handleChange} pattern='https://www.instagram.com/.+' placeholder='Instagram Handle Link' required />
+            <input className='metaverse-input' type='url' name="instagram" onChange={handleChange} pattern='(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)' placeholder='Instagram Handle Link' required />
           </div>
           <div className='metaverse-input-box'>
             <input className='metaverse-input' type='url' name="demo" onChange={handleChange} pattern='(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})' placeholder='Please provide any links to your product demo, or pitch deck' required />
           </div>
           <div className='metaverse-input-box'>
-            <input className='metaverse-input' type='url' name="linkedin" onChange={handleChange} pattern='https://www.linkedin.com/in/.+' placeholder='Founder LinkedIn Profile Link' required />
+            <input className='metaverse-input' type='url' name="linkedin" onChange={handleChange} pattern='((https?:\/\/)?((www|\w\w)\.)?linkedin\.com\/)((([\w]{2,3})?)|([^\/]+\/(([\w|\d-&#?=])+\/?){1,}))$' placeholder='Founder LinkedIn Profile Link' required />
           </div>
           <div className='metaverse-input-box'>
             <input className='metaverse-input' type='text' name="firstName" onChange={handleChange} placeholder='First Name' required />
@@ -198,7 +198,7 @@ const AddMetaverse = () => {
 
           </div>
           <div className='metaverse-input-box'>
-            <input className='metaverse-input' type='url' name="twitter" onChange={handleChange} pattern="https://twitter.com/.+" placeholder='Twitter Handle' required />
+            <input className='metaverse-input' type='url' name="twitter" onChange={handleChange} pattern="^(http\:\/\/|https\:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?@?([^\?#]*)(?:[?#].*)?$" placeholder='Twitter Handle' required />
           </div>
           <div className='metaverse-input-box'>
             <input className='metaverse-input' type='text' name="discord" onChange={handleChange} pattern='^.{3,32}#[0-9]{4}$' placeholder='Discord Handle' />

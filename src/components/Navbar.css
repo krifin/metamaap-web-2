@@ -103,3 +103,14 @@
 .navbar-dropdown-item:hover {
     color: #9A64F3;
 }
+
+.navbar-chain-dropdown {
+    background: transparent;
+    outline: none;
+    border: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 27px;
+    color: white;
+}

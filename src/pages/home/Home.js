@@ -6,6 +6,7 @@ import Footer from '../../components/Footer'
 import { useWeb3 } from "../../adaptors/useWeb3";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import NFTCard from "../../components/NFTCard";
 
 
 
@@ -38,24 +39,24 @@ const Home = () => {
   console.log("chainid details:", chainId);
   //polygon chainID
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        const response = await axios.get("http://localhost:5001/getnfts", {
-          params: { account, chainId },
-        });
-        setNfts(response.data.result);
-        console.log("response : ", response);
-        console.log("nfts:", response.data.result);
+  // useEffect(() => {
+  //   async function getData() {
+  //     try {
+  //       const response = await axios.get("http://localhost:5001/getnfts", {
+  //         params: { account, chainId },
+  //       });
+  //       setNfts(response.data.result);
+  //       console.log("response : ", response);
+  //       console.log("nfts:", response.data.result);
 
-      } catch (error) {
-        console.error("Error fetching NFTs:", error);
-      }
-    }
-    if (web3) {
-      getData();
-    }
-  }, [web3]);
+  //     } catch (error) {
+  //       console.error("Error fetching NFTs:", error);
+  //     }
+  //   }
+  //   if (web3) {
+  //     getData();
+  //   }
+  // }, [web3]);
 
 
 
@@ -112,9 +113,7 @@ const Home = () => {
           <div className='nfts'>
           {nfts.map((nft, index) => {
             return (
-              <Link to={'/nft/transfer'} state={nft}>
-                <img className={`nft`} src={nft} key={index} />
-              </Link>
+              <NFTCard nft={nft} key={index} />
             )
           })}
           </div>
