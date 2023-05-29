@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
+    const [chainid, setChainid] = useState(null);
     const contractAddress = '0xEDE775d27245C7154D7D08D4b1296AcD2e9F3775';
     const abi = [
         {
@@ -602,7 +603,13 @@ export const useWeb3 = () => {
             }
         );
     }
-
+    function getChainid(){
+        web3.eth.getChainId().then((res)=>{
+            console.log("res chaindid:", res);
+            setChainid(res);
+        })
+        
+    }
     function convertNumber(number) {
         return web3.utils.BN(number);
     }
@@ -622,5 +629,5 @@ export const useWeb3 = () => {
 
 
 
-    return { web3, connect, account, sendNFT, convertNumber, approve };
+    return { web3, connect, account, chainid, sendNFT, convertNumber, approve, getChainid, getAccount };
 }
