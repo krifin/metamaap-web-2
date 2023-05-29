@@ -1,0 +1,159 @@
+.add-metaverse-container {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0 20px;
+  padding: 30px;
+  height: calc(100vh - 90px);
+}
+
+.add-metaverse-title {
+  font-weight: 400;
+  font-size: 32px !important;
+  line-height: 40px;
+  word-spacing: 10px;
+  letter-spacing: 10px;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.add-metaverse-sections {
+    display: flex;
+    height: calc(100vh - 120px);
+}
+
+.add-metaverse-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    color: white;
+    overflow: auto;
+    gap: 0 20px;
+    padding: 30px 100px;
+}
+
+/* display the text when the line break then break the line */
+.add-metaverse-section > div {
+    font-size: 16px;
+    text-align: left;
+    line-height: 2em;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+.horizontal-divider {
+    width: 1px;
+    height: calc(100vh - 150px);
+    background: #ffffff;
+    opacity: 0.2;
+}
+
+.metaverse-input-box {
+    display: flex;
+    height: 76px;
+    align-items: center;
+    gap: 0 20px;
+    background: rgba(85, 85, 86, 0.5);
+    box-shadow: -12px -12px 50px rgba(255, 255, 255, 0.1),
+      12px 12px 50px rgba(0, 0, 0, 0.6);
+    border-radius: 27px;
+    margin-bottom: 20px;
+  }
+
+.metaverse-alternative-box {
+    display: flex;
+    flex-direction: column;
+    padding: 25px 40px;
+    gap: 0 20px;
+    background: rgba(85, 85, 86, 0.5);
+    box-shadow: -12px -12px 50px rgba(255, 255, 255, 0.1),
+      12px 12px 50px rgba(0, 0, 0, 0.6);
+    border-radius: 27px;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .metaverse-alternative {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    margin-bottom: 10px;
+  }
+  
+  .metaverse-alternative-header {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 24px;
+    color: #ffffff;
+  }
+
+  .metaverse-alternative-description {
+    font-size: 15px;
+    line-height: 20px;
+    white-space: pre-wrap;
+    color: #ffffff;
+  }
+  .metaverse-input {
+    padding: 25px 40px;
+    height: 76px;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-style: normal;
+    font-weight: 500;
+    width: 90%;
+    font-size: 20px;
+    border-radius: 27px;
+    color: white;
+  }
+  
+  .metaverse-input::placeholder {
+    color: #ffffff99;
+  }
+
+.metaverse-textarea-box {
+    display: flex;
+    height: calc(150px);
+    align-items: center;
+    gap: 0 20px;
+    background: rgba(85, 85, 86, 0.5);
+    box-shadow: -12px -12px 50px rgba(255, 255, 255, 0.1),
+      12px 12px 50px rgba(0, 0, 0, 0.6);
+    border-radius: 27px;
+    margin-bottom: 20px;
+  }
+  
+  .metaverse-textarea {
+    padding: 25px 40px;
+    height: 76px;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-style: normal;
+    font-weight: 500;
+    width: 90%;
+    resize: none;
+    font-size: 20px;
+    border-radius: 27px;
+    color: white;
+  }
+  
+  .metaverse-textarea::placeholder {
+    color: #ffffff99;
+
+  }
+
+  .metaverse-submit-button {
+    padding: 6px 10px;
+  background: #7b61ff;
+  border-radius: 9px;
+  font-weight: 500;
+  width: 100%;
+  font-size: 16px;
+  line-height: 20px;
+  color: white;
+  cursor: pointer;
+  text-align: center !important;
+  }

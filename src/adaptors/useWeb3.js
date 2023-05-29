@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
-    const [chainid, setChainid] = useState(null);
+    const [chainId, setChainId] = useState(null);
     const contractAddress = '0xEDE775d27245C7154D7D08D4b1296AcD2e9F3775';
+    const [chainConfig, setChainConfig] = useState([]);
+    
     const abi = [
         {
             "inputs": [
@@ -587,13 +589,62 @@ export const useWeb3 = () => {
             getWeb3();
             connect();
         }
-        if (web3)
+        if (web3){
             getAccount();
+            getChainId();
+            setChainConfig([
+                {
+                    chainId: convertChainIdtoHex(80001),
+                    chainName: 'Mumbai Testnet',
+                    nativeCurrency: {
+                        name: 'MATIC',
+                        symbol: 'MATIC',
+                        decimals: 18
+                    },
+                    rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+                    blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+                },
+                {
+                    chainId: convertChainIdtoHex(11155111),
+                    chainName: 'Sepholi Testnet',
+                    nativeCurrency: {
+                        name: 'ETH',
+                        symbol: 'ETH',
+                        decimals: 18
+                    },
+                    rpcUrls: ['https://rpc.sepolia.org'],
+                    blockExplorerUrls: ['https://sepolia.etherscan.io']
+                },
+        
+            ]);
+        }
     }, [web3]);
 
     function connect() {
         if (window.ethereum)
             return window.ethereum.request({ method: 'eth_requestAccounts' });
+    }
+
+    function convertChainIdtoHex(chainId) {
+        return web3.utils.toHex(chainId);
+    }
+
+   async  function switchNetwork(chainId) {
+        const convertChainID = convertChainIdtoHex(chainId);
+        if (window.ethereum){
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: convertChainID }],
+                });
+            } catch(e) {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [chainConfig[convertChainID]],
+                });
+            }
+            }
+            getChainId();
     }
 
     function getAccount() {
@@ -603,10 +654,10 @@ export const useWeb3 = () => {
             }
         );
     }
-    function getChainid(){
+    function getChainId(){
         web3.eth.getChainId().then((res)=>{
             console.log("res chaindid:", res);
-            setChainid(res);
+            setChainId(res);
         })
         
     }
@@ -626,8 +677,13 @@ export const useWeb3 = () => {
         return await contract.methods.approve(contractAddress, tokenId).send({ from: acc });
     }
 
+    async function getTokenUri(nftAddress, tokenId) {
+        const contract = new web3.eth.Contract(nftAbi, nftAddress);
+        return await contract.methods.tokenURI(parseInt(tokenId)).call();
+    }
 
 
 
-    return { web3, connect, account, chainid, sendNFT, convertNumber, approve, getChainid, getAccount };
+
+    return { web3, connect, account, chainId, sendNFT, convertNumber, approve,getTokenUri, getChainId, getAccount, switchNetwork };
 }

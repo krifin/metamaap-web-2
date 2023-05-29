@@ -17,32 +17,13 @@ import { AppContext } from "./AppContext";
 import useFirebase from "./adaptors/useFirebase";
 import Partners from "./pages/Partners";
 import Home from "./pages/home/Home";
-import { WagmiConfig, createClient, configureChains, mainnet } from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { polygonMumbai } from '@wagmi/core/chains'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
+import AddMetaverse from "./pages/AddMetaverse";
+// import { useMoralis } from "./adaptors/useMoralis";
 
 
 const App = () => {
-  const navigate = useNavigate();
-  const { chains, provider, webSocketProvider } = configureChains(
-    [mainnet, polygonMumbai],
-    [alchemyProvider({ apiKey: 'qBSjw2KG2psn6V6H4eikOFKOU60A-D6_' }), publicProvider()]
-  );
 
-  // console.log("chains: ", chains);
-  // Set up client
-  const client = createClient({
-    autoConnect: true,
-    connectors: [
-      new MetaMaskConnector({ chains }),
-      
-    ],
-    provider,
-    webSocketProvider,
-  });
-  
+  // const api = useMoralis();
 
   const [searchToggle, setSearchToggle] = useState(false)
 
@@ -87,10 +68,8 @@ const App = () => {
           <Route exact path="/nft/transfer" element={<SingleNFTTransfer />} />
           <Route exact path="/upload-asset" element={<UploadAsset />} />
           <Route exact path="/partners" element={<Partners />} />
-          {isAuth && <Route path="/dashboard" element={
-          <WagmiConfig client={client}>
-            <Home />
-          </WagmiConfig>} />}
+          <Route exact path="/add-metaverse" element={<AddMetaverse />} />
+          {isAuth && <Route path="/dashboard" element={<Home />} />}
         </Routes>
       </div>
     </div>

@@ -7,6 +7,7 @@ import Grid from '../assets/png/grid.png'
 import 'firebase/compat/auth';
 import useFirebase from '../adaptors/useFirebase'
 import { Icon } from 'semantic-ui-react'
+import { useWeb3 } from '../adaptors/useWeb3'
 
 
 const Navbar = ({ onSearchToggle, show }) => {
@@ -15,6 +16,7 @@ const Navbar = ({ onSearchToggle, show }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { streamUser, logout } = useFirebase();
   const [isAuth, setIsAuth] = useState(false);
+  const {web3, switchNetwork} = useWeb3()
   const [register, setRegister] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -32,6 +34,10 @@ const Navbar = ({ onSearchToggle, show }) => {
       }
     })
   }, [])
+
+  const handleNetworkChange = (e) => {
+    switchNetwork(e.target.value);
+  }
 
 
 
@@ -56,6 +62,13 @@ const Navbar = ({ onSearchToggle, show }) => {
         </Link>
         <div className='navbar-actions'>
           {isAuth ? <img src={user?.photoURL ?? "https://i.imgur.com/b08hxPY.png"} style={{ height: '40px', width: '40px', borderRadius: '75%' }} alt="your image" /> : <div className='navbar-connect-button' onClick={() => setShowConnect(!showConnect)}>Connect</div>}
+          {/* dropdown of chains */}
+          {web3 && <div className='navbar-connect-button'>
+              <select className='navbar-chain-dropdown' onChange={handleNetworkChange}>
+                <option value="80001" style={{ color: 'white', background: 'black' }}>Polygon</option>
+                <option value="11155111" style={{ color: 'white', background: 'black' }}>Sepholi</option>
+              </select>
+            </div>}
           <div className='navbar-connect-button' onClick={() => { setShowDropdown(val => !val) }}> <img src={Grid} height={25} width={25} /></div>
           <div className={`navbar-dropdown ${showDropdown ? '' : ' hide'}`}>
             <div className='navbar-dropdown-header'>METAMAAP</div>
@@ -66,11 +79,10 @@ const Navbar = ({ onSearchToggle, show }) => {
             <Link to="https://www.metaversecouncil.io/" target='_blank' className="navbar-dropdown-item">Metaverse Council</Link>
             <Link to="/partners" className="navbar-dropdown-item">Partners</Link>
             {isAuth && <Link to="/dashboard" className="navbar-dropdown-item">Dashboard</Link>}
-           {isAuth && <Link to="https://forms.gle/jWEAn1DL8vECaWbd8" target='_blank' className="navbar-dropdown-item">Add Metaverse</Link>}
+           {isAuth && <Link to="/add-metaverse" className="navbar-dropdown-item">Add Metaverse</Link>}
             {isAuth && <Link to="/nft-transfers" className="navbar-dropdown-item">Add NFT</Link>}
             <div className='navbar-dropdown-item'>Socials</div>
-            <div style={{ display: 'flex', flexDirection : 'column', gap: '20px', padding: '10px 0px', width: '100%' }}>
-              <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}>
+            <div style={{ display: 'flex', gap: '20px', padding: '10px 25px',flexWrap: 'wrap', justifyContent: 'center' }}>
               <Icon name='twitter' style={{ fontSize: '20px' }} className='white' />
               <Icon name='instagram' style={{ fontSize: '20px' }} className='white' />
               <Icon name='telegram plane' style={{ fontSize: '20px' }} className='white' />
