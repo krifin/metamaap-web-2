@@ -26,7 +26,7 @@ const AddMetaverse = () => {
     disclaimer: '',
   });
 
-  const { addMetaverse } = useFirebase();
+  const { addMetaverse, getUser } = useFirebase();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,7 +87,7 @@ const AddMetaverse = () => {
 
     const id = `${x.toString().padStart(3, '0')}${y.toString().padStart(3, '0')}${z.toString().padStart(3, '0')}`;
     console.log(id)
-    addMetaverse({ ...state,id:  id });
+    addMetaverse({ ...state,id:  id});
 
     console.log(state);
   };

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore, Timestamp } from "firebase/firestore";
 
 const useFirebase = () => {
 
@@ -27,9 +27,9 @@ const useFirebase = () => {
 
   async function addMetaverse(metaverse) {
     const db = init()
-    const collectionRef = collection(db, "metaverses"); 
+    const collectionRef = collection(db, "metaverses");
     console.log(metaverse)
-    var doc = await addDoc(collectionRef, metaverse)
+    var doc = await addDoc(collectionRef, { ...metaverse, createdAt: new Timestamp.now(), createdBy: getUser().uid })
     console.log(doc.id)
   }
 

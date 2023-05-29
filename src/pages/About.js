@@ -2,7 +2,7 @@ import React from 'react'
 import './About.css'
 import Banner from '../assets/png/about-banner.png'
 
-import Footer from './Footer';
+import Footer from '../components/Footer';
 const About = () => {
     return (
         <div>
