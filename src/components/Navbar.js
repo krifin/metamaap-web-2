@@ -16,7 +16,7 @@ const Navbar = ({ onSearchToggle, show }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { streamUser, logout } = useFirebase();
   const [isAuth, setIsAuth] = useState(false);
-  const {web3, switchNetwork} = useWeb3()
+  const {web3, switchNetwork, connect, getAccount} = useWeb3()
   const [register, setRegister] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -35,10 +35,16 @@ const Navbar = ({ onSearchToggle, show }) => {
     })
   }, [])
 
-  const handleNetworkChange = (e) => {
-    switchNetwork(e.target.value);
+  const handleNetworkChange = async (e) => {
+    console.log("handle network change called!");
+    await switchNetwork(e.target.value);
+    getAccount();
   }
 
+  const connectAndNetworkChange = async (e) =>{
+    connect();
+    handleNetworkChange(e);
+  }
 
 
   const signUserOut = () => {
@@ -63,12 +69,12 @@ const Navbar = ({ onSearchToggle, show }) => {
         <div className='navbar-actions'>
           {isAuth ? <img src={user?.photoURL ?? "https://i.imgur.com/b08hxPY.png"} style={{ height: '40px', width: '40px', borderRadius: '75%' }} alt="your image" /> : <div className='navbar-connect-button' onClick={() => setShowConnect(!showConnect)}>Connect</div>}
           {/* dropdown of chains */}
-          {web3 && <div className='navbar-connect-button'>
+          {web3 ? <div className='navbar-connect-button'>
               <select className='navbar-chain-dropdown' onChange={handleNetworkChange}>
                 <option value="80001" style={{ color: 'white', background: 'black' }}>Polygon</option>
                 <option value="11155111" style={{ color: 'white', background: 'black' }}>Sepholi</option>
               </select>
-            </div>}
+            </div> : <button className='navbar-connect-button' style={{color: 'white', background: 'black' }} onClick={()=>connectAndNetworkChange}>Connect Wallet</button>}
           <div className='navbar-connect-button' onClick={() => { setShowDropdown(val => !val) }}> <img src={Grid} height={25} width={25} /></div>
           <div className={`navbar-dropdown ${showDropdown ? '' : ' hide'}`}>
             <div className='navbar-dropdown-header'>METAMAAP</div>
@@ -141,7 +147,7 @@ const Navbar = ({ onSearchToggle, show }) => {
            */}
           {/* )} */}
         </div>
-      </div>
+    
 
       {/* {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect} showConnect={showConnect} setRegister={setRegister}/>} */}
       {showConnect && <SelectOptionDialog onClose={() => { setShowConnect(false) }} setIsAuth={setIsAuth}/>}
