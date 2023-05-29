@@ -86,60 +86,11 @@ const Navbar = ({ onSearchToggle, show }) => {
               <Icon name='twitter' style={{ fontSize: '20px' }} className='white' />
               <Icon name='instagram' style={{ fontSize: '20px' }} className='white' />
               <Icon name='telegram plane' style={{ fontSize: '20px' }} className='white' />
-              </div>
-              <div style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}>
               <Icon name='discord' style={{ fontSize: '20px' }} className='white' />
               <Icon name='linkedin square' style={{ fontSize: '20px' }} className='white' />
-              </div>
             </div>
            {isAuth && <div className="navbar-dropdown-item" onClick={() => signUserOut()}>Logout</div>}
           </div>
-          {/* {!isAuth ? <div className='navbar-connect-button' onClick={() => setShowConnect(!showConnect)}>Connect</div> : 
-        (
-          
-          <div className='navbar-connect-button-outside' style={{ cursor: 'pointer' }} >
-            <div className="navbar-connect-button-inside">
-            {<img src = {user?.photoURL ?? "https://mindandculture.org/wordpress6/wp-content/uploads/2018/06/Fotolia_188161178_XS.jpg"} style={{height: '50px', width: '50px', borderRadius: '75%'}} alt="your image" />}
-              
-            <div className="navbar-connect-button" onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}>
-              <img src={Grid} height={25} width={25} />
-              
-            </div>
-            </div>
-            {showDropdown && (
-              <div className="navbar-dropdown-menu" onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/dashboard")}>
-                Dashboard
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/about")}>
-                About
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/home")}>
-                Add Metaverse
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/home")}>
-                Add NFT
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/nft-transfers")}>
-                NFT Transfer
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/nft-transfers")}>
-                Add 
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>navigate("/carousel")}>
-                Carousel
-              </div>
-              <div className="navbar-dropdown-item" onClick={()=>signUserOut()}>
-                Logout
-              </div>
-            </div>
-            )}
-            
-          </div>
-           */}
-          {/* )} */}
         </div>
       </div>
 
