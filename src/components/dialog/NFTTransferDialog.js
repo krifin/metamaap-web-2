@@ -4,23 +4,34 @@ import './auth/AuthDialog.css'
 import Arrow from '../../assets/png/arrow-left.png'
 import { useWeb3 } from '../../adaptors/useWeb3'
 
-const NFTTransferDialog = ({ onClose, addr, acc }) => {
+const NFTTransferDialog = ({ onClose, addr, id}) => {
+    const { account } = useWeb3();
     const [state, setState] = React.useState({
-        tokenId: '',
-        nftAddress: '',
+        tokenId: id,
+        nftAddress: addr,
         targetChain: ''
     })
 
     const { sendNFT, approve } = useWeb3()
 
     const handleChange = (e) => {
-        console.log("nftAddress:", state.nftAddress);
+        console.log("nftAddress:", addr);
+        console.log("account", account);
+        console.log("tokenID:", id);
+        console.log("targetcHAIN:", e.target.value);
         setState({
             ...state,
-            [e.target.tokenId] : addr,
             [e.target.name]: e.target.value
         })
     }
+
+    const transferNFT = async() =>{
+        console.log("trasnferring nft");
+        await approve(state.tokenId, state.nftAddress, account);
+        console.log("approved!");
+        await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain), account);
+                
+    }   
 
     return (
         <div className='dialog' onClick={(e) => {
@@ -39,19 +50,13 @@ const NFTTransferDialog = ({ onClose, addr, acc }) => {
                 {/*<div className='dialog-input-box'>
                     <input className='dialog-input' name="nftContract" type='text' placeholder='nft address' disabled/>
                 </div> */}
-                <div className='dialog-input-box'>
+                {/* <div className='dialog-input-box'>
                     <input className='dialog-input' type='name' onChange={handleChange} name="tokenId" placeholder='Token Id' required />
-                </div>
+                </div> */}
                 <div className='dialog-input-box'>
                     <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
                 </div>
-                <div><button className='dialog-button' onClick={async () => {
-                    console.log("state address:", state.nftAddress);
-                    console.log("state tokenID:", state.nftAddress);
-                    console.log("state targetchain:", state.nftAddress);
-                    await approve(state.nftAddress, state.tokenId, acc);
-                    await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain), acc);
-                }}>Continue</button></div>
+                <div><button className='dialog-button' onClick={() => transferNFT()}>Continue</button></div>
             </form>
         </div>
     )

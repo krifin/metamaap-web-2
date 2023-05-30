@@ -62,6 +62,7 @@ const Home = () => {
       const result = await polygon(account);
       setNfts(result);
       console.log("populated nfts:", result)
+      console.log("populated nfts from setNfts:", nfts)
     }
     else if(chainId === 11155111){
       console.log("came at sepolia");
@@ -114,7 +115,7 @@ const Home = () => {
     ))}
   </div>
 ) : (
-  <div>Loading...</div> // Or any loading indicator
+  <div style={{color: 'white', fontSize: '25px'}}>Loading...</div> // Or any loading indicator
 )}
         </div>
       <div style={{ marginBottom: "100px" }}>
