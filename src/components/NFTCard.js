@@ -9,8 +9,10 @@ const NFTCard = ({nft}) => {
     useEffect(()=>{
         async function getData() {
             try {
-                const response = await getTokenUri(nft.tokenId);
-                setTokenUri(response);
+                const response = await getTokenUri(nft.contractAddress, nft.tokenId);
+                console.log("response received from backend:", response);
+                setTokenUri(response.toString());
+                console.log("TOKENURI:", tokenUri);
             } catch (error) {
                 console.error("Error fetching NFTs:", error);
             }
@@ -23,8 +25,9 @@ const NFTCard = ({nft}) => {
   return (
     
         <Link to={'/nft/transfer'} state={nft}>
+            {console.log("tokenuri is:", tokenUri)}
                 <img className={`nft`} src={typeof tokenUri === 'string' ? tokenUri : tokenUri.image} alt=""/>
-              </Link>
+        </Link>
     
   )
 }

@@ -581,6 +581,8 @@ export const useWeb3 = () => {
     useEffect(() => {
         const getWeb3 = async () => {
             if (window.ethereum) {
+
+                //instance to interact with ethereum blockchain via the metamask or similar browser extension
                 const web3 = new Web3(window.ethereum);
                 setWeb3(web3);
             }
@@ -606,7 +608,7 @@ export const useWeb3 = () => {
                 },
                 {
                     chainId: convertChainIdtoHex(11155111),
-                    chainName: 'Sepholi Testnet',
+                    chainName: 'Sepolia Testnet',
                     nativeCurrency: {
                         name: 'ETH',
                         symbol: 'ETH',
@@ -623,13 +625,25 @@ export const useWeb3 = () => {
     function connect() {
         if (window.ethereum)
             return window.ethereum.request({ method: 'eth_requestAccounts' });
+        else if (typeof window.ethereum !== 'undefined'){
+             
+                const web3 = new Web3(window.ethereum);
+                
+                // Request user's permission to access their Ethereum accounts
+                return window.ethereum.request({ method: 'eth_requestAccounts'});
+                  
+               
+        }else {
+            console.error('No Ethereum provider found. Please install MetaMask or another compatible wallet.');
+            // Inform the user to install a wallet like MetaMask
+          }
     }
 
     function convertChainIdtoHex(chainId) {
         return web3.utils.toHex(chainId);
     }
 
-   async  function switchNetwork(chainId) {
+   async function switchNetwork(chainId) {
         const convertChainID = convertChainIdtoHex(chainId);
         if (window.ethereum){
             try {
@@ -644,7 +658,7 @@ export const useWeb3 = () => {
                 });
             }
             }
-            getChainId();
+            return getChainId();
     }
 
     function getAccount() {
@@ -679,11 +693,15 @@ export const useWeb3 = () => {
 
     async function getTokenUri(nftAddress, tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        return await contract.methods.tokenURI(parseInt(tokenId)).call();
+        let res = await contract.methods.tokenURI(parseInt(tokenId)).call();
+        console.log("getTokenUri:", res);
+        return res;
     }
 
+    
 
 
 
-    return { web3, connect, account, chainId, sendNFT, convertNumber, approve,getTokenUri, getChainId, getAccount, switchNetwork };
+
+    return { web3, connect, account, chainId, sendNFT, convertNumber, approve, getTokenUri, getChainId, getAccount, switchNetwork };
 }

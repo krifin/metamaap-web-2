@@ -7,11 +7,13 @@ import { useWeb3 } from "../../adaptors/useWeb3";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import NFTCard from "../../components/NFTCard";
+import useNFT from "../../adaptors/useNFT";
 
 
 
 const Home = () => {
   const { account, web3, chainId, connect } = useWeb3()
+  const { polygon , sepolia} = useNFT();
 
   const [metaverses, setMeteverses] = React.useState([
     "https://www.digitalavmagazine.com/wp-content/uploads/2022/03/Visyon-Cupra-Metahype-a.jpeg",
@@ -37,26 +39,7 @@ const Home = () => {
   const [nfts, setNfts] = useState([]);
   console.log("useAccount details:", account);
   console.log("chainid details:", chainId);
-  //polygon chainID
-
-  // useEffect(() => {
-  //   async function getData() {
-  //     try {
-  //       const response = await axios.get("http://localhost:5001/getnfts", {
-  //         params: { account, chainId },
-  //       });
-  //       setNfts(response.data.result);
-  //       console.log("response : ", response);
-  //       console.log("nfts:", response.data.result);
-
-  //     } catch (error) {
-  //       console.error("Error fetching NFTs:", error);
-  //     }
-  //   }
-  //   if (web3) {
-  //     getData();
-  //   }
-  // }, [web3]);
+  
 
 
 
@@ -67,8 +50,26 @@ const Home = () => {
     }
   }
   useEffect(() => {
+    getDetails();
+  }, [account])
 
-  }, [activeIndex])
+  async function getDetails(){
+    
+    console.log('came here');
+    console.log("getDetails chainId:", chainId)
+    if(chainId === 80001){
+      console.log("came at polygon");
+      const result = await polygon(account);
+      setNfts(result);
+      console.log("populated nfts:", result)
+    }
+    else if(chainId === 11155111){
+      console.log("came at sepolia");
+      const result = await sepolia(account);
+      setNfts(result);
+      console.log("populated nfts:", result)
+    }
+  }
 
   return (
     <div className='home-container'>
@@ -105,19 +106,17 @@ const Home = () => {
         </div>
       </div>
       <div className='nft-transfer-title' style={{ marginTop: '100px' }}>MY ASSETS</div>
-        {!web3 ? (
-          <div className='nfts'>
-          <div className="nft-connect-wallet" onClick={() => connect()}>Connect Wallet</div>
+        <div className='nfts'>
+        { nfts && nfts.length > 0 ? (
+  <div className='nfts'>
+    {nfts.map((nft, index) => (
+      <NFTCard nft={nft} key={index} />
+    ))}
+  </div>
+) : (
+  <div>Loading...</div> // Or any loading indicator
+)}
         </div>
-        ) : (
-          <div className='nfts'>
-          {nfts.map((nft, index) => {
-            return (
-              <NFTCard nft={nft} key={index} />
-            )
-          })}
-          </div>
-        )}
       <div style={{ marginBottom: "100px" }}>
         <div className='nft-transfer-title' style={{ marginTop: '100px' }}>SAVED WORLDS</div>
         <div className='nfts'>
