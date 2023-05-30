@@ -693,9 +693,15 @@ export const useWeb3 = () => {
 
     async function getTokenUri(nftAddress, tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        let res = await contract.methods.tokenURI(parseInt(tokenId)).call();
-        console.log("getTokenUri:", res);
-        return res;
+        try{
+            let res = await contract.methods.tokenURI(parseInt(tokenId)).call();
+            console.log("getTokenUri:", res);
+            return res;
+        }catch(e){
+            console.error('Error retrieving tokenURI:', e);
+            return null;
+        }
+        
     }
 
     
