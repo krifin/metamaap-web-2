@@ -74,7 +74,7 @@ const Navbar = ({ onSearchToggle, show }) => {
                 <option value="80001" style={{ color: 'white', background: 'black' }}>Polygon</option>
                 <option value="11155111" style={{ color: 'white', background: 'black' }}>Sepholi</option>
               </select>
-            </div> : <button className='navbar-connect-button' style={{color: 'white', background: 'black' }} onClick={()=>connectAndNetworkChange}>Connect Wallet</button>}
+            </div> : <button className='navbar-connect-button' style={{color: 'white', background: 'black' }} onClick={()=>connectAndNetworkChange()}>Connect Wallet</button>}
           <div className='navbar-connect-button' onClick={() => { setShowDropdown(val => !val) }}> <img src={Grid} height={25} width={25} /></div>
           <div className={`navbar-dropdown ${showDropdown ? '' : ' hide'}`}>
             <div className='navbar-dropdown-header'>METAMAAP</div>
@@ -102,6 +102,7 @@ const Navbar = ({ onSearchToggle, show }) => {
 
       {/* {showConnect && <SelectOptionDialog setIsAuth = {setIsAuth} setRes={setRes} setShowConnect={setShowConnect} showConnect={showConnect} setRegister={setRegister}/>} */}
       {showConnect && <SelectOptionDialog onClose={() => { setShowConnect(false) }} setIsAuth={setIsAuth}/>}
+    </div>
     </>
   )
 }
