@@ -661,6 +661,12 @@ export const useWeb3 = () => {
             return getChainId();
     }
 
+    function transferNFT(nftAddress, tokenId, sendAddress) {
+        const contract = new web3.eth.Contract(nftAbi, nftAddress);
+        console.log(nftAddress, tokenId);
+        return contract.methods.transferFrom(account, sendAddress, tokenId).send({ from: account });
+    }
+
     function getAccount() {
         web3.eth.getAccounts().then(
             (accounts) => {
@@ -670,7 +676,6 @@ export const useWeb3 = () => {
     }
     function getChainId(){
         web3.eth.getChainId().then((res)=>{
-            console.log("res chaindid:", res);
             setChainId(res);
         })
         
@@ -679,23 +684,22 @@ export const useWeb3 = () => {
         return web3.utils.BN(number);
     }
 
-    async function sendNFT(nftAddress, tokenId, targetChain, acc) {
+    async function sendNFT(nftAddress, tokenId, targetChain) {
         const contract = new web3.eth.Contract(abi, contractAddress);
         console.log(nftAddress, tokenId);
-        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: acc,value: web3.utils.toWei("0.001", "ether") });
+        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
     }
 
 
-    async function approve(nftAddress,tokenId, acc) {
+    async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        return await contract.methods.approve(contractAddress, tokenId).send({ from: acc });
+        return await contract.methods.approve(contractAddress, tokenId).send({ from: account });
     }
 
     async function getTokenUri(nftAddress, tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
         try{
             let res = await contract.methods.tokenURI(parseInt(tokenId)).call();
-            console.log("getTokenUri:", res);
             return res;
         }catch(e){
             console.error('Error retrieving tokenURI:', e);
@@ -709,5 +713,5 @@ export const useWeb3 = () => {
 
 
 
-    return { web3, connect, account, chainId, sendNFT, convertNumber, approve, getTokenUri, getChainId, getAccount, switchNetwork };
+    return { web3, connect, account, chainId, sendNFT, convertNumber,transferNFT, approve, getTokenUri, getChainId, getAccount, switchNetwork };
 }
