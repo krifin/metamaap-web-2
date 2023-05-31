@@ -11,6 +11,12 @@ const useNFT = () => {
         console.log("Polygon result is:", data);
         console.log(data.result);
         // return data.result;
+        return formatNFTData(data, account);
+        
+
+    }
+
+    function formatNFTData(data, account) {
         data.result.sort((a, b) => {
             return parseInt(a.timeStamp) - parseInt(b.timeStamp);
         });
@@ -43,9 +49,8 @@ const useNFT = () => {
         }
         console.log("result after removing duplicates:", result);
         return result;
-        
-
     }
+
     async function sepolia(account) {
         console.log("account for sepolia: ", account);
         const res = await fetch(
@@ -53,7 +58,7 @@ const useNFT = () => {
         );
         const data = await res.json();
         console.log("Sepolia result is:", data);
-        return data.result;
+        return formatNFTData(data, account);
     }
 
     return { polygon, sepolia }
