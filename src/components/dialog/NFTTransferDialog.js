@@ -11,7 +11,7 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
         targetChain: ''
     })
 
-    const { sendNFT, approve } = useWeb3()
+    const { sendNFT, approve, chainId } = useWeb3()
 
     console.log(id, addr)
 
@@ -29,7 +29,6 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
         await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain));
                 
     }   
-
     return (
         <div className='dialog' onClick={(e) => {
             if (e.target.className === 'dialog') {
@@ -51,7 +50,12 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
                     <input className='dialog-input' type='name' onChange={handleChange} name="tokenId" placeholder='Token Id' required />
                 </div> */}
                 <div className='dialog-input-box'>
-                    <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
+                    <select className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required>
+                        <option value="" disabled selected>Select Target Chain</option>
+                        {chainId === 80001 && <option value="11155111" style={{ color: 'white', background: 'black' }}>Sepolia</option>}
+                        {chainId === 11155111 && <option value="80001" style={{ color: 'white', background: 'black' }}>Polygon</option>}
+                    </select>
+                    {/* <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required /> */}
                 </div>
                 <div className='dialog-button' onClick={() => transferNFT()}>Continue</div>
             </form>

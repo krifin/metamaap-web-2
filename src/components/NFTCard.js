@@ -21,7 +21,7 @@ const NFTCard = ({ nft }) => {
                 }
                 if (uri)
                     try {
-                        axios.get("http://localhost:5001/request?url=" + uri).then(response => {
+                        axios.get("https://main--creative-klepon-fe022b.netlify.app/api?url=" + uri).then(response => {
                             console.log("response from ipfs:", response);
                             if (response.data.image) {
                                 if (response.data.image.includes("ipfs://"))
