@@ -58,11 +58,7 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
                     </select>
                     {/* <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required /> */}
                 </div>
-<<<<<<< HEAD
-                <div className='dialog-button' onClick={() => transferNFT()} style={{cursor: 'pointer'}}>Continue</div>
-=======
                 <div className='dialog-button' onClick={() => transferNFT()}>Continue</div>
->>>>>>> kunal-jain
             </form>
         </div>
     )
