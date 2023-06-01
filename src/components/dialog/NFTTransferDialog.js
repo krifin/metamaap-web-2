@@ -5,20 +5,17 @@ import Arrow from '../../assets/png/arrow-left.png'
 import { useWeb3 } from '../../adaptors/useWeb3'
 
 const NFTTransferDialog = ({ onClose, addr, id}) => {
-    const { account } = useWeb3();
     const [state, setState] = React.useState({
         tokenId: id,
         nftAddress: addr,
         targetChain: ''
     })
 
-    const { sendNFT, approve } = useWeb3()
+    const { sendNFT, approve, chainId } = useWeb3()
+
+    console.log(id, addr)
 
     const handleChange = (e) => {
-        console.log("nftAddress:", addr);
-        console.log("account", account);
-        console.log("tokenID:", id);
-        console.log("targetcHAIN:", e.target.value);
         setState({
             ...state,
             [e.target.name]: e.target.value
@@ -28,12 +25,11 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
     const transferNFT = async() =>{
         // e.preventDefault();
         console.log("trasnferring nft");
-        await approve(state.nftAddress, state.tokenId, account);
+        await approve( state.nftAddress,state.tokenId);
         console.log("approved!");
-        await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain), account);
-        
+        await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain));
+                
     }   
-
     return (
         <div className='dialog' onClick={(e) => {
             if (e.target.className === 'dialog') {
@@ -55,9 +51,18 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
                     <input className='dialog-input' type='name' onChange={handleChange} name="tokenId" placeholder='Token Id' required />
                 </div> */}
                 <div className='dialog-input-box'>
-                    <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
+                    <select className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required>
+                        <option value="" disabled selected>Select Target Chain</option>
+                        {chainId === 80001 && <option value="11155111" style={{ color: 'white', background: 'black' }}>Sepolia</option>}
+                        {chainId === 11155111 && <option value="80001" style={{ color: 'white', background: 'black' }}>Polygon</option>}
+                    </select>
+                    {/* <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required /> */}
                 </div>
+<<<<<<< HEAD
                 <div className='dialog-button' onClick={() => transferNFT()} style={{cursor: 'pointer'}}>Continue</div>
+=======
+                <div className='dialog-button' onClick={() => transferNFT()}>Continue</div>
+>>>>>>> kunal-jain
             </form>
         </div>
     )

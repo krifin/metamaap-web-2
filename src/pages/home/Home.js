@@ -13,7 +13,7 @@ import useNFT from "../../adaptors/useNFT";
 
 const Home = () => {
   const { account, web3, chainId, connect } = useWeb3()
-  const { polygon , sepolia} = useNFT();
+  const { polygon, sepolia } = useNFT();
 
   const [metaverses, setMeteverses] = React.useState([
     "https://www.digitalavmagazine.com/wp-content/uploads/2022/03/Visyon-Cupra-Metahype-a.jpeg",
@@ -33,13 +33,12 @@ const Home = () => {
     "https://www.bostonglobe.com/resizer/YpOXRh3x-QuRFK_wgmr86eny6WM=/arc-anglerfish-arc2-prod-bostonglobe/public/N7YPWXJCVVFWXNO55WWBZDINV4.JPG",
     "https://www.01net.com/i/0/0/af7/11f694c76cbd83569dfea09a18da9.jpg",
     "https://www.venteurmag.com/wp-content/uploads/2023/04/Metaverse-Shoe-Shop.jpeg",
-
   ]
 
   const [nfts, setNfts] = useState([]);
   console.log("useAccount details:", account);
   console.log("chainid details:", chainId);
-  
+
 
 
 
@@ -50,21 +49,23 @@ const Home = () => {
     }
   }
   useEffect(() => {
-    getDetails();
-  }, [account])
+    if (account && chainId) {
+      getDetails();
+    }
+  }, [account, chainId])
 
-  async function getDetails(){
-    
+  async function getDetails() {
+
     console.log('came here');
     console.log("getDetails chainId:", chainId)
-    if(chainId === 80001){
+    if (chainId === 80001) {
       console.log("came at polygon");
       const result = await polygon(account);
       setNfts(result);
       console.log("populated nfts:", result)
       console.log("populated nfts from setNfts:", nfts)
     }
-    else if(chainId === 11155111){
+    else if (chainId === 11155111) {
       console.log("came at sepolia");
       const result = await sepolia(account);
       setNfts(result);
@@ -107,17 +108,17 @@ const Home = () => {
         </div>
       </div>
       <div className='nft-transfer-title' style={{ marginTop: '100px' }}>MY ASSETS</div>
-        <div className='nfts'>
-        { nfts && nfts.length > 0 ? (
-  <div className='nfts'>
-    {nfts.map((nft, index) => (
-      <NFTCard nft={nft} key={index} />
-    ))}
-  </div>
-) : (
-  <div style={{color: 'white', fontSize: '25px'}}>Loading...</div> // Or any loading indicator
-)}
-        </div>
+      <div className='nfts'>
+        {nfts && nfts.length > 0 ? (
+          <div className='nfts'>
+            {nfts.map((nft, index) => (
+              <NFTCard nft={nft} key={index} />
+            ))}
+          </div>
+        ) : (
+          <div style={{ color: 'white', fontSize: '25px' }}>Loading...</div> // Or any loading indicator
+        )}
+      </div>
       <div style={{ marginBottom: "100px" }}>
         <div className='nft-transfer-title' style={{ marginTop: '100px' }}>SAVED WORLDS</div>
         <div className='nfts'>

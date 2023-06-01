@@ -15,10 +15,40 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 60px;
+    gap: 100px;
+    padding: 0 300px;
+    margin-top: 80px;
 }
 
-.partners-images {
+.partners-image {
     object-fit: contain;
-    height: 300px;
+    max-width: 300px;
 }
+
+@media screen and (min-width: 550px) and (max-width: 1500px) {
+    .partners-images {
+        padding: 0 20px;
+    }
+
+    .partners-image {
+        max-width: 300px;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 550px) {
+    .partners-images {
+        padding: 0 20px;
+    }
+    .partners-image {
+        max-width: 300px;
+    }
+} 
+
+@media screen and (max-width: 400px) {
+    .partners-images {
+        padding: 0 20px;
+    }
+    .partners-image {
+        max-width: 200px;
+    }
+} 

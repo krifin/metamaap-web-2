@@ -7,7 +7,7 @@ const Partners = () => {
         <div className='partners-title'>Our Partners</div>
         <div className='partners-images'>
             {Array(9).fill().map((_, i) => {
-                return <img key={i} style={{maxWidth: (window.innerWidth - 50)}} className='partners-image' src={`/assets/images/partners/${i + 1}.png`} alt='partner' />
+                return <img key={i} className='partners-image' src={`/assets/images/partners/${i + 1}.png`} alt='partner' />
             })}
         </div>
     </div>
