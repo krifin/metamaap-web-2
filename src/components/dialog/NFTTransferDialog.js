@@ -25,12 +25,13 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
         })
     }
 
-    const transferNFT = async() =>{
+    const transferNFT = async(e) =>{
+        // e.preventDefault();
         console.log("trasnferring nft");
-        await approve(state.tokenId, state.nftAddress, account);
+        await approve(state.nftAddress, state.tokenId, account);
         console.log("approved!");
         await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain), account);
-                
+        
     }   
 
     return (
@@ -56,7 +57,7 @@ const NFTTransferDialog = ({ onClose, addr, id}) => {
                 <div className='dialog-input-box'>
                     <input className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required />
                 </div>
-                <div><button className='dialog-button' onClick={() => transferNFT()}>Continue</button></div>
+                <div className='dialog-button' onClick={(e) => transferNFT(e)} style={{cursor: 'pointer'}}>Continue</div>
             </form>
         </div>
     )
