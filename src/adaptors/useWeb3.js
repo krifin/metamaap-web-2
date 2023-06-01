@@ -686,9 +686,9 @@ export const useWeb3 = () => {
     }
 
 
-    async function approve(nftAddress,tokenId, acc) {
+    async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        return await contract.methods.approve(contractAddress, tokenId).send({ from: acc });
+        return await contract.methods.approve(contractAddress, tokenId).send({ from: account });
     }
 
     async function getTokenUri(nftAddress, tokenId) {
