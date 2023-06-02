@@ -1,11 +1,12 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
     const [chainId, setChainId] = useState(null);
-    const contractAddress = '0xEDE775d27245C7154D7D08D4b1296AcD2e9F3775';
+    const contractAddress = '0x7FF145f83f2a8c7eBE6ab6665Fe407C90F881a1a';
     const [chainConfig, setChainConfig] = useState([]);
     
     const abi = [
@@ -14,11 +15,6 @@ export const useWeb3 = () => {
                 {
                     "internalType": "address",
                     "name": "_messageContractaddrS",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_messageContractaddrR",
                     "type": "address"
                 }
             ],
@@ -54,6 +50,16 @@ export const useWeb3 = () => {
         {
             "inputs": [
                 {
+                    "internalType": "string",
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_symbol",
+                    "type": "string"
+                },
+                {
                     "internalType": "uint256",
                     "name": "_tokenId",
                     "type": "uint256"
@@ -67,42 +73,16 @@ export const useWeb3 = () => {
                     "internalType": "uint256",
                     "name": "_targetChain",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_uri",
+                    "type": "string"
                 }
             ],
             "name": "sendNFT",
             "outputs": [],
             "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_messageContractaddrS",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_messageContractaddrR",
-                    "type": "address"
-                }
-            ],
-            "name": "setMsgContractAdd",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_origin",
-                    "type": "address"
-                }
-            ],
-            "name": "setOrigin",
-            "outputs": [],
-            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -119,47 +99,13 @@ export const useWeb3 = () => {
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_tokenId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_nftContract",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_selfID",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_srcChain",
-                    "type": "uint256"
-                }
-            ],
-            "name": "withdrawNFT",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "heldTokens",
+            "inputs": [],
+            "name": "_owner",
             "outputs": [
                 {
-                    "internalType": "bool",
+                    "internalType": "address",
                     "name": "",
-                    "type": "bool"
+                    "type": "address"
                 }
             ],
             "stateMutability": "view",
@@ -167,12 +113,12 @@ export const useWeb3 = () => {
         },
         {
             "inputs": [],
-            "name": "messageContractaddrR",
+            "name": "getSelfID",
             "outputs": [
                 {
-                    "internalType": "address",
+                    "internalType": "uint256",
                     "name": "",
-                    "type": "address"
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -186,6 +132,76 @@ export const useWeb3 = () => {
                     "internalType": "address",
                     "name": "",
                     "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "MIN_FEE",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "nftContract",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "NFTdata",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "userAddr",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "contractAddress",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -218,6 +234,67 @@ export const useWeb3 = () => {
             "type": "function"
         },
         {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_origin",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "_passcode",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "_tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "releaseNFT",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "symbol",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "tokenId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "userAddr",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "contractAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "uri",
+                            "type": "string"
+                        }
+                    ],
+                    "internalType": "struct NFTReceiver.NFT",
+                    "name": "",
+                    "type": "tuple"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [],
             "name": "selfID",
             "outputs": [
@@ -225,6 +302,35 @@ export const useWeb3 = () => {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenPassword",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -592,6 +698,7 @@ export const useWeb3 = () => {
             connect();
         }
         if (web3){
+            web3.eth.getGasPrice().then(console.log)
             getAccount();
             getChainId();
             setChainConfig([
@@ -661,12 +768,6 @@ export const useWeb3 = () => {
             return getChainId();
     }
 
-    function transferNFT(nftAddress, tokenId, sendAddress) {
-        const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        console.log(nftAddress, tokenId);
-        return contract.methods.transferFrom(account, sendAddress, tokenId).send({ from: account });
-    }
-
     function getAccount() {
         web3.eth.getAccounts().then(
             (accounts) => {
@@ -685,9 +786,18 @@ export const useWeb3 = () => {
     }
 
     async function sendNFT(nftAddress, tokenId, targetChain) {
+        console.log(nftAddress, tokenId, targetChain)
         const contract = new web3.eth.Contract(abi, contractAddress);
+        const nftContract = new web3.eth.Contract(nftAbi, nftAddress);
+        const uri = await nftContract.methods.tokenURI(parseInt(tokenId)).call();
+        const name = await nftContract.methods.name().call();
+        const symbol = await nftContract.methods.symbol().call();
         console.log(nftAddress, tokenId);
-        return await contract.methods.sendNFT(tokenId, nftAddress, targetChain).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
+
+        await contract.methods.sendNFT(name, symbol, tokenId, nftAddress, targetChain, uri).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
+
+        // call the server 
+        await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&address=${account}&targetChain=${targetChain}&tokenId=${tokenId}&uri=${uri}`)
     }
 
 
@@ -713,5 +823,5 @@ export const useWeb3 = () => {
 
 
 
-    return { web3, connect, account, chainId, sendNFT, convertNumber,transferNFT, approve, getTokenUri, getChainId, getAccount, switchNetwork };
+    return { web3, connect, account, chainId, sendNFT, convertNumber, approve, getTokenUri, getChainId, getAccount, switchNetwork };
 }

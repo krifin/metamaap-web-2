@@ -6,7 +6,6 @@ import { useWeb3 } from '../adaptors/useWeb3'
 
 const SingleNFTTransfer = () => {
     const { state } = useLocation();
-    const { account , chainId } = useWeb3()
     // const [nft,setNft] = useState();
     // if(state){
     //     setNft(state);
@@ -22,7 +21,7 @@ const SingleNFTTransfer = () => {
             <img className={`single-nft`} src={state.tokenUri} />
             <div className='single-nft-description'>imagine a world where AI controls humanity with this Kit's monolithic towers,  gigantic banks, brutalist buildings, scrappy streetside shops, grungy alleyways, and stark industrial housing</div>
             <div className='transfer-button' onClick={() => { setShow(true) }}>Transfer Assets</div>
-            {show && <NFTTransferDialog onClose={() => setShow(false)} tokenid={state.tokenID} account={account} addr={state.contractAddress} chainid={chainId} nftName={state.name} nftSymbol={state.symbol} uri={state.tokenUri} />}
+            {show && <NFTTransferDialog onClose={() => setShow(false)} tokenid={state.tokenID} addr={state.contractAddress} />}
         </div>
     )
 }
