@@ -777,9 +777,9 @@ export const useWeb3 = () => {
     }
     function getChainId(){
         web3.eth.getChainId().then((res)=>{
+            console.log("chainid:",res)
             setChainId(res);
         })
-        
     }
     function convertNumber(number) {
         return web3.utils.BN(number);
