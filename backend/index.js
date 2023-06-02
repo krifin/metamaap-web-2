@@ -15,6 +15,8 @@ let _selfID;
 let _tokenId;
 let _owner;
 let _contractAddress;
+let _name;
+let _symbol;
 let _srcChain;
 let _targetChain;
 let _password;
@@ -96,7 +98,7 @@ sepolia_web3.eth.defaultAccount = accountSp.address;
 
 
 
-const sendNFT = async (account, name, symbol, tokenId, nftContract, targetChain, uri) => {
+const sendNFT = async (account, name, symbol, tokenId, nftContract, targetChain, uri, srcChain) => {
   try {
     // Detect user's connected account using MetaMask provider
     // const accounts = await window.ethereum.request({ method: 'eth_accounts' });
@@ -107,27 +109,19 @@ const sendNFT = async (account, name, symbol, tokenId, nftContract, targetChain,
     // }
 
     
-    const gasPrice = await polygon_web3.eth.getGasPrice();
-    const gasLimit = 300000; // Adjust the gas limit as per your contract requirements
+    // const gasPrice = await polygon_web3.eth.getGasPrice();
+    // const gasLimit = 300000; // Adjust the gas limit as per your contract requirements
     _owner = account; //from user's metamask wallet
     _tokenId = tokenId; //from frontend
     _contractAddress = nftContract; //from frontend
     _targetChain = targetChain; //from frontend
     _uri = uri; //from frontend
-    _srcChain = await window.ethereum.request({ method: 'eth_chainId' });
-    const txObject = {
-      from: _owner,
-      to: _contractAddress,
-      data: contractActionlyrpl.methods.sendNFT(name, symbol, tokenId, nftContract, targetChain, uri).encodeABI(),
-      gasPrice: gasPrice,
-      gas: gasLimit,
-      value: '100000000000000', // Example: 0.0001 ETH, adjust the value as per your requirement
-    };
+    _srcChain = srcChain; //from frontend
+    _name = name;
+    _symbol = symbol;
+    
 
-    const signedTx = await polygon_web3.eth.accounts.signTransaction(txObject, privateKeyPl);
-    const rawTx = signedTx.rawTransaction;
-
-    const receipt = await polygon_web3.eth.sendSignedTransaction(rawTx);
+    
     console.log('Transaction sendNFT and message.sol successful:', receipt.transactionHash);
     const fetchedMessage = await contractmsg.methods
       .getMsg(_owner, _selfID, _targetChain)
@@ -183,7 +177,7 @@ async function addMessage() {
 
 
 app.post('/sendnft', async (req, res) => {
-  const { name, symbol, tokenId, nftContract, targetChain, uri } = req.body; // Assuming the required data is sent in the request body
+  const { name, symbol, tokenId, nftContract, targetChain, uri, srcChain } = req.body; // Assuming the required data is sent in the request body
 
   try {
     // Call the sendNFT function
@@ -270,11 +264,6 @@ app.post('/mintnft', async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(5001, () => {
-  console.log('Server started on port 5001');
-});
-
 // proxy for fetching url
 app.get("/request", async (req, res) => {
   try {
@@ -287,4 +276,9 @@ app.get("/request", async (req, res) => {
     console.log(`Something went wrong ${e}`);
     return res.json();
   }
+});
+
+// Start the server
+app.listen(5001, () => {
+  console.log('Server started on port 5001');
 });

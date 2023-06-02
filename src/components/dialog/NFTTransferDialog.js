@@ -4,10 +4,16 @@ import './auth/AuthDialog.css'
 import Arrow from '../../assets/png/arrow-left.png'
 import { useWeb3 } from '../../adaptors/useWeb3'
 import axios from 'axios'
+import Web3 from 'web3';
+import contractAbi from '../../abi/actioncontractL1.json'
 
 
-
-const NFTTransferDialog = ({ onClose, account, addr, tokenid, nftName, nftSymbol, uri}) => {
+const NFTTransferDialog = ({ onClose, addr, tokenid, nftName, nftSymbol, uri}) => {
+    const {chainId, account} = useWeb3();
+    const web3 = new Web3(window.ethereum);
+    const contractAddressActionContPolygon = '0x7FF145f83f2a8c7eBE6ab6665Fe407C90F881a1a'
+    const contractActionlyrsp = new web3.eth.Contract(contractAbi, contractAddressActionContPolygon);
+    
     console.log("account:", account);
     const [state, setState] = React.useState({
         tokenId: tokenid,
@@ -16,15 +22,18 @@ const NFTTransferDialog = ({ onClose, account, addr, tokenid, nftName, nftSymbol
         name: nftName,
         symbol: nftSymbol,
         uri: uri,
-        targetChain: ''
+        targetChain: '',
+        srcChain: ''
     })
 
     // const { sendNFT, approve, chainId } = useWeb3()
 
     // console.log(id, addr)
+    
 
     const handleChange = (e) => {
         console.log('chaind ID of current network: ', chainId)
+        console.log("targetChain:", state.targetChain);
         setState({
             ...state,
             [e.target.name]: e.target.value
@@ -32,8 +41,16 @@ const NFTTransferDialog = ({ onClose, account, addr, tokenid, nftName, nftSymbol
     }
 
     const transferNFT = async(e) =>{
+
         e.preventDefault();
+        const sender = account;
         console.log("trasnferring nft");
+        
+        await contractActionlyrsp.methods.sendNFT(state.name, state.symbol, state.tokenId, state.nftContract, state.targetChain, state.uri).send({ from: sender, value: web3.utils.toWei('0.0001', 'ether') });
+        let _srcChain = await window.ethereum.request({ method: 'eth_chainId' });
+        setState({
+            ...state, srcChain: _srcChain
+        })
         // Call the sendNFT route
         await axios.post('/sendnft', state);
         console.log('NFT sent successfully');
@@ -61,7 +78,7 @@ const NFTTransferDialog = ({ onClose, account, addr, tokenid, nftName, nftSymbol
         // await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain));
                 
     }   
-    const {chainId} = useWeb3();
+    
     return (
         <div className='dialog' onClick={(e) => {
             if (e.target.className === 'dialog') {
