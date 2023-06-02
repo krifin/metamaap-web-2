@@ -3,7 +3,7 @@ const app = express();
 const port = 5001;
 const Moralis = require("moralis").default;
 const cors = require("cors");
-const { default: axios } = require("axios");
+const { axios } = require("axios");
 const Web3 = require('web3');
 
 require("dotenv").config({ path: ".env" });
@@ -96,20 +96,20 @@ sepolia_web3.eth.defaultAccount = accountSp.address;
 
 
 
-const sendNFT = async (name, symbol, tokenId, nftContract, targetChain, uri) => {
+const sendNFT = async (account, name, symbol, tokenId, nftContract, targetChain, uri) => {
   try {
     // Detect user's connected account using MetaMask provider
-    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    // const accounts = await window.ethereum.request({ method: 'eth_accounts' });
 
-    if (accounts.length === 0) {
-      console.error('No connected accounts');
-      return;
-    }
+    // if (accounts.length === 0) {
+    //   console.error('No connected accounts');
+    //   return;
+    // }
 
     
     const gasPrice = await polygon_web3.eth.getGasPrice();
     const gasLimit = 300000; // Adjust the gas limit as per your contract requirements
-    _owner = accounts[0]; //from user's metamask wallet
+    _owner = account; //from user's metamask wallet
     _tokenId = tokenId; //from frontend
     _contractAddress = nftContract; //from frontend
     _targetChain = targetChain; //from frontend
@@ -200,12 +200,12 @@ app.post('/sendnft', async (req, res) => {
 });
 
 app.post('/addmsgreceiver', (req, res) => {
-  const { srcChain } = req.body; // Assuming the input object has properties srcChain, selfId, message, and owner
+  
 
   try {
     // Call the addMsg function with the provided parameters
     console.log("/addmsgreceiver called");
-    addMessage(srcChain);
+    addMessage();
 
     // Optionally, you can return a success response
     res.status(200).json({ message: 'Receiver Message added successfully' });
@@ -219,6 +219,7 @@ app.post('/addmsgreceiver', (req, res) => {
 app.get('/getnftpassword', async (req, res) => {
   try {
 
+    console.log()
     _confirmPassword = await contractActionlyrsp.methods.getNFT(_selfID, _srcChain, accountSp.address).call();
     if(_confirmPassword){
       res.status(200).json({ message: 'Password received successfully from the getNFT added successfully' });
@@ -246,7 +247,7 @@ app.get('/nftdata', async (req, res) => {
     // Optionally, you can further process or manipulate the nftData object here
 
     // Return a success response
-    res.status(200).json({ message: 'NFT data stored successfully' });
+    res.status(200).json({message: storedNFTData});
   } catch (error) {
     // Handle errors
     console.error('Failed to fetch NFT data:', error);
@@ -255,7 +256,7 @@ app.get('/nftdata', async (req, res) => {
 });
 
 //finally the minting of nft once we receiver the nftData structure
-app.post('/mintNFT', async (req, res) => {
+app.post('/mintnft', async (req, res) => {
   try {
     // Call the fetchNFTDetails function
     await contractActionlyrsp.methods.fetchNFTDetails(_uri, _owner).send({ from: accountSp.address });
@@ -270,8 +271,8 @@ app.post('/mintNFT', async (req, res) => {
 });
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
+app.listen(5001, () => {
+  console.log('Server started on port 5001');
 });
 
 // proxy for fetching url
@@ -287,14 +288,3 @@ app.get("/request", async (req, res) => {
     return res.json();
   }
 });
-
-
-
-Moralis.start({
-  apiKey: MORALIS_API_KEY,
-}).then(() => {
-  app.listen(port, () => {
-    console.log(port);
-    console.log(`Listening for API Calls`);
-  });
-})

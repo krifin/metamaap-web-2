@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const NFTCard = ({ nft }) => {
-    const { web3, getTokenUri } = useWeb3();
+    const { web3, getTokenUri, account } = useWeb3();
     const [tokenUri, setTokenUri] = React.useState(null);
 
     useEffect(() => {
