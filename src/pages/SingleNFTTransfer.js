@@ -6,10 +6,6 @@ import { useWeb3 } from '../adaptors/useWeb3'
 
 const SingleNFTTransfer = () => {
     const { state } = useLocation();
-<<<<<<< HEAD
-    const { chainId } = useWeb3();
-=======
->>>>>>> kunal-jain
     // const [nft,setNft] = useState();
     // if(state){
     //     setNft(state);
