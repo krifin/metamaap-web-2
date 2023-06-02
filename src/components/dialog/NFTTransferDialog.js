@@ -8,25 +8,15 @@ import Web3 from 'web3';
 import contractAbi from '../../abi/actioncontractL1.json'
 
 
-const NFTTransferDialog = ({ onClose, addr, tokenid, nftName, nftSymbol, uri}) => {
-    const {chainId, account} = useWeb3();
-    const web3 = new Web3(window.ethereum);
-    const contractAddressActionContPolygon = '0x7FF145f83f2a8c7eBE6ab6665Fe407C90F881a1a'
-    const contractActionlyrsp = new web3.eth.Contract(contractAbi, contractAddressActionContPolygon);
-    
-    console.log("account:", account);
+
+const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
     const [state, setState] = React.useState({
         tokenId: tokenid,
         nftContract: addr,
-        account: account,
-        name: nftName,
-        symbol: nftSymbol,
-        uri: uri,
-        targetChain: '',
-        srcChain: ''
+        targetChain: ''
     })
 
-    // const { sendNFT, approve, chainId } = useWeb3()
+    const { sendNFT, approve, chainId } = useWeb3()
 
     // console.log(id, addr)
     
@@ -52,33 +42,33 @@ const NFTTransferDialog = ({ onClose, addr, tokenid, nftName, nftSymbol, uri}) =
             ...state, srcChain: _srcChain
         })
         // Call the sendNFT route
-        await axios.post('/sendnft', state);
-        console.log('NFT sent successfully');
+        // await axios.post('/sendnft', state);
+        // console.log('NFT sent successfully');
 
-        // Call the addMsgReceiver route
-        await axios.post('/addmsgreceiver');
-        console.log('Receiver Message added successfully');
+        // // Call the addMsgReceiver route
+        // await axios.post('/addmsgreceiver');
+        // console.log('Receiver Message added successfully');
 
-        //Call the getnftpassword route
-        const res = await axios.get('/getnftpassword');
-        console.log('Password received successfully:', res.data.message);
+        // //Call the getnftpassword route
+        // const res = await axios.get('/getnftpassword');
+        // console.log('Password received successfully:', res.data.message);
 
-        //Call the /nftdata route
-        const response = await axios.get('/nftdata');
-        console.log('NFT data stored successfully:', response.data.message);
+        // //Call the /nftdata route
+        // const response = await axios.get('/nftdata');
+        // console.log('NFT data stored successfully:', response.data.message);
 
-        //Call the /mintnft route
-        await axios.post('/mintnft');
-        console.log('minting done finally');
+        // //Call the /mintnft route
+        // await axios.post('/mintnft');
+        // console.log('minting done finally');
 
-        // All routes executed successfully
-        console.log('All routes executed successfully');
+        // // All routes executed successfully
+        // console.log('All routes executed successfully');
         
-        console.log("approved!");
-        // await sendNFT(state.nftAddress, parseInt(state.tokenId), parseInt(state.targetChain));
+        // console.log("approved!");
+        await approve(state.nftContract, state.tokenId);
+        await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
                 
-    }   
-    
+    }
     return (
         <div className='dialog' onClick={(e) => {
             if (e.target.className === 'dialog') {
