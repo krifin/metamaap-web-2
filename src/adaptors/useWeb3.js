@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
@@ -8,6 +9,7 @@ export const useWeb3 = () => {
     const [chainId, setChainId] = useState(null);
     const contractAddress = '0x7FF145f83f2a8c7eBE6ab6665Fe407C90F881a1a';
     const [chainConfig, setChainConfig] = useState([]);
+    const navigate = useNavigate();
     
     const abi = [
         {
@@ -754,10 +756,12 @@ export const useWeb3 = () => {
         const convertChainID = convertChainIdtoHex(chainId);
         if (window.ethereum){
             try {
+                // alert('switching network')
                 await window.ethereum.request({
                     method: 'wallet_switchEthereumChain',
                     params: [{ chainId: convertChainID }],
                 });
+                window.location.reload();
             } catch(e) {
                 await window.ethereum.request({
                     method: 'wallet_addEthereumChain',
@@ -797,7 +801,15 @@ export const useWeb3 = () => {
         await contract.methods.sendNFT(name, symbol, tokenId, nftAddress, targetChain, uri).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
 
         // call the server 
-        await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&address=${account}&targetChain=${targetChain}&tokenId=${tokenId}&uri=${uri}`)
+        let response = await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&address=${account}&targetChain=${targetChain}&tokenId=${tokenId}&uri=${uri}`)
+        console.log("response received from server:", response);
+        if(response.status === 200){
+            alert('NFT Transfer successful! Now switch your network to view your transferred NFT');
+            
+        } else {
+            alert('Transfer failed!');
+        }
+        navigate("/dashboard");
     }
 
 

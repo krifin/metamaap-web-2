@@ -320,7 +320,7 @@ const mintNFT = async (srcChain,uri ,owner ) => {
   }
 }
 
-const transfer = async (srcChain, address, targetChain, tokenId,uri ) => {
+const transfer = async (srcChain, address, targetChain, tokenId, uri ) => {
   try {
     var selfID = await getSelfID(srcChain);
     selfID = parseInt(selfID) - 1;
@@ -336,7 +336,7 @@ const transfer = async (srcChain, address, targetChain, tokenId,uri ) => {
     // Call the releaseNFT function
     await releaseNFT(srcChain, address, confirmPassword, tokenId);
 
-    await mintNFT(srcChain,uri ,address);
+    await mintNFT(srcChain, uri ,address);
   }
   catch (error) {
     console.error('Transaction failed:', error);
@@ -345,14 +345,14 @@ const transfer = async (srcChain, address, targetChain, tokenId,uri ) => {
 
 
 app.get('/transfer',async (req, res) => {
-  const { srcChain, address, targetChain, tokenId,uri } = req.query; // Assuming the required data is sent in the request body
+  const { srcChain, address, targetChain, tokenId, uri } = req.query; // Assuming the required data is sent in the request body
   res.setHeader('Access-Control-Allow-Origin', '*'); // Replace * with your desired origin(s) or set to '*' to allow all origins
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify the allowed HTTP methods
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Specify the allowed headers
   console.log(srcChain, address, targetChain, tokenId,uri);
   try {
-    transfer(srcChain, address, targetChain, tokenId,uri);
-
+    transfer(srcChain, address, targetChain, tokenId, uri);
+    console.log("NFT Minting successful!");
     // Optionally, you can return a success response
     res.status(200).json({ message: 'Receiver Message added successfully' });
   } catch (error) {

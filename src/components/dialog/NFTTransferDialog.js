@@ -33,14 +33,14 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
     const transferNFT = async(e) =>{
 
         e.preventDefault();
-        const sender = account;
-        console.log("trasnferring nft");
+        // const sender = account;
+        // console.log("trasnferring nft");
         
-        await contractActionlyrsp.methods.sendNFT(state.name, state.symbol, state.tokenId, state.nftContract, state.targetChain, state.uri).send({ from: sender, value: web3.utils.toWei('0.0001', 'ether') });
-        let _srcChain = await window.ethereum.request({ method: 'eth_chainId' });
-        setState({
-            ...state, srcChain: _srcChain
-        })
+        // await contractActionlyrsp.methods.sendNFT(state.name, state.symbol, state.tokenId, state.nftContract, state.targetChain, state.uri).send({ from: sender, value: web3.utils.toWei('0.0001', 'ether') });
+        // let _srcChain = await window.ethereum.request({ method: 'eth_chainId' });
+        // setState({
+        //     ...state, srcChain: _srcChain
+        // })
         // Call the sendNFT route
         // await axios.post('/sendnft', state);
         // console.log('NFT sent successfully');

@@ -5,7 +5,7 @@ import NFTTransferDialog from '../components/dialog/NFTTransferDialog'
 import { useWeb3 } from '../adaptors/useWeb3'
 
 const SingleNFTTransfer = () => {
-    const { state } = useLocation();
+    const { state } = useLocation();    
     // const [nft,setNft] = useState();
     // if(state){
     //     setNft(state);
