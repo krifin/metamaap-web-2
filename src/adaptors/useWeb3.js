@@ -2,15 +2,15 @@ import Web3 from 'web3';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import abi1 from '../abi/ActionContractChainOne.json'
-import abi2 from '../abi/ActionContractChainTwo.json'
+import abi from '../abi/ApplicationLayer.json'
+
 
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
     const [chainId, setChainId] = useState(null);
-    const contractAddress1 = '0x9C9c74C09377Bd3B2Dc15a591D8EBb0Ca174Cd63';
-    const contractAddress2 = '0x435F72c443B2c8EE3a5Ce0316f514fa06B6aE1e1';
+    const contractAddressPolygon = '0x7080f81D4C5E3ec9e768d360Dd78728cdd50b5d9';
+    const contractAddressSepolia = '0x621181dFC7D968D47ca3CEA3Ecd07F57Bf7F0478';
     const [chainConfig, setChainConfig] = useState([]);
     const navigate = useNavigate();
     
@@ -473,14 +473,15 @@ export const useWeb3 = () => {
         let contract;
 
         //this tChain has been used below in the approve function
-        tChain = targetChain;
+        // tChain = targetChain;
         console.log(nftAddress, tokenId, targetChain)
         if(targetChain === 11155111){
-            console.log("this one called")
-            contract = new web3.eth.Contract(abi1, contractAddress1);
+            console.log("target chain is Sepolia")
+            contract = new web3.eth.Contract(abi, contractAddressPolygon);
         }
         else if(targetChain === 80001){
-            contract = new web3.eth.Contract(abi2, contractAddress2);
+            console.log("target chain is Polygon")
+            contract = new web3.eth.Contract(abi, contractAddressSepolia);
         }
         
         const nftContract = new web3.eth.Contract(nftAbi, nftAddress);
@@ -510,11 +511,12 @@ export const useWeb3 = () => {
 
     async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        if(tChain === 11155111){
-            return await contract.methods.approve(contractAddress1, tokenId).send({ from: account });
+        //here chainId signifies the current chain to which user is on currently
+        if(chainId === 80001){
+            return await contract.methods.approve(contractAddressPolygon, tokenId).send({ from: account });
         }
-        else if(tChain === 80001){
-            return await contract.methods.approve(contractAddress2, tokenId).send({ from: account });
+        else if(chainId === 11155111){
+            return await contract.methods.approve(contractAddressSepolia, tokenId).send({ from: account });
         }
     }
 

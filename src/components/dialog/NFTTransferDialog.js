@@ -65,7 +65,7 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
         // console.log('All routes executed successfully');
         
         // console.log("approved!");
-        await approve(state.nftContract, state.tokenId);
+        await approve(state.nftContract, state.tokenId, chainId);
         await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
                 
     }
