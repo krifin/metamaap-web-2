@@ -2,344 +2,23 @@ import Web3 from 'web3';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import abi1 from '../abi/ActionContractChainOne.json'
+import abi2 from '../abi/ActionContractChainTwo.json'
 
 export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
     const [chainId, setChainId] = useState(null);
-    const contractAddress = '0x7FF145f83f2a8c7eBE6ab6665Fe407C90F881a1a';
+    const contractAddress1 = '0x9C9c74C09377Bd3B2Dc15a591D8EBb0Ca174Cd63';
+    const contractAddress2 = '0x435F72c443B2c8EE3a5Ce0316f514fa06B6aE1e1';
     const [chainConfig, setChainConfig] = useState([]);
     const navigate = useNavigate();
     
-    const abi = [
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_messageContractaddrS",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "anonymous": false,
-            "inputs": [
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "previousOwner",
-                    "type": "address"
-                },
-                {
-                    "indexed": true,
-                    "internalType": "address",
-                    "name": "newOwner",
-                    "type": "address"
-                }
-            ],
-            "name": "OwnershipTransferred",
-            "type": "event"
-        },
-        {
-            "inputs": [],
-            "name": "renounceOwnership",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "_name",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "_symbol",
-                    "type": "string"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_tokenId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_nftContract",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_targetChain",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "_uri",
-                    "type": "string"
-                }
-            ],
-            "name": "sendNFT",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "newOwner",
-                    "type": "address"
-                }
-            ],
-            "name": "transferOwnership",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "_owner",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getSelfID",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "messageContractaddrS",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "MIN_FEE",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "nftContract",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "NFTdata",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "internalType": "string",
-                    "name": "symbol",
-                    "type": "string"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "userAddr",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "contractAddress",
-                    "type": "address"
-                },
-                {
-                    "internalType": "string",
-                    "name": "uri",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "origin",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "owner",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "_origin",
-                    "type": "address"
-                },
-                {
-                    "internalType": "string",
-                    "name": "_passcode",
-                    "type": "string"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "_tokenId",
-                    "type": "uint256"
-                }
-            ],
-            "name": "releaseNFT",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "symbol",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "tokenId",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "userAddr",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "contractAddress",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        }
-                    ],
-                    "internalType": "struct NFTReceiver.NFT",
-                    "name": "",
-                    "type": "tuple"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "selfID",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "tokenPassword",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ]
+    
 
+    
+
+    
     const nftAbi = [
         {
             "inputs": [],
@@ -685,6 +364,7 @@ export const useWeb3 = () => {
         }
     ]
 
+    let tChain;
 
     useEffect(() => {
         const getWeb3 = async () => {
@@ -790,19 +470,34 @@ export const useWeb3 = () => {
     }
 
     async function sendNFT(nftAddress, tokenId, targetChain) {
+        let contract;
+
+        //this tChain has been used below in the approve function
+        tChain = targetChain;
         console.log(nftAddress, tokenId, targetChain)
-        const contract = new web3.eth.Contract(abi, contractAddress);
+        if(targetChain === 11155111){
+            console.log("this one called")
+            contract = new web3.eth.Contract(abi1, contractAddress1);
+        }
+        else if(targetChain === 80001){
+            contract = new web3.eth.Contract(abi2, contractAddress2);
+        }
+        
         const nftContract = new web3.eth.Contract(nftAbi, nftAddress);
         const uri = await nftContract.methods.tokenURI(parseInt(tokenId)).call();
         const name = await nftContract.methods.name().call();
         const symbol = await nftContract.methods.symbol().call();
         console.log(nftAddress, tokenId);
 
+        console.log("nft uri sendNFT:", uri)
+        console.log("nft name sendNFT:", name)
+        console.log("nft sybmol sendNFT:", symbol)
+
         await contract.methods.sendNFT(name, symbol, tokenId, nftAddress, targetChain, uri).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
 
         // call the server 
         let response = await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&address=${account}&targetChain=${targetChain}&tokenId=${tokenId}&uri=${uri}`)
-        console.log("response received from server:", response);
+        console.log("response received from server:", response.data);
         if(response.status === 200){
             alert('NFT Transfer successful! Now switch your network to view your transferred NFT');
             
@@ -815,7 +510,12 @@ export const useWeb3 = () => {
 
     async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        return await contract.methods.approve(contractAddress, tokenId).send({ from: account });
+        if(tChain === 11155111){
+            return await contract.methods.approve(contractAddress1, tokenId).send({ from: account });
+        }
+        else if(tChain === 80001){
+            return await contract.methods.approve(contractAddress2, tokenId).send({ from: account });
+        }
     }
 
     async function getTokenUri(nftAddress, tokenId) {

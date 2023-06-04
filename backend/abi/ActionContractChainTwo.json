@@ -2,32 +2,20 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_messageContractaddrS",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
+				"internalType": "string",
+				"name": "_uri",
+				"type": "string"
 			},
 			{
-				"indexed": true,
 				"internalType": "address",
-				"name": "newOwner",
+				"name": "_userAddr",
 				"type": "address"
 			}
 		],
-		"name": "OwnershipTransferred",
-		"type": "event"
+		"name": "fetchNFTDetails",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -78,6 +66,41 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_messageContractaddrR",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_mintNFTaddr",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "newOwner",
 				"type": "address"
 			}
@@ -101,6 +124,35 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_selfId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_srcChain",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_receiver",
+				"type": "address"
+			}
+		],
+		"name": "getNFT",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getSelfID",
 		"outputs": [
@@ -114,8 +166,27 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "heldTokens",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "messageContractaddrS",
+		"name": "messageContractaddrR",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -128,12 +199,25 @@
 	},
 	{
 		"inputs": [],
-		"name": "MIN_FEE",
+		"name": "MsgChainTwo",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "contract MessageChainTwo",
 				"name": "",
-				"type": "uint256"
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "myNFT",
+		"outputs": [
+			{
+				"internalType": "contract MyNFT",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -275,7 +359,7 @@
 						"type": "string"
 					}
 				],
-				"internalType": "struct NFTReceiver.NFT",
+				"internalType": "struct ActionContractChainTwoMod.NFT",
 				"name": "",
 				"type": "tuple"
 			}

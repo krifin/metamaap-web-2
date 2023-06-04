@@ -5,7 +5,7 @@ import Arrow from '../../assets/png/arrow-left.png'
 import { useWeb3 } from '../../adaptors/useWeb3'
 import axios from 'axios'
 import Web3 from 'web3';
-import contractAbi from '../../abi/actioncontractL1.json'
+// import contractAbi from '../../abi/actioncontractL1.json'
 
 
 
