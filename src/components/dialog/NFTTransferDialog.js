@@ -31,40 +31,8 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
     }
 
     const transferNFT = async(e) =>{
-
         e.preventDefault();
-        // const sender = account;
-        // console.log("trasnferring nft");
-        
-        // await contractActionlyrsp.methods.sendNFT(state.name, state.symbol, state.tokenId, state.nftContract, state.targetChain, state.uri).send({ from: sender, value: web3.utils.toWei('0.0001', 'ether') });
-        // let _srcChain = await window.ethereum.request({ method: 'eth_chainId' });
-        // setState({
-        //     ...state, srcChain: _srcChain
-        // })
-        // Call the sendNFT route
-        // await axios.post('/sendnft', state);
-        // console.log('NFT sent successfully');
-
-        // // Call the addMsgReceiver route
-        // await axios.post('/addmsgreceiver');
-        // console.log('Receiver Message added successfully');
-
-        // //Call the getnftpassword route
-        // const res = await axios.get('/getnftpassword');
-        // console.log('Password received successfully:', res.data.message);
-
-        // //Call the /nftdata route
-        // const response = await axios.get('/nftdata');
-        // console.log('NFT data stored successfully:', response.data.message);
-
-        // //Call the /mintnft route
-        // await axios.post('/mintnft');
-        // console.log('minting done finally');
-
-        // // All routes executed successfully
-        // console.log('All routes executed successfully');
-        
-        // console.log("approved!");
+        console.log("approved!");
         await approve(state.nftContract, state.tokenId);
         await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
                 

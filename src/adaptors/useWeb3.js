@@ -9,15 +9,10 @@ export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
     const [chainId, setChainId] = useState(null);
-    const contractAddress1 = '0x9C9c74C09377Bd3B2Dc15a591D8EBb0Ca174Cd63';
-    const contractAddress2 = '0x435F72c443B2c8EE3a5Ce0316f514fa06B6aE1e1';
+    const contractAddressPolygon = '0xC2A6234760589E76F22Fb74b4A23Eb71F159A34A';
+    const contractAddressSepolia = '0x621C66F619b5b16A0e15D5531f3e739Cdf0EdFd2';
     const [chainConfig, setChainConfig] = useState([]);
     const navigate = useNavigate();
-    
-    
-
-    
-
     
     const nftAbi = [
         {
@@ -477,10 +472,10 @@ export const useWeb3 = () => {
         console.log(nftAddress, tokenId, targetChain)
         if(targetChain === 11155111){
             console.log("this one called")
-            contract = new web3.eth.Contract(abi1, contractAddress1);
+            contract = new web3.eth.Contract(abi1, contractAddressPolygon);
         }
         else if(targetChain === 80001){
-            contract = new web3.eth.Contract(abi2, contractAddress2);
+            contract = new web3.eth.Contract(abi2, contractAddressSepolia);
         }
         
         const nftContract = new web3.eth.Contract(nftAbi, nftAddress);
@@ -511,10 +506,10 @@ export const useWeb3 = () => {
     async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
         if(tChain === 11155111){
-            return await contract.methods.approve(contractAddress1, tokenId).send({ from: account });
+            return await contract.methods.approve(contractAddressPolygon, tokenId).send({ from: account });
         }
         else if(tChain === 80001){
-            return await contract.methods.approve(contractAddress2, tokenId).send({ from: account });
+            return await contract.methods.approve(contractAddressSepolia, tokenId).send({ from: account });
         }
     }
 
