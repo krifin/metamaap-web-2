@@ -359,8 +359,6 @@ export const useWeb3 = () => {
         }
     ]
 
-    let tChain;
-
     useEffect(() => {
         const getWeb3 = async () => {
             if (window.ethereum) {
@@ -468,7 +466,6 @@ export const useWeb3 = () => {
         let contract;
 
         //this tChain has been used below in the approve function
-        tChain = targetChain;
         console.log(nftAddress, tokenId, targetChain)
         if(targetChain === 11155111){
             console.log("this one called")
@@ -505,11 +502,12 @@ export const useWeb3 = () => {
 
     async function approve(nftAddress,tokenId) {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
-        if(tChain === 11155111){
-            return await contract.methods.approve(contractAddressPolygon, tokenId).send({ from: account });
-        }
-        else if(tChain === 80001){
+        console.log("tokenId", tokenId)
+        if(chainId === 11155111){
             return await contract.methods.approve(contractAddressSepolia, tokenId).send({ from: account });
+        }
+        else if(chainId === 80001){
+            return await contract.methods.approve(contractAddressPolygon, tokenId).send({ from: account });
         }
     }
 
