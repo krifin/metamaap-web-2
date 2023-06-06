@@ -185,10 +185,11 @@ const getNFT = async (selfID, srcChain, address) => {
 const releaseNFT = async (srcChain,address, password, tokenId) => {
   try {
     if (parseInt(srcChain) === 80001) {
-      return await contractApplicationLayerPolygon.methods.fetchNFTDetails(address, password, tokenId).call();
+      return await contractApplicationLayerPolygon.methods.fetchNFTData(address, password, tokenId).call();
     }
     else {
-      return await contractApplicationLayerSepolia.methods.fetchNFTDetails(address, password, tokenId).call();
+      console.log(contractApplicationLayerSepolia.methods);
+      return await contractApplicationLayerSepolia.methods.fetchNFTData(address, password, tokenId).call();
     }
   }
   catch (error) {
@@ -227,7 +228,7 @@ const mintNFT = async (srcChain, uri ,owner ) => {
 
     //srcChain->frontend
     // Estimate the gas limit for the transaction
-    const gasLimit = await contractApplicationLayerPolygon.methods.fetchNFTDetails(uri, owner).estimateGas();
+    const gasLimit = await contractApplicationLayerPolygon.methods.mintNFT(uri, owner).estimateGas();
 
     // Build the transaction object
     console.log("accountPolygon.address:", accountPolygon.address);
