@@ -13,7 +13,9 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
     const [state, setState] = React.useState({
         tokenId: tokenid,
         nftContract: addr,
+        receiverAddr : '',
         targetChain: ''
+        
     })
 
     const { sendNFT, approve, chainId } = useWeb3()
@@ -23,6 +25,7 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
 
     const handleChange = (e) => {
         console.log('chaind ID of current network: ', chainId)
+        console.log("receiverAddr", state.receiverAddr);
         console.log("targetChain:", state.targetChain);
         setState({
             ...state,
@@ -66,7 +69,7 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
         
         // console.log("approved!");
         await approve(state.nftContract, state.tokenId, chainId);
-        await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain));
+        await sendNFT(state.nftContract, parseInt(state.tokenId), parseInt(state.targetChain), state.receiverAddr);
                 
     }
     return (
@@ -86,9 +89,9 @@ const NFTTransferDialog = ({ onClose, addr, tokenid}) => {
                 {/*<div className='dialog-input-box'>
                     <input className='dialog-input' name="nftContract" type='text' placeholder='nft address' disabled/>
                 </div> */}
-                {/* <div className='dialog-input-box'>
-                    <input className='dialog-input' type='name' onChange={handleChange} name="tokenId" placeholder='Token Id' required />
-                </div> */}
+                <div className='dialog-input-box'>
+                    <input className='dialog-input' type='text' onChange={handleChange} name="receiverAddr" placeholder='Receiver Address' required />
+                </div>
                 <div className='dialog-input-box'>
                     <select className='dialog-input' type='name' onChange={handleChange} name="targetChain" placeholder='Target Chain' required>
                         <option value="">Select Target Chain</option>

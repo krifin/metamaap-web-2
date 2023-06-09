@@ -9,8 +9,12 @@ export const useWeb3 = () => {
     const [web3, setWeb3] = useState(null);
     const [account, setAccount] = useState(null);
     const [chainId, setChainId] = useState(null);
-    const contractAddressPolygon = '0x7080f81D4C5E3ec9e768d360Dd78728cdd50b5d9';
-    const contractAddressSepolia = '0x621181dFC7D968D47ca3CEA3Ecd07F57Bf7F0478';
+    const actionContractAddrPolygon = '0x706E90d0D5c47C100858d395Bbd2796d4b2837af';
+    const messageContractAddrPolygon = '0x8e47Fff165cAeAA2A3dfAd1775061A1869Dd1cE0';
+    const receiverContractAddrPolygon = '0xDfC145578CFFE03aA5EB92aF05b6FB0317ac54f3';
+    const messageContractAddrSepolia = '0xb272132dfAa6c829435530EE60316beE856981Db'
+    const receiverContractAddrSepolia = '0x21687C185B960BA09b8B4cc7c29C12ffE9B6BcA7'
+    const actionContractAddrSepolia = '0x29fe6aD5a7c97263C5faA57cefc5C1Ef9a69c2EB';
     const [chainConfig, setChainConfig] = useState([]);
     const navigate = useNavigate();
     
@@ -469,35 +473,35 @@ export const useWeb3 = () => {
         return web3.utils.BN(number);
     }
 
-    async function sendNFT(nftAddress, tokenId, targetChain) {
+    async function sendNFT(nftAddress, tokenId, targetChain, receiverAddress) {
         let contract;
-
-        //this tChain has been used below in the approve function
-        // tChain = targetChain;
-        console.log(nftAddress, tokenId, targetChain)
+        
+        
+        console.log(nftAddress, tokenId, targetChain, receiverAddress)
         if(targetChain === 11155111){
+            
             console.log("target chain is Sepolia")
-            contract = new web3.eth.Contract(abi, contractAddressPolygon);
+            contract = new web3.eth.Contract(abi, actionContractAddrPolygon);
         }
         else if(targetChain === 80001){
+            
             console.log("target chain is Polygon")
-            contract = new web3.eth.Contract(abi, contractAddressSepolia);
+            contract = new web3.eth.Contract(abi, actionContractAddrSepolia);
         }
         
         const nftContract = new web3.eth.Contract(nftAbi, nftAddress);
         const uri = await nftContract.methods.tokenURI(parseInt(tokenId)).call();
         const name = await nftContract.methods.name().call();
         const symbol = await nftContract.methods.symbol().call();
-        console.log(nftAddress, tokenId);
+        
 
         console.log("nft uri sendNFT:", uri)
         console.log("nft name sendNFT:", name)
         console.log("nft sybmol sendNFT:", symbol)
 
-        await contract.methods.sendNFT(name, symbol, tokenId, nftAddress, targetChain, uri).send({ from: account,value: web3.utils.toWei("0.001", "ether") });
-
+        await contract.methods.sendDetails(name, symbol, tokenId, nftAddress, receiverAddress, uri).send({ from: account, value: web3.utils.toWei("0.0015", "ether") });
         // call the server 
-        let response = await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&address=${account}&targetChain=${targetChain}&tokenId=${tokenId}&uri=${uri}`)
+        let response = await axios.get(`http://localhost:5001/transfer?srcChain=${chainId}&uri=${uri}`)
         console.log("response received from server:", response.data);
         if(response.status === 200){
             alert('NFT Transfer successful! Now switch your network to view your transferred NFT');
@@ -513,10 +517,10 @@ export const useWeb3 = () => {
         const contract = new web3.eth.Contract(nftAbi, nftAddress);
         //here chainId signifies the current chain to which user is on currently
         if(chainId === 80001){
-            return await contract.methods.approve(contractAddressPolygon, tokenId).send({ from: account });
+            return await contract.methods.approve(actionContractAddrPolygon, tokenId).send({ from: account });
         }
         else if(chainId === 11155111){
-            return await contract.methods.approve(contractAddressSepolia, tokenId).send({ from: account });
+            return await contract.methods.approve(actionContractAddrSepolia, tokenId).send({ from: account });
         }
     }
 

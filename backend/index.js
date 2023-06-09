@@ -14,16 +14,19 @@ app.use(express.json());
 //chain 1 - POLYGON
 const privateKey = process.env.SP_PRIVATE_KEY;
 
-//Just thought if we can use them directly for minting rather than calling them by ActionLayer smart contract
-const contractAddressmynftPolygon = '0x7080f81D4C5E3ec9e768d360Dd78728cdd50b5d9'
-const contractAddressmynftSepolia = '0x621181dFC7D968D47ca3CEA3Ecd07F57Bf7F0478'
 
-const contractAddressActionLayerPolygon = '0xC2A6234760589E76F22Fb74b4A23Eb71F159A34A';
+
+//Just thought if we can use them directly for minting rather than calling them by ActionLayer smart contract
+const actionContractAddrPolygon = '0x3cFeC63877917d4c9a3D531e58686F50cB7fcee8';
+const messageContractAddrPolygon = '0x0227f4Aa24A6055462c9983cA913e669F6910D5d';
+const receiverContractAddrPolygon = '0x0058499fabEE90436bf11d9172A9A5Bc581Fb43E';
 
 
 //chain 2 - SEPOLIA
 
-const contractAddressActionLayerSepholi = '0xa1eB7383B88515f59f09C9E44CB1275494dC852a'
+const messageContractAddrSepolia = '0x42D2f2f1789Db2Db9fea54E2e2d95ebe9aFD180c'
+const receiverContractAddrSepolia = '0x2d40550449540Ceeab4d8987F2453f57EafaCd92'
+const actionContractAddrSepolia = '0x028287F483936215aD982F73fA04eaE10E8105B7';
 
 // const contractAddressMessageSepholi = '0x621C66F619b5b16A0e15D5531f3e739Cdf0EdFd2'
 
@@ -40,21 +43,21 @@ const sepolia_web3 = new Web3(new Web3.providers.HttpProvider(rpuUrlSepolia));
 //abi remains same for all the chains
 const contractABIActionLayer = require('./abi/ActionLayer.json');
 const contractABIMyNFT = require('./abi/MyNFT.json');
-
+const contractABIMessage = require('./abi/Message.json');
+const contractABIReceiver = require('./abi/Receiver.json');
 
 
 // Create an instance of the contract
 //chain 1 - POLYGON
-const contractActionLayerPolygon = new polygon_web3.eth.Contract(contractABIActionLayer, contractAddressActionLayerPolygon);
-const contractmynftPolygon = new polygon_web3.eth.Contract(contractABIMyNFT, contractAddressmynftPolygon);
-
-
+const contractActionLayerPolygon = new polygon_web3.eth.Contract(contractABIActionLayer, actionContractAddrPolygon);
+const contractMessagePolygon = new polygon_web3.eth.Contract(contractABIMessage, messageContractAddrPolygon);
+const contractReceiverPolygon = new polygon_web3.eth.Contract(contractABIReceiver, receiverContractAddrPolygon);
 
 //chain 2 - SEPOLIA
 
-const contractActionLayerSepholi = new sepolia_web3.eth.Contract(contractABIActionLayer, contractAddressActionLayerSepholi);
-const contractmynftSepolia = new polygon_web3.eth.Contract(contractABIMyNFT, contractAddressmynftSepolia);
-
+const contractActionLayerSepholi = new sepolia_web3.eth.Contract(contractABIActionLayer, actionContractAddrSepolia);
+const contractMessageSepolia = new polygon_web3.eth.Contract(contractABIMessage, messageContractAddrSepolia);
+const contractReceiverSepolia = new polygon_web3.eth.Contract(contractABIReceiver, receiverContractAddrSepolia);
 
 // Set the account that will sign the transactions
 //chain 1 - POLYGON
@@ -69,11 +72,12 @@ sepolia_web3.eth.defaultAccount = accountSepholi.address;
 
 
 
-async function addMessage(_srcChain, _selfID, _password, address) {
+async function addMessage(_srcChain, _selfID, _password, receiver) {
   try {
     console.log('chainId')
     if (parseInt(_srcChain) === 80001) {
-      //when transferring from polygon to sepolia, we need to add the passcode to sepolia for the verification
+      // when transferring from polygon to sepolia, we need to add the passcode, receiver and selfID
+      // to sepolia for the verification
       console.log("addMessage called for polygon network")
       const minFee = sepolia_web3.utils.toWei('0.0015', 'ether'); // Minimum fee in ether (adjust as needed)
       console.log("minFee: ", minFee)
@@ -83,14 +87,15 @@ async function addMessage(_srcChain, _selfID, _password, address) {
     
 
     // Build the transaction object
+    console.log("called the receiver of sepolia and adding to it")
     console.log("addmsg to mint selfid", _selfID)
     console.log("addmsg to mint srcChain", _srcChain)
-    console.log("addmsg to mint _passowrd",  _password)
-    console.log("addmsg to mint address", address)
+    console.log("addmsg to mint _passoword",  _password)
+    console.log("addmsg to mint to receiver address", receiver)
     const txObject = {
       from: accountSepholi.address,
-      to: contractAddressActionLayerSepholi,
-      data: contractActionLayerSepholi.methods.transferMsg(_srcChain, _selfID, _password, address).encodeABI(),
+      to: receiverContractAddrSepolia,
+      data: contractReceiverSepolia.methods.addMsg(_selfID, _password, receiver).encodeABI(),
       gasPrice: gasPrice,
       gas: 200000,
       value: minFee,
@@ -106,6 +111,9 @@ async function addMessage(_srcChain, _selfID, _password, address) {
     console.log('Transaction receiver successful:', receipt.transactionHash);
   } else {
 
+    // when transferring from sepolia to polygon, we need to add the passcode, receiver and selfID
+    // to sepolia for the verification
+
     //when transferring from sepolia to polygon
     const minFee = polygon_web3.utils.toWei('0.0015', 'ether'); // Minimum fee in ether (adjust as needed)
 
@@ -114,18 +122,17 @@ async function addMessage(_srcChain, _selfID, _password, address) {
 
     // Estimate the gas limit for the transaction
     // const gasLimit = await contractReceiverPolygon.methods.addMsg(_srcChain, _selfID, _password, address).estimateGas();
+    console.log("called the receiver of polygon and adding to it")
     console.log("password:", _password);
     console.log("_srcChain:", _srcChain);
-    console.log("address:", address);
+    console.log("receiver:", receiver);
     console.log("_selfID:", _selfID);
-    const gasLimit = await contractActionLayerPolygon.methods.transferMsg(_srcChain, _selfID, _password, address).estimateGas();
 
     // Build the transaction object
     const txObject = {
       from: accountPolygon.address,
-      to: contractAddressActionLayerPolygon,
-      // data: contractReceiverPolygon.methods.addMsg(_srcChain, _selfID, _password, address).encodeABI(),
-      data: contractActionLayerPolygon.methods.transferMsg(_srcChain, _selfID, _password, address).encodeABI(),
+      to: receiverContractAddrPolygon,
+      data: contractReceiverPolygon.methods.addMsg(_selfID, _password, receiver).encodeABI(),
       gasPrice: gasPrice,
       gas: 200000,
       value: minFee,
@@ -147,30 +154,30 @@ const getSelfID = async (srcChain) => {
     console.log(srcChain);
     if (parseInt(srcChain) === 80001) {
       console.log('getSelfID called for polygon network')
-      return await contractActionLayerPolygon.methods.getSelfID().call();
+      return await contractMessagePolygon.methods.getSelfID().call();
     }
     else {
-      return await contractActionLayerSepholi.methods.getSelfID().call();
+      return await contractMessageSepolia.methods.getSelfID().call();
     }
   } catch (error) {
     console.error('Transaction failed:', error);
   }
 };
 
-const getPassword = async (address, selfID, targetChain, srcChain) => {
+const getReceiverPassword = async (srcChain) => {
   try {
     if (parseInt(srcChain) === 80001) {
       
-      console.log("address of receiver for transferring to polygon: ", address);
-      return await contractActionLayerPolygon.methods
-      .getNFT(selfID, address, targetChain)
+      console.log("getReceiverPassword came to polygon");
+      return await contractMessagePolygon.methods
+      .getReceiverPassword()
       .call();
 
     }
     else {
-      
-      return await contractActionLayerSepholi.methods
-      .getNFT(selfID, address, targetChain)
+      console.log("getReceiverPassword came to sepolia");
+      return await contractMessageSepolia.methods
+      .getReceiverPassword()
       .call();
     }
   }
@@ -179,22 +186,20 @@ const getPassword = async (address, selfID, targetChain, srcChain) => {
   }
 }
 
-const getConfirmPassword = async (selfID, srcChain, address) => {
+const returnConfirmDetails = async (srcChain) => {
   try {
     
     if (parseInt(srcChain) === 80001) {
-      console.log('getNFT called for polygon network');
-      console.log("sender:", address);
-      console.log("selfID:", selfID);
+      console.log('returnConfirmDetails called for sepolia network to be transferred to polygon to release NFT');
       console.log("srcChain:", srcChain);
-      return await contractActionLayerSepholi.methods.getNFT(selfID, srcChain, address).call();
+      return await contractMessageSepolia.methods.getReceiverPassword().call();
+      
     }
     else {
-      console.log('getNFT called for sepolia network');
-      console.log("sender:", address);
-      console.log("selfID:", selfID);
+      console.log('returnConfirmDetails called for sepolia network to be transferred to sepolia to release NFT');
       console.log("srcChain:", srcChain);
-      return await contractActionLayerPolygon.methods.getNFT(selfID, srcChain, address).call();
+      return await contractMessagePolygon.methods.getReceiverPassword().call();
+      
     }
   }
   catch (error) {
@@ -202,21 +207,92 @@ const getConfirmPassword = async (selfID, srcChain, address) => {
   }
 }
 
-const releaseNFT = async (srcChain,address, password, tokenId) => {
+const releaseNFT = async (srcChain, confirmReceiver, confirmPassword) => {
+  console.log("release NFT called!");
+  console.log("inside release NFT, receiver address:", confirmReceiver);
+  console.log("inside release NFT, confirm Password:", confirmPassword);
   try {
+    console.log('chainId:', srcChain);
     if (parseInt(srcChain) === 80001) {
-      return await contractActionLayerPolygon.methods.releaseNFT(address, password, tokenId).call();
-    }
+      console.log("releasing the nft from the polygon and transferring the ownership to the new receiver address")
+      // when transferring from polygon to sepolia, we need to add the passcode, receiver and selfID
+      // to sepolia for the verification
+      console.log("addMessage called for polygon network")
+      const minFee = polygon_web3.utils.toWei('0.0015', 'ether'); // Minimum fee in ether (adjust as needed)
+      console.log("minFee: ", minFee)
+    // Get the current gas price
+    const gasPrice = await polygon_web3.eth.getGasPrice();
+    console.log("gasPrice: ", gasPrice)
+    
+
+    // Build the transaction object
+    console.log("releasing the nft on the polygon network")
+    
+    console.log("srcChain to release NFT on", srcChain)
+    console.log("passoword to unlock NFT",  confirmPassword)
+    console.log("receiver receiver address", confirmReceiver)
+    const txObject = {
+      from: accountPolygon.address,
+      to: receiverContractAddrPolygon,
+      data: contractReceiverPolygon.methods.getConfirmDetails(confirmReceiver, confirmPassword).encodeABI(),
+      gasPrice: gasPrice,
+      gas: 200000,
+      value: minFee,
+    };
+
+    console.log("txObject: ", txObject)
+
+    // Sign and send the transaction
+    const signedTx = await polygon_web3.eth.accounts.signTransaction(txObject, privateKey);
+    const rawTx = signedTx.rawTransaction;
+    const receipt = await polygon_web3.eth.sendSignedTransaction(rawTx);
+
+    console.log('Transaction receiver successful:', receipt.transactionHash);
+  }
     else {
-      return await contractActionLayerSepholi.methods.releaseNFT(address, password, tokenId).call();
+      console.log("releasing the nft from the sepolia and transferring the ownership to the new receiver address")
+      // when transferring from polygon to sepolia, we need to add the passcode, receiver and selfID
+      // to sepolia for the verification
+      console.log("addMessage called for polygon network")
+      const minFee = sepolia_web3.utils.toWei('0.0015', 'ether'); // Minimum fee in ether (adjust as needed)
+      console.log("minFee: ", minFee)
+    // Get the current gas price
+    const gasPrice = await sepolia_web3.eth.getGasPrice();
+    console.log("gasPrice: ", gasPrice)
+    
+
+    // Build the transaction object
+    console.log("releasing the nft on the polygon network")
+    
+    console.log("srcChain to release NFT on", srcChain)
+    console.log("passoword to unlock NFT",  confirmPassword)
+    console.log("receiver receiver address", confirmReceiver)
+    const txObject = {
+      from: accountSepholi.address,
+      to: receiverContractAddrSepolia,
+      data: contractReceiverSepolia.methods.getConfirmDetails(confirmReceiver, confirmPassword).encodeABI(),
+      gasPrice: gasPrice,
+      gas: 200000,
+      value: minFee,
+    };
+
+    console.log("txObject: ", txObject)
+
+    // Sign and send the transaction
+    const signedTx = await sepolia_web3.eth.accounts.signTransaction(txObject, privateKey);
+    const rawTx = signedTx.rawTransaction;
+    const receipt = await sepolia_web3.eth.sendSignedTransaction(rawTx);
+
+    console.log('Transaction receiver successful:', receipt.transactionHash);
     }
   }
   catch (error) {
+    console.log("releasing the nft from the sepolia and transferring the ownership to the new receiver address")
     console.error('Transaction failed:', error);
   }
 }
 
-const mintNFT = async (srcChain, uri ,owner ) => {
+const mintNFT = async (srcChain, uri ,receiver ) => {
   console.log('came to mint nft!');
   try {
 
@@ -224,21 +300,17 @@ const mintNFT = async (srcChain, uri ,owner ) => {
       console.log("came to minting the nft on sepolia!");
       const gasPrice = await sepolia_web3.eth.getGasPrice();
       console.log("gas price is here... :", gasPrice);
-
     
-    // Estimate the gas limit for the transaction
-    // const gasLimit = await contractmynftSepolia.methods.mintNFT(owner, uri).estimateGas();
-    const gasLimit = await contractActionLayerSepholi.methods.mintNFT(uri, owner).estimateGas();
 
     // Build the transaction object
     const txObject = {
       from: accountSepholi.address,
-      // to: contractAddressmynftSepolia,
-      to: contractAddressActionLayerSepholi,
-      // data: contractmynftSepolia.methods.mintNFT(owner, uri).encodeABI(),
-      data: contractActionLayerSepholi.methods.mintNFT(uri, owner).encodeABI(),
+      
+      to: receiverContractAddrSepolia,
+      
+      data: contractReceiverSepolia.methods.mintNFT(receiver, uri).encodeABI(),
       gasPrice: gasPrice,
-      gas: gasLimit
+      gas: 200000
     };
 
     // Sign and send the transaction
@@ -252,21 +324,18 @@ const mintNFT = async (srcChain, uri ,owner ) => {
       const gasPrice = await polygon_web3.eth.getGasPrice();
       console.log("came to minting the nft on polygon!");
     
-    // Estimate the gas limit for the transaction
-    // const gasLimit = await contractmynftPolygon.methods.mintNFT(owner, uri).estimateGas();
-    const gasLimit = await contractActionLayerSepholi.methods.mintNFT(uri, owner).estimateGas();
-    console.log("gas price is here... :", gasPrice);
+    
 
     // Build the transaction object
     console.log("accountPolygon.address:", accountPolygon.address);
     const txObject = {
       from: accountPolygon.address,
       // to: contractAddressmynftPolygon,
-      to: contractAddressActionLayerSepholi,
+      to: receiverContractAddrPolygon,
       // data: contractmynftPolygon.methods.mintNFT(owner, uri).encodeABI(),
-      data: contractActionLayerSepholi,
+      data: contractReceiverPolygon.methods.mintNFT(receiver, uri).encodeABI(),
       gasPrice: gasPrice,
-      gas: gasLimit,
+      gas: 200000,
     };
 
     // Sign and send the transaction
@@ -282,33 +351,33 @@ const mintNFT = async (srcChain, uri ,owner ) => {
   }
 }
 
-const transfer = async (srcChain, address, targetChain, tokenId, uri ) => {
+const transfer = async (srcChain, uri ) => {
   try {
     var selfID = await getSelfID(srcChain);
-    selfID = parseInt(selfID) - 1;
+    selfID = parseInt(selfID);
     console.log("final selfID from getSelfID:", selfID);
     console.log("srcChain inside trasnfer:", srcChain);
-    console.log("address inside transfer:", address);
-    const password = await getPassword(address, selfID, targetChain, srcChain);
-    console.log("password from getPassword:", password);
+    
+    let data = await getReceiverPassword(srcChain);
+    
+    console.log("receiver from getReceiverPassword:", data[0]);
+    console.log("password from getReceiverPassword:", data[1]);
     
     
-    await addMessage(srcChain, selfID, password, address); //message will be added to other chain
+    await addMessage(srcChain, selfID, data[1], data[0]); //message will be added to other chain's Receiver.sol
 
-    console.log("getNFT now called");
-    console.log("getNFT src chain", srcChain);
-    console.log("getNFT selfID", selfID);
-    console.log("getNFT address", address);
-    const confirmPassword = await getConfirmPassword(selfID, srcChain, address);
+    console.log("mintNFT now called");
     
-    console.log('confirmPassword:', confirmPassword);
-    console.log(confirmPassword);
+    await mintNFT(srcChain, uri ,data[0]); 
+    
+    
+    
+    let confirmDetails = await returnConfirmDetails(srcChain);
+    console.log("confirmDetails receiver address:", confirmDetails[0])
+    console.log("confirmDetails password:", confirmDetails[1])
 
     // Call the releaseNFT function
-    await releaseNFT(srcChain, address, confirmPassword, tokenId);
-
-    console.log("address:", address);
-    await mintNFT(srcChain, uri ,address); //error is occuring here as of now.
+    await releaseNFT(srcChain, confirmDetails[0], confirmDetails[1]);
   }
   catch (error) {
     console.error('Transaction failed:', error);
@@ -317,13 +386,13 @@ const transfer = async (srcChain, address, targetChain, tokenId, uri ) => {
 
 
 app.get('/transfer',async (req, res) => {
-  const { srcChain, address, targetChain, tokenId, uri } = req.query; // Assuming the required data is sent in the request body
+  const { srcChain, uri } = req.query; // Assuming the required data is sent in the request body
   res.setHeader('Access-Control-Allow-Origin', '*'); // Replace * with your desired origin(s) or set to '*' to allow all origins
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Specify the allowed HTTP methods
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Specify the allowed headers
-  console.log(srcChain, address, targetChain, tokenId,uri);
+  console.log(srcChain, uri);
   try {
-    await transfer(srcChain, address, targetChain, tokenId, uri);
+    await transfer(srcChain, uri);
     console.log("NFT Minting successful!");
     // Optionally, you can return a success response
     res.status(200).json({ message: 'Receiver Message added successfully' });
